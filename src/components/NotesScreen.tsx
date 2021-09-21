@@ -60,8 +60,6 @@ const NotesScreen = () => {
 }
 
 export default NotesScreen
-
-
 const styles = StyleSheet.create({
    container: {
       padding: 35,
