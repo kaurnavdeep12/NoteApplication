@@ -1,41 +1,49 @@
 import React, { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Button, StyleSheet, Text, TextInput, View, FlatList } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux';
 import { addNote, deleteNote } from '../redux/actions';
+import Config from "../utils/Config"
 
 const NotesScreen = () => {
    const dispatch = useDispatch();
-   const [Input, setInput] = useState<string>('');
    const list = useSelector(state => state.NoteReducers.list);
-   console.log('list in app file++++++', list);
 
+   // States
+   const [Input, setInput] = useState<string>('');
    const [error, showError] = useState<Boolean>(false);
-   console.log('Input ++++', Input);
+
+   // Set Input field
+   const onChangeNotes = (text: string) => {
+      setInput(text)
+      showError(false)
+   }
+
+   // On the press of button add notes
+   const onButtonPress = () => {
+      dispatch(addNote(Input)),
+         setInput("")
+   }
 
    return (
       <View style={styles.container}>
-         <Text style={styles.title}>Note App</Text>
+         <Text style={styles.title}>{Config.strings.heading_text}</Text>
          <View style={styles.inputWrapper}>
             <TextInput
-               placeholder="Enter your Notes Here..."
+               placeholder={Config.strings.placehoder_text}
                value={Input}
-               onChangeText={e => {
-                  console.log('e++++++', e);
-                  setInput(e);
-                  showError(false);
-               }}
+               onChangeText={onChangeNotes}
                style={styles.inputBox}
             />
             <Button
                title="Add Note"
-               onPress={() => dispatch(addNote(Input), setInput(' '))}
+               onPress={onButtonPress}
             />
          </View>
          {error && (
-            <Text style={styles.error}>Error: Input field is empty...</Text>
+            <Text style={styles.error}>{Config.strings.error_text}</Text>
          )}
-         <Text style={styles.subtitle}>Your Notes :</Text>
-         {list.length === 0 && <Text>No Notes available</Text>}
+         <Text style={styles.subtitle}>{Config.strings.sub_title}</Text>
+         {list.length === 0 && <Text>{Config.strings.helping_text}</Text>}
          {list.map(elem => (
             <View style={styles.listItem} key={elem.id}>
                <Text style={[styles.task]}>{elem.data}</Text>
