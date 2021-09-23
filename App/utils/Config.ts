@@ -6,5 +6,7 @@ export default {
     helping_text: 'No Notes available',
     sub_title: 'Your Note:',
     splash_text: 'Navigation',
+    add_note: 'Add Note',
+    edit_note: 'Edit Note',
   },
 };
