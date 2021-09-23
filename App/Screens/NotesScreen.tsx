@@ -38,7 +38,6 @@ const NotesScreen = () => {
 
   // On the Edit Button Press
   const handleEditButton = (id: any) => {
-    console.log('id+++++', id);
     dispatch(editNote(id));
     settoggleEditbtn(false);
     setInput(list.data);
@@ -47,8 +46,6 @@ const NotesScreen = () => {
 
   //On the Delete Button Press
   const handleDeleteButton = (id: any) => {
-    console.log('id in Delete function++++', id);
-    console.log('list in delete', list);
     dispatch(deleteNote(id));
   };
 
