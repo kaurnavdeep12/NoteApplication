@@ -8,5 +8,7 @@ export default {
     splash_text: 'Navigation',
     add_note: 'Add Note',
     edit_note: 'Edit Note',
+    go_back: 'Go Back',
+    scr_heading: 'NoteDetailScreen',
   },
 };

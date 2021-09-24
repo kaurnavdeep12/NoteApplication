@@ -12,17 +12,16 @@ import {useDispatch, useSelector} from 'react-redux';
 import {addNote, deleteNote, editNote} from '../redux/actions';
 import Config from '../utils/Config';
 import LinearGradient from 'react-native-linear-gradient';
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
 
-const NotesScreen = ({props}) => {
+const NotesScreen = () => {
   const dispatch = useDispatch();
   const list = useSelector(state => state.NoteReducers.list);
 
-  type NavigationProp = StackNavigationProp<AuthParamList, 'Splash'>;
+  type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
-  const route = useRoute<RouteProp<AuthParamList, 'Splash'>>();
 
   //edit button toggle
   const [toggleEditbtn, settoggleEditbtn] = useState(true);
@@ -56,16 +55,18 @@ const NotesScreen = ({props}) => {
     dispatch(deleteNote(id));
   };
 
-  const handleDetail = () => {
-    navigation.navigate('NoteDetailScreen');
+  const handleDetail = (item: any) => {
+    navigation.navigate('NoteDetailScreen', {note: item.data});
   };
 
-  const renderItems = ({item}) => {
+  const renderItems = ({item}: any) => {
     return (
-      <TouchableOpacity onPress={handleDetail}>
+      <TouchableOpacity
+        onPress={() => {
+          handleDetail(item);
+        }}>
         <View style={styles.listItem} key={item.id}>
           <Text style={[styles.task]}>{item.data}</Text>
-
           <Button title="Edit" onPress={() => handleEditButton(item.id)} />
 
           <Button
@@ -152,9 +153,10 @@ const styles = StyleSheet.create({
   inputBox: {
     width: '100%',
     borderColor: 'purple',
-    borderRadius: 8,
+    borderRadius: 10,
     borderWidth: 2,
     paddingLeft: 8,
+    elevation: 2,
   },
   title: {
     fontSize: 40,
@@ -174,12 +176,17 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 10,
     backgroundColor: '#fff',
+    height: 50,
+    borderRadius: 8,
+    elevation: 20,
   },
   addButton: {
     alignItems: 'flex-end',
   },
   task: {
     width: 200,
+    fontWeight: 'bold',
+    paddingLeft: 10,
   },
   error: {
     color: 'red',
@@ -192,11 +199,14 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 4,
+    elevation: 2,
   },
   gradientbutton_text: {
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 20,
     textAlign: 'center',
+    elevation: 2,
+    opacity: 1,
   },
 });
