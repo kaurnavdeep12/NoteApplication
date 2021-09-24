@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   },
   gradient_goback: {
     marginBottom: 100,
-    left: 80,
+    left: 120,
     height: 50,
     width: 200,
     elevation: 10,
