@@ -1,17 +1,11 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
-  StatusBar,
-  Keyboard,
-  TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
-import {LinearGradient} from 'react-native-linear-gradient';
-import {Icon, SocialIcon} from 'react-native-elements';
-import {addNote} from '../redux/actions';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
 import {useNavigation} from '@react-navigation/native';
@@ -53,22 +47,7 @@ const Login = () => {
       <TouchableOpacity onPress={handleLoginClick} style={styles.loginButton}>
         <Text style={styles.loginButtonText}>Login</Text>
       </TouchableOpacity>
-      <View style={styles.loginWithBar}>
-        <TouchableOpacity style={styles.iconButton}>
-          <Icon name="google" type="font-awesome" size={30} color="#808e9b" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.iconButton}>
-          <Icon
-            name="facebook-square"
-            type="font-awesome"
-            size={30}
-            color="#808e9b"
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.iconButton}>
-          <Icon name="apple" type="font-awesome" size={30} color="#808e9b" />
-        </TouchableOpacity>
-      </View>
+
       <View style={styles.signUpTextView}>
         <Text style={styles.signUpText}>Don't have an account?</Text>
         <TouchableOpacity onPress={handleSignUp}>

@@ -1,18 +1,12 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
-  StatusBar,
-  Keyboard,
-  TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
-import {LinearGradient} from 'react-native-linear-gradient';
-import Icon from 'react-native-vector-icons/FontAwesome';
 // import {Icon, SocialIcon} from 'react-native-elements';
-import {addNote} from '../redux/actions';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
 import {useNavigation} from '@react-navigation/core';
@@ -69,18 +63,6 @@ const Register = () => {
       <TouchableOpacity onPress={goCongrats} style={styles.loginButton}>
         <Text style={styles.loginButtonText}>Register</Text>
       </TouchableOpacity>
-      4
-      <View style={styles.loginWithBar}>
-        <TouchableOpacity style={styles.iconButton}>
-          {/* <Icon name="google" type="font-awesome" size={30} color="#808e9b" /> */}
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.iconButton}>
-          <Icon name="rocket" size={30} color="#900" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.iconButton}>
-          <Icon name="rocket" size={30} color="#900" />
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
@@ -160,6 +142,4 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
 });
-function alert(arg0: string) {
-  throw new Error('Function not implemented.');
-}
+
