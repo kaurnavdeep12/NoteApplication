@@ -14,7 +14,7 @@ const Splash = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      navigation.navigate('NotesScreen');
+      navigation.navigate('Login');
       SplashScreen.hide();
     }, 200);
   }, []);

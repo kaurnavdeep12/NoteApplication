@@ -7,6 +7,9 @@ import {
   View,
   FlatList,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {addNote, deleteNote, editNote} from '../redux/actions';
@@ -15,7 +18,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
-
+// import Task from '../components/Task';
 const NotesScreen = () => {
   const dispatch = useDispatch();
   const list = useSelector(state => state.NoteReducers.list);
@@ -34,11 +37,12 @@ const NotesScreen = () => {
   // Set Input field
   const onChangeNotes = (text: string) => {
     setInput(text);
-    showError(false);
+    // showError(false);
   };
 
   // On the press of button add notes
   const onAddButtonPress = () => {
+    console.log('aaaaa+++');
     dispatch(addNote(Input)), setInput('');
   };
 
@@ -56,7 +60,8 @@ const NotesScreen = () => {
   };
 
   const handleDetail = (item: any) => {
-    navigation.navigate('NoteDetailScreen', {note: item.data});
+    // navigation.navigate('NoteDetailScreen', {note: item.data});
+    navigation.navigate('Login');
   };
 
   const renderItems = ({item}: any) => {
@@ -65,10 +70,11 @@ const NotesScreen = () => {
         onPress={() => {
           handleDetail(item);
         }}>
-        <View style={styles.listItem} key={item.id}>
-          <Text style={[styles.task]}>{item.data}</Text>
-          <Button title="Edit" onPress={() => handleEditButton(item.id)} />
-
+        <View style={styles.item}>
+          <View style={styles.itemLeft}>
+            <View style={styles.square}></View>
+            <Text style={styles.itemText}>{item.data}</Text>
+          </View>
           <Button
             title="X"
             color="crimson"
@@ -81,48 +87,51 @@ const NotesScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{Config.strings.heading_text}</Text>
-      <View style={styles.inputWrapper}>
+      {/* Added this scroll view to enable scrolling when list gets longer than the page */}
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+        }}
+        keyboardShouldPersistTaps="handled">
+        {/* Today's Tasks */}
+        <View style={styles.tasksWrapper}>
+          <Text style={styles.sectionTitle}>Notes App</Text>
+          <View style={styles.items}>
+            <FlatList
+              data={list}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={item => item.id.toString()}
+              renderItem={renderItems}
+            />
+            {/* This is where the tasks will go! */}
+            {/* {list.map((item: string, index: number) => {
+              return (
+                <TouchableOpacity key={index}>
+                  <Task text={item} />
+                </TouchableOpacity>
+              );
+            })} */}
+          </View>
+        </View>
+      </ScrollView>
+
+      {/* Write a task */}
+      {/* Uses a keyboard avoiding view which ensures the keyboard does not cover the items on screen */}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.writeTaskWrapper}>
         <TextInput
-          placeholder={Config.strings.placehoder_text}
+          style={styles.input}
+          placeholder={'Write a task'}
           value={Input}
           onChangeText={onChangeNotes}
-          style={styles.inputBox}
         />
-      </View>
-      {toggleEditbtn ? (
-        <TouchableOpacity style={styles.gradient} onPress={onAddButtonPress}>
-          <LinearGradient
-            colors={['#24C6DC', '#514A9D']}
-            style={styles.gradient}>
-            <Text style={styles.gradientbutton_text}>
-              {Config.strings.add_note}
-            </Text>
-          </LinearGradient>
+        <TouchableOpacity onPress={onAddButtonPress}>
+          <View style={styles.addWrapper}>
+            <Text style={styles.addText}>+</Text>
+          </View>
         </TouchableOpacity>
-      ) : (
-        <TouchableOpacity style={styles.gradient} onPress={handleEditButton}>
-          <LinearGradient
-            colors={['#24C6DC', '#514A9D']}
-            style={styles.gradient}>
-            <Text style={styles.gradientbutton_text}>
-              {Config.strings.edit_note}
-            </Text>
-          </LinearGradient>
-        </TouchableOpacity>
-      )}
-
-      {error && <Text style={styles.error}>{Config.strings.error_text}</Text>}
-      <Text style={styles.subtitle}>{Config.strings.sub_title}</Text>
-      {list.length === 0 && <Text>{Config.strings.helping_text}</Text>}
-      <View style={{}}>
-        <FlatList
-          data={list}
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={item => item.id.toString()}
-          renderItem={renderItems}
-        />
-      </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -130,83 +139,86 @@ const NotesScreen = () => {
 export default NotesScreen;
 const styles = StyleSheet.create({
   container: {
-    padding: 35,
-    alignItems: 'center',
-    backgroundColor: 'grey',
+    flex: 1,
+    backgroundColor: '#E8EAED',
   },
-  inputWrapper: {
+  tasksWrapper: {
+    paddingTop: 80,
+    paddingHorizontal: 20,
+    // backgroundColor: 'grey',
+  },
+  sectionTitle: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    // backgroundColor: 'yellow',
+  },
+  items: {
+    marginTop: 30,
+    // backgroundColor: 'pink',
+  },
+  writeTaskWrapper: {
+    position: 'absolute',
+    bottom: 60,
     width: '100%',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-
-    borderRadius: 20,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    // backgroundColor: 'orange',
   },
-  btn: {
-    backgroundColor: 'grey',
-    height: 50,
-    width: 150,
-
+  input: {
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    backgroundColor: '#FFF',
+    borderRadius: 60,
+    borderColor: '#C0C0C0',
+    borderWidth: 1,
+    width: 250,
+  },
+  addWrapper: {
+    width: 60,
+    height: 60,
+    backgroundColor: 'blue',
+    borderRadius: 60,
     justifyContent: 'center',
-  },
-
-  inputBox: {
-    width: '100%',
-    borderColor: 'purple',
-    borderRadius: 10,
-    borderWidth: 2,
-    paddingLeft: 8,
-    elevation: 2,
-  },
-  title: {
-    fontSize: 40,
-    marginBottom: 40,
-    fontWeight: 'bold',
-    textDecorationLine: 'underline',
-  },
-  subtitle: {
-    fontSize: 20,
-    marginBottom: 20,
-    color: 'purple',
-  },
-  listItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    width: '100%',
-    marginBottom: 10,
-    backgroundColor: '#fff',
-    height: 50,
-    borderRadius: 8,
-    elevation: 20,
+    borderColor: '#C0C0C0',
+    borderWidth: 2,
   },
-  addButton: {
-    alignItems: 'flex-end',
+  addText: {},
+  item: {
+    backgroundColor: 'grey',
+    padding: 15,
+    borderRadius: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 20,
   },
-  task: {
-    width: 200,
-    fontWeight: 'bold',
-    paddingLeft: 10,
+  itemLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    // backgroundColor: 'pink',
   },
-  error: {
-    color: 'red',
+  square: {
+    width: 24,
+    height: 24,
+    backgroundColor: '#55BCF6',
+    opacity: 0.4,
+    borderRadius: 5,
+    marginRight: 15,
   },
-  edit_text: {
-    textAlign: 'center',
-    fontSize: 20,
+  itemText: {
+    maxWidth: '80%',
   },
-  gradient: {
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 4,
-    elevation: 2,
-  },
-  gradientbutton_text: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 20,
-    textAlign: 'center',
-    elevation: 2,
-    opacity: 1,
+  circular: {
+    width: 12,
+    height: 12,
+    borderColor: '#55BCF6',
+    borderWidth: 2,
+    borderRadius: 5,
   },
 });
+function alert(arg0: string) {
+  throw new Error('Function not implemented.');
+}
