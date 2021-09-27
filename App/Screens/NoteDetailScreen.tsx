@@ -19,7 +19,7 @@ const NoteDetailScreen = () => {
 
   return (
     <LinearGradient
-      colors={['purple', 'white']}
+      colors={['grey', 'white']}
       style={styles.container}
       start={{x: 0, y: 0}}
       end={{x: 1, y: 1}}>
@@ -28,14 +28,14 @@ const NoteDetailScreen = () => {
       </View>
       <View style={styles.container1}>
         <LinearGradient
-          colors={['#24C6DC', '#fff']}
+          colors={['black', '#fff']}
           style={styles.linearGradient}>
           <View style={styles.view_two}>
             <Text style={styles.view_two_txt}>{route.params.note}</Text>
           </View>
         </LinearGradient>
       </View>
-      <TouchableOpacity onPress={handleGoBack}>
+      {/* <TouchableOpacity onPress={handleGoBack}>
         <LinearGradient
           colors={['purple', '#24C6DC', '#fff']}
           style={styles.gradient_goback}>
@@ -43,7 +43,7 @@ const NoteDetailScreen = () => {
             {Config.strings.go_back}
           </Text>
         </LinearGradient>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </LinearGradient>
   );
 };
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   view_two: {
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     height: 50,
     width: 250,
     opacity: 5,

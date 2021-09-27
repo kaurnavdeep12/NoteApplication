@@ -60,8 +60,8 @@ const NotesScreen = () => {
   };
 
   const handleDetail = (item: any) => {
-    // navigation.navigate('NoteDetailScreen', {note: item.data});
-    navigation.navigate('Login');
+    navigation.navigate('NoteDetailScreen', {note: item.data});
+    // navigation.navigate('Login');
   };
 
   const renderItems = ({item}: any) => {
@@ -140,7 +140,7 @@ export default NotesScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E8EAED',
+    backgroundColor: 'black',
   },
   tasksWrapper: {
     paddingTop: 80,
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 30,
     fontWeight: 'bold',
-    // backgroundColor: 'yellow',
+    color: '#fff',
   },
   items: {
     marginTop: 30,
@@ -177,14 +177,14 @@ const styles = StyleSheet.create({
   addWrapper: {
     width: 60,
     height: 60,
-    backgroundColor: 'blue',
+    backgroundColor: 'grey',
     borderRadius: 60,
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: '#C0C0C0',
     borderWidth: 2,
   },
-  addText: {},
+  addText: {fontWeight: 'bold', fontSize: 30},
   item: {
     backgroundColor: 'grey',
     padding: 15,

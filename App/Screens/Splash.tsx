@@ -23,7 +23,11 @@ const Splash = () => {
     <View style={styles.container}>
       <ImageBackground
         source={images.Splash}
-        style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
         <Image source={images.SplashNew} />
       </ImageBackground>
     </View>
