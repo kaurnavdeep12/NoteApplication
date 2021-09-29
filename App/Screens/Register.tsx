@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,13 +10,18 @@ import {
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
 import {useNavigation} from '@react-navigation/core';
+import {Auth} from '../services';
 
 const Register = () => {
+  const [userName, setUserName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
   const goCongrats = () => {
     navigation.navigate('Congratulations');
   };
+
   return (
     <View style={styles.container}>
       <Text style={styles.welcomeText}>Welcome!!</Text>
@@ -30,6 +35,8 @@ const Register = () => {
         autoCompleteType="email"
         keyboardType="email-address"
         textContentType="emailAddress"
+        value={userName}
+        onChangeText={e => setUserName(e)}
       />
       <TextInput
         placeholder="Email Address"
@@ -40,8 +47,10 @@ const Register = () => {
         autoCompleteType="email"
         keyboardType="email-address"
         textContentType="emailAddress"
+        value={email}
+        onChangeText={e => setEmail(e)}
       />
-      <TextInput
+      {/* <TextInput
         placeholder="Phone"
         placeholderTextColor="#808e9b"
         style={styles.input}
@@ -49,19 +58,25 @@ const Register = () => {
         autoCapitalize={false}
         keyboardType="numeric"
         textContentType="emailAddress"
-      />
+      /> */}
       <TextInput
         placeholder="Password"
         placeholderTextColor="#808e9b"
         style={styles.input}
         secureTextEntry={true}
         textContentType="password"
+        value={password}
+        onChangeText={e => setPassword(e)}
       />
       <TouchableOpacity>
         <Text style={styles.fpText}>Forgot Password?</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={goCongrats} style={styles.loginButton}>
-        <Text style={styles.loginButtonText}>Register</Text>
+      <TouchableOpacity
+        onPress={() => Auth.signUp(userName, email, password)}
+        style={styles.loginButton}>
+        <TouchableOpacity onPress={goCongrats}>
+          <Text style={styles.loginButtonText}>Register</Text>
+        </TouchableOpacity>
       </TouchableOpacity>
     </View>
   );
@@ -142,4 +157,3 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
 });
-

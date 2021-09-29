@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,8 +9,12 @@ import {
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
 import {useNavigation} from '@react-navigation/native';
+import {Auth} from '../services';
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
   const handleSignUp = () => {
@@ -33,6 +37,8 @@ const Login = () => {
         autoCompleteType="email"
         keyboardType="email-address"
         textContentType="emailAddress"
+        value={email}
+        onChangeText={e => setEmail(e)}
       />
       <TextInput
         placeholder="Password"
@@ -40,19 +46,25 @@ const Login = () => {
         style={styles.input}
         secureTextEntry={true}
         textContentType="password"
+        value={password}
+        onChangeText={e => setPassword(e)}
       />
       <TouchableOpacity>
         <Text style={styles.fpText}>Forgot Password?</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={handleLoginClick} style={styles.loginButton}>
-        <Text style={styles.loginButtonText}>Login</Text>
+      <TouchableOpacity
+        onPress={() => Auth.signIn(email, password)}
+        style={styles.loginButton}>
+        <TouchableOpacity onPress={handleLoginClick}>
+          <Text style={styles.loginButtonText}>Login</Text>
+        </TouchableOpacity>
       </TouchableOpacity>
 
       <View style={styles.signUpTextView}>
         <Text style={styles.signUpText}>Don't have an account?</Text>
         <TouchableOpacity onPress={handleSignUp}>
           <Text style={[styles.signUpText, {color: '#B53471'}]}>
-            {' Sign Up'}
+            {' Signup'}
           </Text>
         </TouchableOpacity>
       </View>
