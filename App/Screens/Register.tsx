@@ -6,7 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-// import {Icon, SocialIcon} from 'react-native-elements';
+
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
 import {useNavigation} from '@react-navigation/core';
@@ -50,15 +50,7 @@ const Register = () => {
         value={email}
         onChangeText={e => setEmail(e)}
       />
-      {/* <TextInput
-        placeholder="Phone"
-        placeholderTextColor="#808e9b"
-        style={styles.input}
-        autoCorrect={true}
-        autoCapitalize={false}
-        keyboardType="numeric"
-        textContentType="emailAddress"
-      /> */}
+
       <TextInput
         placeholder="Password"
         placeholderTextColor="#808e9b"

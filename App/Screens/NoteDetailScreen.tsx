@@ -2,7 +2,6 @@ import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import Config from '../utils/Config';
 
@@ -35,15 +34,6 @@ const NoteDetailScreen = () => {
           </View>
         </LinearGradient>
       </View>
-      {/* <TouchableOpacity onPress={handleGoBack}>
-        <LinearGradient
-          colors={['purple', '#24C6DC', '#fff']}
-          style={styles.gradient_goback}>
-          <Text style={styles.gradient_goback_txt}>
-            {Config.strings.go_back}
-          </Text>
-        </LinearGradient>
-      </TouchableOpacity> */}
     </LinearGradient>
   );
 };

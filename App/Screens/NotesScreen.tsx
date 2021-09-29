@@ -18,7 +18,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
-// import Task from '../components/Task';
+
 const NotesScreen = () => {
   const dispatch = useDispatch();
   const list = useSelector(state => state.NoteReducers.list);
@@ -87,13 +87,11 @@ const NotesScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* Added this scroll view to enable scrolling when list gets longer than the page */}
       <ScrollView
         contentContainerStyle={{
           flexGrow: 1,
         }}
         keyboardShouldPersistTaps="handled">
-        {/* Today's Tasks */}
         <View style={styles.tasksWrapper}>
           <Text style={styles.sectionTitle}>Notes App</Text>
           <View style={styles.items}>
@@ -103,20 +101,10 @@ const NotesScreen = () => {
               keyExtractor={item => item.id.toString()}
               renderItem={renderItems}
             />
-            {/* This is where the tasks will go! */}
-            {/* {list.map((item: string, index: number) => {
-              return (
-                <TouchableOpacity key={index}>
-                  <Task text={item} />
-                </TouchableOpacity>
-              );
-            })} */}
           </View>
         </View>
       </ScrollView>
 
-      {/* Write a task */}
-      {/* Uses a keyboard avoiding view which ensures the keyboard does not cover the items on screen */}
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.writeTaskWrapper}>
@@ -145,7 +133,6 @@ const styles = StyleSheet.create({
   tasksWrapper: {
     paddingTop: 80,
     paddingHorizontal: 20,
-    // backgroundColor: 'grey',
   },
   sectionTitle: {
     fontSize: 30,
@@ -154,7 +141,6 @@ const styles = StyleSheet.create({
   },
   items: {
     marginTop: 30,
-    // backgroundColor: 'pink',
   },
   writeTaskWrapper: {
     position: 'absolute',
@@ -163,7 +149,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    // backgroundColor: 'orange',
   },
   input: {
     paddingVertical: 15,
@@ -198,7 +183,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     flexWrap: 'wrap',
-    // backgroundColor: 'pink',
   },
   square: {
     width: 24,
