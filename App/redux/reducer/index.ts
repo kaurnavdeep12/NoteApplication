@@ -1,9 +1,13 @@
-import NoteReducers from './noteReducers';
+import thunk from 'redux-thunk';
 
-import {combineReducers, createStore} from 'redux';
+import {combineReducers, createStore, applyMiddleware} from 'redux';
+import noteReducers from './noteReducers';
 const rootReducer = combineReducers({
-  NoteReducers,
+  noteReducers: noteReducers,
 });
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(thunk));
+console.log('store =====>', store);
+
+export type AppStates = ReturnType<typeof rootReducer>;
 export default store;
