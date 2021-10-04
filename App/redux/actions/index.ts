@@ -67,9 +67,16 @@ export const getAddedNotes = () => {
 
 export const deleteNotes = (id: number) => {
   return async (_dispatch: Dispatch<AppActions>, _getState: () => AppState) => {
-    firebase.auth().currentUser;
+    firestore()
+      .collection('newNotes')
+      .doc(id)
+      .delete()
+      .then(() => {
+        console.log('note deleted!');
+      });
+    // firebase.auth().currentUser;
 
-    firebase.firestore().collection('notes').doc(id).delete();
+    // firebase.firestore().collection('notes').doc(id).delete();
 
     _dispatch(deleteNote(id));
   };

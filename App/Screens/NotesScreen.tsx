@@ -63,7 +63,7 @@ const NotesScreen = () => {
             {note.length > 0 &&
               note.map((item, index) => {
                 return (
-                  <TouchableOpacity onPress={onClickItem}>
+                  <TouchableOpacity onPress={() => onClickItem(item)}>
                     <View style={styles.item}>
                       <View style={styles.itemLeft}>
                         <View style={styles.square} />
