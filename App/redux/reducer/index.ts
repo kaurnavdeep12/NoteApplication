@@ -7,7 +7,6 @@ const rootReducer = combineReducers({
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
-console.log('store =====>', store);
 
 export type AppStates = ReturnType<typeof rootReducer>;
 export default store;

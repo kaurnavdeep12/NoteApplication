@@ -11,19 +11,22 @@ import {
   ScrollView,
   Button,
   RefreshControlBase,
+  Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
-import {startAddNotes} from '../redux/actions';
+import {startAddNotes, getAddedNotes, deleteNotes} from '../redux/actions';
 import {AppStates} from '../redux/reducer';
 import {useDispatch, useSelector} from 'react-redux';
 
 const NotesScreen = () => {
+  type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
+  const navigation = useNavigation<NavigationProp>();
   const note = useSelector((state: AppStates) => state.noteReducers);
-  console.log('note in NotesScreen++++', note);
-  console.log('note in NotesScreen++++', note);
+
   const [Input, setInput] = useState('');
+
   const dispatch = useDispatch();
 
   const onChangetxt = (text: string) => {
@@ -31,25 +34,26 @@ const NotesScreen = () => {
   };
 
   const onAddButtonPress = async () => {
-    await dispatch(startAddNotes(Input));
+    if (Input.length < 0) {
+      Alert.alert('Please Enter Note');
+    } else {
+      await dispatch(startAddNotes(Input)), setInput('');
+
+      dispatch(getAddedNotes());
+    }
   };
 
-  const renderItems = ({item}: any) => {
-    return (
-      <TouchableOpacity>
-        <View style={styles.item}>
-          <View style={styles.itemLeft}>
-            <View style={styles.square} />
-            <Text style={styles.itemText}>{item.value}</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
+  const onDeletePress = (id: number) => {
+    dispatch(deleteNotes(id));
   };
+
+  const onClickItem = (item: any) => {
+    navigation.navigate('NoteDetailScreen', {note: item.value});
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView
-        // eslint-disable-next-line react-native/no-inline-styles
         contentContainerStyle={{
           flexGrow: 1,
         }}>
@@ -57,37 +61,24 @@ const NotesScreen = () => {
           <Text style={styles.sectionTitle}>Notes App</Text>
           <View style={styles.items}>
             {note.length > 0 &&
-              note.map(item => {
-                console.log('item in map===>', item);
+              note.map((item, index) => {
                 return (
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={onClickItem}>
                     <View style={styles.item}>
                       <View style={styles.itemLeft}>
                         <View style={styles.square} />
-                        <Text style={styles.itemText}>{item.id}</Text>
+
+                        <Text style={styles.itemText}>{item.value}</Text>
                       </View>
+                      <Button
+                        title="X"
+                        color="crimson"
+                        onPress={() => onDeletePress(item.id)}
+                      />
                     </View>
                   </TouchableOpacity>
                 );
               })}
-            {/* <FlatList
-              data={note}
-              showsHorizontalScrollIndicator={false}
-              keyExtractor={item => item.id.toString()}
-              renderItem={({item}) => {
-                console.log('item in flatlist++++++', item);
-                return (
-                  <TouchableOpacity>
-                    <View style={styles.item}>
-                      <View style={styles.itemLeft}>
-                        <View style={styles.square} />
-                        <Text style={styles.itemText}>{item.value}</Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                );
-              }}
-            /> */}
           </View>
         </View>
       </ScrollView>
@@ -112,7 +103,7 @@ export default NotesScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'grey',
+    backgroundColor: 'white',
   },
   tasksWrapper: {
     paddingTop: 80,
@@ -121,10 +112,11 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: '#fff',
+    color: 'black',
   },
   items: {
     marginTop: 30,
+    backgroundColor: 'white',
   },
   writeTaskWrapper: {
     position: 'absolute',
@@ -171,19 +163,19 @@ const styles = StyleSheet.create({
   square: {
     width: 24,
     height: 24,
-    backgroundColor: '#55BCF6',
+    backgroundColor: 'blue',
     opacity: 0.4,
     borderRadius: 5,
     marginRight: 15,
   },
   itemText: {
     maxWidth: '80%',
-    backgroundColor: 'blue',
+    fontWeight: 'bold',
   },
   circular: {
     width: 12,
     height: 12,
-    borderColor: '#55BCF6',
+    borderColor: 'red',
     borderWidth: 2,
     borderRadius: 5,
   },

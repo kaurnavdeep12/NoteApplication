@@ -31,7 +31,7 @@ export interface GetNotesAction {
 
 export interface DeleteNotesAction {
   type: typeof DELETE_NOTE;
-  id: any;
+  note: Note;
 }
 
 export interface EditNotesAction {

@@ -18,17 +18,9 @@ export const getNote = (note: Note[]): AppActions => ({
   note,
 });
 
-// export const getNote = (data: string): AppActions => ({
-//   type: 'GET_NOTE',
-//   payload: {
-//     id: new Date().getTime().toString(),
-//     data: [],
-//   },
-// });
-
-export const deleteNote = (id: number): AppActions => ({
+export const deleteNote = (note: Note): AppActions => ({
   type: 'DELETE_NOTE',
-  id,
+  note,
 });
 
 export const editNote = (id: number): AppActions => ({
@@ -45,7 +37,7 @@ export const startAddNotes = (value: string) => {
       value,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     };
-    firebase.firestore().collection('note').add(note);
+    firebase.firestore().collection('newNotes').add(note);
 
     dispatch(addNote(note));
     return {code: 200};
@@ -58,22 +50,27 @@ export const getAddedNotes = () => {
     const db = firebase.firestore();
     const notes: Note[] = [];
     firebase.auth().currentUser;
-    db.collection('notes')
+    db.collection('newNotes')
       .orderBy('id', 'desc')
       .get()
       .then(snapshot => {
         snapshot.docs.forEach(doc => {
-          notes.push({id: doc.data().id, value: doc.data().value});
-          console.log('notes====>', notes);
+          const newArray = notes.push({
+            id: doc.data().id,
+            value: doc.data().value,
+          });
         });
         dispatch(getNote(notes));
       });
   };
 };
 
-export const deleteNotes = (id: Number) => {
+export const deleteNotes = (id: number) => {
   return async (_dispatch: Dispatch<AppActions>, _getState: () => AppState) => {
     firebase.auth().currentUser;
+
     firebase.firestore().collection('notes').doc(id).delete();
+
+    _dispatch(deleteNote(id));
   };
 };

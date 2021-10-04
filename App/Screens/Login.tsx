@@ -5,6 +5,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
@@ -21,7 +22,11 @@ const Login = () => {
     navigation.navigate('Register');
   };
   const handleLoginClick = () => {
-    navigation.navigate('NotesScreen');
+    if (email == '' && password == '') {
+      Alert.alert('Please Enter Both Fields');
+    } else {
+      navigation.navigate('NotesScreen');
+    }
   };
 
   return (
