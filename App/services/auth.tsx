@@ -1,32 +1,31 @@
 import auth from '@react-native-firebase/auth';
-import {Alert} from 'react-native';
-const signUp = (fullName: string, email: string, password: string) => {
+import { Alert } from 'react-native';
+
+/// Comment
+const signUp = async (fullName: string, email: string, password: string) => {
   if (!fullName || !email || !password) {
     Alert.alert('Error:', 'Please enter all fileds');
   }
+  try {
+    const creds = await auth()
+      .createUserWithEmailAndPassword(email, password)
+    return creds.user
+  } catch (err) {
+    // handle error
+  }
 
-  return auth()
-    .createUserWithEmailAndPassword(email, password)
-    .then(cred => {
-      const {uid} = cred.user;
-      auth().currentUser?.updateProfile({
-        displayName: fullName,
-      });
-      return uid;
-    })
-    .catch(err => Alert.alert(err.code, err.message));
 };
 
+/// Comment
 const signIn = (email: string, password: string) => {
   if (!email || !password) {
     Alert.alert('Error:', 'Please enter all fields');
   }
   return auth()
     .signInWithEmailAndPassword(email, password)
-    .then(() => {})
-    .catch(err => Alert.alert(err.code, err.message));
 };
 
+/// Comment
 const forgotPassword = (email: string) => {
   if (!email) {
     Alert.alert('Error:', 'Please enter email');
@@ -34,6 +33,7 @@ const forgotPassword = (email: string) => {
   return auth().sendPasswordResetEmail(email);
 };
 
+/// Comment
 const signOut = () => {
   return auth().signOut();
 };

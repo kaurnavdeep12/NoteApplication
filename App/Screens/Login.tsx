@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,10 +6,11 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {AuthParamList} from '../Types/NavigationParams';
-import {useNavigation} from '@react-navigation/native';
-import {Auth} from '../services';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { AuthParamList } from '../Types/NavigationParams';
+import { useNavigation } from '@react-navigation/native';
+import { Auth } from '../services';
+import AuthFirebase from '@react-native-firebase/auth';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -17,12 +18,20 @@ const Login = () => {
 
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
+
   const handleSignUp = () => {
     navigation.navigate('Register');
   };
   const handleLoginClick = () => {
     navigation.navigate('NotesScreen');
   };
+
+  // useEffect(() => {
+  //   const subscriber = AuthFirebase().onAuthStateChanged((user) => {
+  //     // 
+  //   });
+  //   return subscriber
+  // }, [])
 
   return (
     <View style={styles.container}>
@@ -63,7 +72,7 @@ const Login = () => {
       <View style={styles.signUpTextView}>
         <Text style={styles.signUpText}>Don't have an account?</Text>
         <TouchableOpacity onPress={handleSignUp}>
-          <Text style={[styles.signUpText, {color: '#B53471'}]}>
+          <Text style={[styles.signUpText, { color: '#B53471' }]}>
             {' Signup'}
           </Text>
         </TouchableOpacity>
