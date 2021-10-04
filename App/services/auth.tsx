@@ -1,7 +1,6 @@
 import auth from '@react-native-firebase/auth';
 import { Alert } from 'react-native';
-
-/// Comment
+// comment
 const signUp = async (fullName: string, email: string, password: string) => {
   if (!fullName || !email || !password) {
     Alert.alert('Error:', 'Please enter all fileds');
@@ -13,16 +12,18 @@ const signUp = async (fullName: string, email: string, password: string) => {
   } catch (err) {
     // handle error
   }
-
 };
 
-/// Comment
-const signIn = (email: string, password: string) => {
+// comment
+const signIn = async (email: string, password: string) => {
   if (!email || !password) {
     Alert.alert('Error:', 'Please enter all fields');
   }
-  return auth()
-    .signInWithEmailAndPassword(email, password)
+  try {
+    await auth().signInWithEmailAndPassword(email, password);
+  } catch (err: any) {
+    return Alert.alert(err.code, err.message);
+  }
 };
 
 /// Comment
