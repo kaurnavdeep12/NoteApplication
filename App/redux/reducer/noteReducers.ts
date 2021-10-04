@@ -6,6 +6,7 @@ interface Note {
 }
 const initialData: Note[] = [];
 const noteReducers = (state = initialData, action: NotesActionTypes) => {
+  console.log('state =====>', state);
   switch (action.type) {
     case 'ADD_NOTE':
       return {...state, ...action.note};
@@ -14,8 +15,10 @@ const noteReducers = (state = initialData, action: NotesActionTypes) => {
       return [...action.note];
 
     case 'DELETE_NOTE':
-      return {...action.note};
+      const newlist = state.filter(({id}) => id !== action.id);
+      return {...state, ...newlist};
 
+    // eslint-disable-next-line no-fallthrough
     default:
       return state;
   }
