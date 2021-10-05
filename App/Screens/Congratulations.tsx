@@ -3,15 +3,16 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
-import {AuthParamList} from '../Types/NavigationParams';
+import auth from '@react-native-firebase/auth';
 
-import {Auth} from '../services';
+import {AuthParamList} from '../Types/NavigationParams';
 
 const Congratulations = () => {
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
-  const handleLogout = () => {
-    Auth.signout();
+  const handleLogout = async () => {
+    const response = await auth().signOut();
+    console.log('response of Logout ', response);
     navigation.navigate('Login');
   };
   return (

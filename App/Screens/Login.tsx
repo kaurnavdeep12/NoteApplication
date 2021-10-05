@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,98 +7,92 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { AuthParamList } from '../Types/NavigationParams';
-import { useNavigation } from '@react-navigation/native';
-import { Auth } from '../services';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {AuthParamList} from '../Types/NavigationParams';
+import {useNavigation} from '@react-navigation/native';
+
 import auth from '@react-native-firebase/auth';
 
 const Login = () => {
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
 
-  const handleSignUp = () => {
-    navigation.navigate('Register');
-  };
-  const handleLoginClick = () => {
+  const handleLogin = async () => {
     if (email == '' && password == '') {
       Alert.alert('Please Enter Both Fields');
     } else {
-      navigation.navigate('Congratulations');
+      try {
+        const response = await auth().signInWithEmailAndPassword(
+          email,
+          password,
+        );
+        console.log('response of Login Screen', response);
+        navigation.navigate('Congratulations');
+        setEmail('');
+        setPassword('');
+        setError('');
+      } catch (err) {
+        setError(err.message);
+      }
     }
   };
 
-  // eslint-disable-next-line no-shadow
-  function onAuthStateChanged(user: any) {
-    setUser(user);
-    if (initializing) {
-      setInitializing(false);
-    }
-  }
+  const goRegister = () => {
+    navigation.navigate('Register');
+  };
 
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
-  }, []);
-
-  if (initializing) {
-    return null;
-  }
-  if (!user) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcomeText}>Welcome Back!</Text>
-        <Text style={styles.loginText}>Login</Text>
-        <TextInput
-          placeholder="Email Address"
-          placeholderTextColor="#808e9b"
-          style={styles.input}
-          autoCorrect={true}
-          autoCapitalize={false}
-          autoCompleteType="email"
-          keyboardType="email-address"
-          textContentType="emailAddress"
-          value={email}
-          onChangeText={e => setEmail(e)}
-        />
-        <TextInput
-          placeholder="Password"
-          placeholderTextColor="#808e9b"
-          style={styles.input}
-          secureTextEntry={true}
-          textContentType="password"
-          value={password}
-          onChangeText={e => setPassword(e)}
-        />
-        <TouchableOpacity>
-          <Text style={styles.fpText}>Forgot Password?</Text>
+  return (
+    <View style={styles.container}>
+      <Text style={styles.welcomeText}>Welcome Back!</Text>
+      <Text style={styles.loginText}>Login</Text>
+      <TextInput
+        placeholder="Email Address"
+        placeholderTextColor="#808e9b"
+        style={styles.input}
+        autoCorrect={true}
+        autoCapitalize={false}
+        autoCompleteType="email"
+        keyboardType="email-address"
+        textContentType="emailAddress"
+        value={email}
+        onChangeText={e => setEmail(e)}
+      />
+      <TextInput
+        placeholder="Password"
+        placeholderTextColor="#808e9b"
+        style={styles.input}
+        secureTextEntry={true}
+        textContentType="password"
+        value={password}
+        onChangeText={e => setPassword(e)}
+      />
+      {error ? <Text style={{color: 'red'}}>{error}</Text> : null}
+      <TouchableOpacity>
+        <Text style={styles.fpText}>Forgot Password?</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.loginButton}>
+        <TouchableOpacity onPress={() => handleLogin()}>
+          <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => Auth.signIn(email, password)}
-          style={styles.loginButton}>
-          <TouchableOpacity onPress={handleLoginClick}>
-            <Text style={styles.loginButtonText}>Login</Text>
-          </TouchableOpacity>
-        </TouchableOpacity>
+      </TouchableOpacity>
 
-        <View style={styles.signUpTextView}>
-          <Text style={styles.signUpText}>Don't have an account?</Text>
-          <TouchableOpacity onPress={handleSignUp}>
-            <Text style={[styles.signUpText, { color: '#B53471' }]}>
-              {' Signup'}
-            </Text>
-          </TouchableOpacity>
-        </View>
+      <View style={styles.signUpTextView}>
+        <Text style={styles.signUpText}>Don't have an account?</Text>
+        <TouchableOpacity onPress={goRegister}>
+          <Text style={[styles.signUpText, {color: '#B53471'}]}>
+            {' Register'}
+          </Text>
+        </TouchableOpacity>
       </View>
-    );
-  }
+    </View>
+  );
+  // }
 
-  return null
+  // return null;
 };
 
 export default Login;

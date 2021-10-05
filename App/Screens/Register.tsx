@@ -5,40 +5,44 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
 import {useNavigation} from '@react-navigation/core';
-
-import {Auth} from '../services';
+import auth from '@react-native-firebase/auth';
 
 const Register = () => {
-  const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
-  const handleRegister = () => {
-    navigation.navigate('Login');
+
+  const handleRegister = async () => {
+    if (email == '') {
+      Alert.alert('Please Enter Valid Email');
+    } else if (password == '') {
+      Alert.alert('Please Enter Valid Password');
+    } else {
+      try {
+        const response = await auth().createUserWithEmailAndPassword(
+          email,
+          password,
+        );
+        navigation.navigate('Login');
+      } catch (err) {
+        setError(err.message);
+      }
+    }
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.welcomeText}>Welcome!!</Text>
       <Text style={styles.loginText}>Register</Text>
-      <TextInput
-        placeholder="Full Name"
-        placeholderTextColor="#808e9b"
-        style={styles.input}
-        autoCorrect={true}
-        autoCapitalize={false}
-        autoCompleteType="email"
-        keyboardType="email-address"
-        textContentType="emailAddress"
-        value={userName}
-        onChangeText={e => setUserName(e)}
-      />
+
       <TextInput
         placeholder="Email Address"
         placeholderTextColor="#808e9b"
@@ -61,15 +65,13 @@ const Register = () => {
         value={password}
         onChangeText={e => setPassword(e)}
       />
+
+      {error ? <Text style={{color: 'red'}}>{error}</Text> : null}
       <TouchableOpacity>
         <Text style={styles.fpText}>Forgot Password?</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => Auth.signUp(userName, email, password)}
-        style={styles.loginButton}>
-        <TouchableOpacity onPress={handleRegister}>
-          <Text style={styles.loginButtonText}>Register</Text>
-        </TouchableOpacity>
+      <TouchableOpacity onPress={handleRegister} style={styles.loginButton}>
+        <Text style={styles.loginButtonText}>Register</Text>
       </TouchableOpacity>
     </View>
   );
