@@ -14,8 +14,10 @@ const noteReducers = (state = initialData, action: NotesActionTypes) => {
       return [...action.note];
 
     case 'DELETE_NOTE':
-      return {...action.note};
+      const newlist = state.filter(({id}) => id !== action.id);
+      return {...state, ...newlist};
 
+    // eslint-disable-next-line no-fallthrough
     default:
       return state;
   }

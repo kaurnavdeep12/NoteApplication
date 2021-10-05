@@ -1,122 +1,179 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
-  KeyboardAvoidingView,
   StyleSheet,
   Text,
   View,
   TextInput,
+  Image,
+  Dimensions,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   Keyboard,
-  ScrollView,
-  Platform,
 } from 'react-native';
-import {Task} from './App/components';
+import {Icon} from 'react-native-elements';
 
 export default function App() {
-  const [task, setTask] = useState();
-  const [taskItems, setTaskItems] = useState([]);
-
-  const handleAddTask = () => {
-    Keyboard.dismiss();
-    setTaskItems([...taskItems, task]);
-    setTask(null);
-  };
-
-  const completeTask = index => {
-    let itemsCopy = [...taskItems];
-    itemsCopy.splice(index, 1);
-    setTaskItems(itemsCopy);
-  };
-
   return (
-    <View style={styles.container}>
-      {/* Added this scroll view to enable scrolling when list gets longer than the page */}
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-        }}
-        keyboardShouldPersistTaps="handled">
-        {/* Today's Tasks */}
-        <View style={styles.tasksWrapper}>
-          <Text style={styles.sectionTitle}>Today's tasks</Text>
-          <View style={styles.items}>
-            {/* This is where the tasks will go! */}
-            {taskItems.map((item, index) => {
-              return (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => completeTask(index)}>
-                  <Task text={item} />
-                </TouchableOpacity>
-              );
-            })}
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.container}>
+        <View style={styles.bigCircle}></View>
+        <View style={styles.smallCircle}></View>
+        <View style={styles.centerizedView}>
+          <View style={styles.authBox}>
+            <View style={styles.logoBox}>
+              <Icon
+                color="#fff"
+                name="comments"
+                type="font-awesome"
+                size={50}
+              />
+            </View>
+            <Text style={styles.loginTitleText}>Login</Text>
+            <View style={styles.hr}></View>
+            <View style={styles.inputBox}>
+              <Text style={styles.inputLabel}>Email</Text>
+              <TextInput
+                style={styles.input}
+                autoCapitalize={false}
+                keyboardType="email-address"
+                textContentType="emailAddress"
+              />
+            </View>
+            <View style={styles.inputBox}>
+              <Text style={styles.inputLabel}>Password</Text>
+              <TextInput
+                style={styles.input}
+                autoCapitalize={false}
+                secureTextEntry={true}
+                textContentType="password"
+              />
+            </View>
+            <TouchableOpacity style={styles.loginButton}>
+              <Text style={styles.loginButtonText}>Login</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text style={styles.registerText}>
+                Don't have an account? Register Now
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+            </TouchableOpacity>
           </View>
         </View>
-      </ScrollView>
-
-      {/* Write a task */}
-      {/* Uses a keyboard avoiding view which ensures the keyboard does not cover the items on screen */}
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.writeTaskWrapper}>
-        <TextInput
-          style={styles.input}
-          placeholder={'Write a task'}
-          value={task}
-          onChangeText={text => setTask(text)}
-        />
-        <TouchableOpacity onPress={() => handleAddTask()}>
-          <View style={styles.addWrapper}>
-            <Text style={styles.addText}>+</Text>
-          </View>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
-    </View>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E8EAED',
+    position: 'relative',
   },
-  tasksWrapper: {
-    paddingTop: 80,
-    paddingHorizontal: 20,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  items: {
-    marginTop: 30,
-  },
-  writeTaskWrapper: {
+  bigCircle: {
+    width: Dimensions.get('window').height * 0.7,
+    height: Dimensions.get('window').height * 0.7,
+    backgroundColor: '#ff6b81',
+    borderRadius: 1000,
     position: 'absolute',
-    bottom: 60,
+    right: Dimensions.get('window').width * 0.25,
+    top: -50,
+  },
+  smallCircle: {
+    width: Dimensions.get('window').height * 0.4,
+    height: Dimensions.get('window').height * 0.4,
+    backgroundColor: '#ff7979',
+    borderRadius: 1000,
+    position: 'absolute',
+    bottom: Dimensions.get('window').width * -0.2,
+    right: Dimensions.get('window').width * -0.3,
+  },
+  centerizedView: {
     width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    top: '15%',
+  },
+  authBox: {
+    width: '80%',
+    backgroundColor: '#fafafa',
+    borderRadius: 20,
+    alignSelf: 'center',
+    paddingHorizontal: 14,
+    paddingBottom: 30,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  logoBox: {
+    width: 100,
+    height: 100,
+    backgroundColor: '#eb4d4b',
+    borderRadius: 1000,
+    alignSelf: 'center',
+    display: 'flex',
     alignItems: 'center',
+    justifyContent: 'center',
+    top: -50,
+    marginBottom: -50,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
+  },
+  loginTitleText: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    marginTop: 10,
+  },
+  hr: {
+    width: '100%',
+    height: 0.5,
+    backgroundColor: '#444',
+    marginTop: 6,
+  },
+  inputBox: {
+    marginTop: 10,
+  },
+  inputLabel: {
+    fontSize: 18,
+    marginBottom: 6,
   },
   input: {
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    backgroundColor: '#FFF',
-    borderRadius: 60,
-    borderColor: '#C0C0C0',
-    borderWidth: 1,
-    width: 250,
+    width: '100%',
+    height: 40,
+    backgroundColor: '#dfe4ea',
+    borderRadius: 4,
+    paddingHorizontal: 10,
   },
-  addWrapper: {
-    width: 60,
-    height: 60,
-    backgroundColor: '#FFF',
-    borderRadius: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: '#C0C0C0',
-    borderWidth: 1,
+  loginButton: {
+    backgroundColor: '#ff4757',
+    marginTop: 10,
+    paddingVertical: 10,
+    borderRadius: 4,
   },
-  addText: {},
+  loginButtonText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  registerText: {
+    textAlign: 'center',
+    marginTop: 20,
+    fontSize: 16,
+  },
+  forgotPasswordText: {
+    textAlign: 'center',
+    marginTop: 12,
+    fontSize: 16,
+  },
 });

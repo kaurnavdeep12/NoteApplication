@@ -20,6 +20,11 @@ import {startAddNotes, getAddedNotes, deleteNotes} from '../redux/actions';
 import {AppStates} from '../redux/reducer';
 import {useDispatch, useSelector} from 'react-redux';
 
+export interface Note {
+  id: number;
+  value: string;
+}
+
 const NotesScreen = () => {
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
@@ -37,10 +42,11 @@ const NotesScreen = () => {
     if (Input.length < 0) {
       Alert.alert('Please Enter Note');
     } else {
-      await dispatch(startAddNotes(Input)), setInput('');
+      await dispatch(startAddNotes(Input));
 
       dispatch(getAddedNotes());
     }
+    setInput('');
   };
 
   const onDeletePress = (id: number) => {

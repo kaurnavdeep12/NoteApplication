@@ -1,10 +1,21 @@
 import React from 'react';
+<<<<<<< HEAD
+=======
+
+>>>>>>> a58bad2412d17e1506ed5fab1c9d944f8f2aecbe
 import NotesScreen from '../Screens/NotesScreen';
 import Splash from '../Screens/Splash';
 import NoteDetailScreen from '../Screens/NoteDetailScreen';
 import Congratulations from '../Screens/Congratulations';
+<<<<<<< HEAD
 import { AuthParamList } from '../Types/NavigationParams';
 import { createStackNavigator } from '@react-navigation/stack';
+=======
+
+import {AuthParamList} from '../Types/NavigationParams';
+
+import {createStackNavigator} from '@react-navigation/stack';
+>>>>>>> a58bad2412d17e1506ed5fab1c9d944f8f2aecbe
 import Login from '../Screens/Login';
 import Register from '../Screens/Register';
 
