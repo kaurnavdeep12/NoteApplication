@@ -22,8 +22,10 @@ const Login = () => {
   const navigation = useNavigation<NavigationProp>();
 
   const handleLogin = async () => {
-    if (email == '' && password == '') {
-      Alert.alert('Please Enter Both Fields');
+    if (email == '') {
+      Alert.alert('please enter valid email');
+    } else if (password == '') {
+      Alert.alert('please enter password');
     } else {
       try {
         const response = await auth().signInWithEmailAndPassword(

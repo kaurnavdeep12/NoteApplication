@@ -22,9 +22,9 @@ const Register = () => {
 
   const handleRegister = async () => {
     if (email == '') {
-      Alert.alert('Please Enter Valid Email');
+      Alert.alert('please enter valid email');
     } else if (password == '') {
-      Alert.alert('Please Enter Valid Password');
+      Alert.alert('please enter password');
     } else {
       try {
         const response = await auth().createUserWithEmailAndPassword(
