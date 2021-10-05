@@ -32,9 +32,12 @@ const Login = () => {
     }
   };
 
+  // eslint-disable-next-line no-shadow
   function onAuthStateChanged(user: any) {
     setUser(user);
-    if (initializing) setInitializing(false);
+    if (initializing) {
+      setInitializing(false);
+    }
   }
 
   useEffect(() => {
@@ -42,7 +45,9 @@ const Login = () => {
     return subscriber; // unsubscribe on unmount
   }, []);
 
-  if (initializing) return null;
+  if (initializing) {
+    return null;
+  }
   if (!user) {
     return (
       <View style={styles.container}>

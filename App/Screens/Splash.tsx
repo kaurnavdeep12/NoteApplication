@@ -1,11 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
 import auth from '@react-native-firebase/auth';
 import SplashScreen from 'react-native-splash-screen';
-
-import {StyleSheet} from 'react-native';
 
 const Splash = () => {
   type NavigationProp = StackNavigationProp<AuthParamList, 'Splash'>;
@@ -23,9 +22,3 @@ const Splash = () => {
 };
 
 export default Splash;
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'grey',
-  },
-});

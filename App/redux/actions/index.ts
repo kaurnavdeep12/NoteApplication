@@ -1,5 +1,5 @@
 import {AppActions} from '../ActionConstants/index';
-import firestore, {firebase} from '@react-native-firebase/firestore';
+import {firebase} from '@react-native-firebase/firestore';
 import {Dispatch} from 'react';
 import {AppState} from 'react-native';
 
