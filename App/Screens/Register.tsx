@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,8 +11,9 @@ import {
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
 import {useNavigation} from '@react-navigation/core';
+
+import auth from '@react-native-firebase/auth';
 import {Auth} from '../services';
-import {signUp} from '../services/auth';
 
 const Register = () => {
   const [userName, setUserName] = useState('');
@@ -21,11 +22,7 @@ const Register = () => {
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
   const handleRegister = () => {
-    if (userName == '' && email == '' && password == '') {
-      Alert.alert('All Fields are required');
-    } else {
-      navigation.navigate('Congratulations');
-    }
+    navigation.navigate('Login');
   };
 
   return (

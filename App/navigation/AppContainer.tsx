@@ -9,20 +9,6 @@ import store from '../redux/reducer';
 import {Provider} from 'react-redux';
 
 export default function AppContainer() {
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
-
-  function onAuthStateChanged(user: any) {
-    setUser(user);
-    if (initializing) setInitializing(false);
-  }
-
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
-  }, []);
-
-  if (initializing) return null;
   return (
     <NavigationContainer>
       <AppNavigator />

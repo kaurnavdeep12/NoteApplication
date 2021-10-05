@@ -4,28 +4,14 @@ const signUp = async (fullName: string, email: string, password: string) => {
   if (!fullName || !email || !password) {
     Alert.alert('Error:', 'Please enter all fileds');
   }
-
-  try {
-    const cred = await auth().createUserWithEmailAndPassword(email, password);
-    const {uid} = cred.user;
-    auth().currentUser?.updateProfile({
-      displayName: fullName,
-    });
-    return uid;
-  } catch (err) {
-    return Alert.alert(err.code, err.message);
-  }
+  return auth().createUserWithEmailAndPassword(email, password);
 };
 
 const signIn = async (email: string, password: string) => {
   if (!email || !password) {
     Alert.alert('Error:', 'Please enter all fields');
   }
-  try {
-    await auth().signInWithEmailAndPassword(email, password);
-  } catch (err) {
-    return Alert.alert(err.code, err.message);
-  }
+  return auth().createUserWithEmailAndPassword(email, password);
 };
 
 const forgotPassword = (email: string) => {
@@ -35,7 +21,7 @@ const forgotPassword = (email: string) => {
   return auth().sendPasswordResetEmail(email);
 };
 
-const signOut = () => {
+const signout = () => {
   return auth().signOut();
 };
 
@@ -43,7 +29,7 @@ const Auth = {
   signUp,
   signIn,
   forgotPassword,
-  signOut,
+  signout,
 };
 
 export default Auth;

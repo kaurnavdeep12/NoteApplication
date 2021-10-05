@@ -1,30 +1,19 @@
 import {useNavigation} from '@react-navigation/core';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {useEffect} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  StatusBar,
-  Keyboard,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
-  ImageBackground,
-} from 'react-native';
-import SplashScreen from 'react-native-splash-screen';
+import React from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+
 import {AuthParamList} from '../Types/NavigationParams';
-import {images} from '../utils';
+
+import {Auth} from '../services';
 
 const Congratulations = () => {
-  type NavigationProp = StackNavigationProp<AuthParamList, 'Splash'>;
+  type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
-  useEffect(() => {
-    setTimeout(() => {
-      navigation.navigate('Login');
-      SplashScreen.hide();
-    }, 400);
-  }, []);
+  const handleLogout = () => {
+    Auth.signout();
+    navigation.navigate('Login');
+  };
   return (
     <View style={styles.container}>
       <Text
@@ -37,8 +26,28 @@ const Congratulations = () => {
         Congratulations!!
       </Text>
       <Text style={{color: 'purple', textAlign: 'center', fontSize: 18}}>
-        You have successfully Registered
+        You have successfully Login!!
       </Text>
+      <TouchableOpacity
+        style={{
+          backgroundColor: 'pink',
+          height: 50,
+          width: 200,
+          borderRadius: 20,
+          alignSelf: 'center',
+          margin: 20,
+        }}
+        onPress={handleLogout}>
+        <Text
+          style={{
+            alignSelf: 'center',
+            padding: 10,
+            fontWeight: 'bold',
+            fontSize: 20,
+          }}>
+          Logout
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };

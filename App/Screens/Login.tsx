@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,8 +11,11 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
 import {useNavigation} from '@react-navigation/native';
 import {Auth} from '../services';
+import auth from '@react-native-firebase/auth';
 
 const Login = () => {
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -25,56 +28,69 @@ const Login = () => {
     if (email == '' && password == '') {
       Alert.alert('Please Enter Both Fields');
     } else {
-      navigation.navigate('NotesScreen');
+      navigation.navigate('Congratulations');
     }
   };
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.welcomeText}>Welcome Back!</Text>
-      <Text style={styles.loginText}>Login</Text>
-      <TextInput
-        placeholder="Email Address"
-        placeholderTextColor="#808e9b"
-        style={styles.input}
-        autoCorrect={true}
-        autoCapitalize={false}
-        autoCompleteType="email"
-        keyboardType="email-address"
-        textContentType="emailAddress"
-        value={email}
-        onChangeText={e => setEmail(e)}
-      />
-      <TextInput
-        placeholder="Password"
-        placeholderTextColor="#808e9b"
-        style={styles.input}
-        secureTextEntry={true}
-        textContentType="password"
-        value={password}
-        onChangeText={e => setPassword(e)}
-      />
-      <TouchableOpacity>
-        <Text style={styles.fpText}>Forgot Password?</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => Auth.signIn(email, password)}
-        style={styles.loginButton}>
-        <TouchableOpacity onPress={handleLoginClick}>
-          <Text style={styles.loginButtonText}>Login</Text>
-        </TouchableOpacity>
-      </TouchableOpacity>
+  function onAuthStateChanged(user: any) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
 
-      <View style={styles.signUpTextView}>
-        <Text style={styles.signUpText}>Don't have an account?</Text>
-        <TouchableOpacity onPress={handleSignUp}>
-          <Text style={[styles.signUpText, {color: '#B53471'}]}>
-            {' Signup'}
-          </Text>
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  if (initializing) return null;
+  if (!user) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcomeText}>Welcome Back!</Text>
+        <Text style={styles.loginText}>Login</Text>
+        <TextInput
+          placeholder="Email Address"
+          placeholderTextColor="#808e9b"
+          style={styles.input}
+          autoCorrect={true}
+          autoCapitalize={false}
+          autoCompleteType="email"
+          keyboardType="email-address"
+          textContentType="emailAddress"
+          value={email}
+          onChangeText={e => setEmail(e)}
+        />
+        <TextInput
+          placeholder="Password"
+          placeholderTextColor="#808e9b"
+          style={styles.input}
+          secureTextEntry={true}
+          textContentType="password"
+          value={password}
+          onChangeText={e => setPassword(e)}
+        />
+        <TouchableOpacity>
+          <Text style={styles.fpText}>Forgot Password?</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => Auth.signIn(email, password)}
+          style={styles.loginButton}>
+          <TouchableOpacity onPress={handleLoginClick}>
+            <Text style={styles.loginButtonText}>Login</Text>
+          </TouchableOpacity>
+        </TouchableOpacity>
+
+        <View style={styles.signUpTextView}>
+          <Text style={styles.signUpText}>Don't have an account?</Text>
+          <TouchableOpacity onPress={handleSignUp}>
+            <Text style={[styles.signUpText, {color: '#B53471'}]}>
+              {' Signup'}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
-  );
+    );
+  }
 };
 
 export default Login;
