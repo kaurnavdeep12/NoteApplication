@@ -97,6 +97,8 @@ const Login = () => {
       </View>
     );
   }
+
+  return null
 };
 
 export default Login;
