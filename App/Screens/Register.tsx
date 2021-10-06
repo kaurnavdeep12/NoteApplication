@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {
   StyleSheet,
@@ -18,6 +19,7 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
 
@@ -28,8 +30,9 @@ const Register = () => {
       Alert.alert('please enter password');
     } else {
       try {
-        await auth().createUserWithEmailAndPassword(email, password);
-        navigation.navigate('Login');
+        const response = await auth().createUserWithEmailAndPassword(email, password);
+        console.log('response in Register Screen',response);
+        navigation.navigate('HomeScreen');
       } catch (err) {
         setError(err.message);
       }
@@ -38,8 +41,8 @@ const Register = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.welcomeText}>Welcome!!</Text>
-      <Text style={styles.loginText}>Register</Text>
+      <Text style={styles.welcomeText}>{Config.strings.welcome}</Text>
+      <Text style={styles.loginText}>{Config.strings.register}</Text>
 
       <TextInput
         placeholder="Email Address"
@@ -64,12 +67,12 @@ const Register = () => {
         onChangeText={e => setPassword(e)}
       />
 
-      {error ? <Text style={{color: 'red'}}>{error}</Text> : null}
+      {error ? <Text style={styles.error_txt}>{error}</Text> : null}
       <TouchableOpacity>
         <Text style={styles.fpText}>{Config.strings.forgot_password}</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={handleRegister} style={styles.loginButton}>
-        <Text style={styles.loginButtonText}>Register</Text>
+        <Text style={styles.loginButtonText}>{Config.strings.register}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -148,5 +151,8 @@ const styles = StyleSheet.create({
     color: '#808e9b',
     fontSize: 20,
     fontWeight: '500',
+  },
+  error_txt: {
+    color: 'red',
   },
 });

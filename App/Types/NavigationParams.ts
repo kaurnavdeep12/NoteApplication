@@ -5,5 +5,5 @@ export type AuthParamList = {
   Task: {text: string};
   Login: undefined;
   Register: undefined;
-  Congratulations: undefined;
+  HomeScreen: undefined;
 };

@@ -12,7 +12,7 @@ const Splash = () => {
 
   useEffect(() => {
     if (auth().currentUser) {
-      navigation.navigate('Congratulations');
+      navigation.navigate('HomeScreen');
     } else {
       navigation.navigate('Login');
     }

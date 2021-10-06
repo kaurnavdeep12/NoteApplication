@@ -11,8 +11,11 @@ export default {
     go_back: 'Go Back',
     scr_heading: 'NoteDetailScreen',
     welcome_back: 'Welcome Back!!',
+    welcome: 'Welcome!!',
     login: 'Login',
     dont_account: "Don't have an account?",
     forgot_password: 'Forgot Password?',
+    success_login: 'You have successfully Login!!',
+    register: 'Register',
   },
 };

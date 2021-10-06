@@ -12,7 +12,6 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
 import {useNavigation} from '@react-navigation/native';
 import Config from '../utils/Config';
-
 import auth from '@react-native-firebase/auth';
 
 const Login = () => {
@@ -36,7 +35,7 @@ const Login = () => {
           password,
         );
         console.log('response of Login Screen', response);
-        navigation.navigate('Congratulations');
+        navigation.navigate('HomeScreen');
         setEmail('');
         setPassword('');
         setError('');
@@ -75,7 +74,7 @@ const Login = () => {
         value={password}
         onChangeText={e => setPassword(e)}
       />
-      {error ? <Text style={{color: 'red'}}>{error}</Text> : null}
+      {error ? <Text style={styles.error_txt}>{error}</Text> : null}
       <TouchableOpacity>
         <Text style={styles.fpText}>{Config.strings.forgot_password}</Text>
       </TouchableOpacity>
@@ -170,5 +169,8 @@ const styles = StyleSheet.create({
     color: '#808e9b',
     fontSize: 20,
     fontWeight: '500',
+  },
+  error_txt: {
+    color: 'red',
   },
 });
