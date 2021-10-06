@@ -11,11 +11,11 @@ const Splash = () => {
   const navigation = useNavigation<NavigationProp>();
 
   useEffect(() => {
-    // if (auth().currentUser) {
-    //   navigation.navigate('Congratulations');
-    // } else {
-    //   navigation.navigate('Login');
-    // }
+    if (auth().currentUser) {
+      navigation.navigate('Congratulations');
+    } else {
+      navigation.navigate('Login');
+    }
     SplashScreen.hide();
   }, []);
   return null;

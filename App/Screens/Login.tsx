@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,6 +11,7 @@ import {
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
 import {useNavigation} from '@react-navigation/native';
+import Config from '../utils/Config';
 
 import auth from '@react-native-firebase/auth';
 
@@ -22,6 +24,7 @@ const Login = () => {
   const navigation = useNavigation<NavigationProp>();
 
   const handleLogin = async () => {
+    // eslint-disable-next-line eqeqeq
     if (email == '') {
       Alert.alert('please enter valid email');
     } else if (password == '') {
@@ -49,8 +52,8 @@ const Login = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.welcomeText}>Welcome Back!</Text>
-      <Text style={styles.loginText}>Login</Text>
+      <Text style={styles.welcomeText}>{Config.strings.welcome_back}</Text>
+      <Text style={styles.loginText}>{Config.strings.login}</Text>
       <TextInput
         placeholder="Email Address"
         placeholderTextColor="#808e9b"
@@ -74,16 +77,16 @@ const Login = () => {
       />
       {error ? <Text style={{color: 'red'}}>{error}</Text> : null}
       <TouchableOpacity>
-        <Text style={styles.fpText}>Forgot Password?</Text>
+        <Text style={styles.fpText}>{Config.strings.forgot_password}</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.loginButton}>
         <TouchableOpacity onPress={() => handleLogin()}>
-          <Text style={styles.loginButtonText}>Login</Text>
+          <Text style={styles.loginButtonText}>{Config.strings.login}</Text>
         </TouchableOpacity>
       </TouchableOpacity>
 
       <View style={styles.signUpTextView}>
-        <Text style={styles.signUpText}>Don't have an account?</Text>
+        <Text style={styles.signUpText}>{Config.strings.dont_account}</Text>
         <TouchableOpacity onPress={goRegister}>
           <Text style={[styles.signUpText, {color: '#B53471'}]}>
             {' Register'}
@@ -92,9 +95,6 @@ const Login = () => {
       </View>
     </View>
   );
-  // }
-
-  // return null;
 };
 
 export default Login;

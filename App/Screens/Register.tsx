@@ -12,6 +12,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
 import {useNavigation} from '@react-navigation/core';
 import auth from '@react-native-firebase/auth';
+import Config from '../utils/Config';
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -27,10 +28,7 @@ const Register = () => {
       Alert.alert('please enter password');
     } else {
       try {
-        const response = await auth().createUserWithEmailAndPassword(
-          email,
-          password,
-        );
+        await auth().createUserWithEmailAndPassword(email, password);
         navigation.navigate('Login');
       } catch (err) {
         setError(err.message);
@@ -68,7 +66,7 @@ const Register = () => {
 
       {error ? <Text style={{color: 'red'}}>{error}</Text> : null}
       <TouchableOpacity>
-        <Text style={styles.fpText}>Forgot Password?</Text>
+        <Text style={styles.fpText}>{Config.strings.forgot_password}</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={handleRegister} style={styles.loginButton}>
         <Text style={styles.loginButtonText}>Register</Text>

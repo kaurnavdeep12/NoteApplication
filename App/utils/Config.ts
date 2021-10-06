@@ -10,5 +10,9 @@ export default {
     edit_note: 'Edit Note',
     go_back: 'Go Back',
     scr_heading: 'NoteDetailScreen',
+    welcome_back: 'Welcome Back!!',
+    login: 'Login',
+    dont_account: "Don't have an account?",
+    forgot_password: 'Forgot Password?',
   },
 };

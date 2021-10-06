@@ -1,4 +1,4 @@
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {RouteProp, useRoute} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
@@ -9,12 +9,7 @@ import {AuthParamList} from '../Types/NavigationParams';
 
 const NoteDetailScreen = () => {
   type NavigationProp = StackNavigationProp<AuthParamList, 'NoteDetailScreen'>;
-  const navigation = useNavigation<NavigationProp>();
   const route = useRoute<RouteProp<AuthParamList, 'NoteDetailScreen'>>();
-
-  const handleGoBack = () => {
-    navigation.navigate('NotesScreen');
-  };
 
   return (
     <LinearGradient
@@ -65,7 +60,6 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   view_two: {
-    // backgroundColor: '#fff',
     height: 50,
     width: 250,
     opacity: 5,

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {
   StyleSheet,
@@ -7,10 +8,8 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-  FlatList,
   ScrollView,
   Button,
-  RefreshControlBase,
   Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
@@ -67,7 +66,7 @@ const NotesScreen = () => {
           <Text style={styles.sectionTitle}>Notes App</Text>
           <View style={styles.items}>
             {note.length > 0 &&
-              note.map((item, index) => {
+              note.map(item => {
                 return (
                   <TouchableOpacity onPress={() => onClickItem(item)}>
                     <View style={styles.item}>
