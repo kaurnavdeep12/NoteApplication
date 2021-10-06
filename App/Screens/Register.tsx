@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -14,24 +14,41 @@ import {AuthParamList} from '../Types/NavigationParams';
 import {useNavigation} from '@react-navigation/core';
 import auth from '@react-native-firebase/auth';
 import Config from '../utils/Config';
+import {firebase} from '@react-native-firebase/firestore';
+
+// import {firebase} from '@react-native-firebase/firestore';
 
 const Register = () => {
+  const [firstName, setfirstName] = useState('');
+  const [lastName, setlastName] = useState('');
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  // const ref_input2 = useRef();
+  // const ref_input3 = useRef();
 
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
 
   const handleRegister = async () => {
-    if (email == '') {
+    if (email === '') {
       Alert.alert('please enter valid email');
-    } else if (password == '') {
+    } else if (password === '') {
       Alert.alert('please enter password');
     } else {
       try {
-        const response = await auth().createUserWithEmailAndPassword(email, password);
-        console.log('response in Register Screen',response);
+        const response = await auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then(resp => {
+            firebase
+              .firestore()
+              .collection('users')
+              .doc(resp.user.uid)
+              .set({firstName: firstName, lastName: lastName});
+          });
+
+        // console.log('response user in Register Screen', response);
         navigation.navigate('HomeScreen');
       } catch (err) {
         setError(err.message);
@@ -45,16 +62,42 @@ const Register = () => {
       <Text style={styles.loginText}>{Config.strings.register}</Text>
 
       <TextInput
+        placeholder="First Name"
+        placeholderTextColor="#808e9b"
+        style={styles.input}
+        value={firstName}
+        onChangeText={e => setfirstName(e)}
+        autoFocus={true}
+        returnKeyType="next"
+        // onSubmitEditing={() => ref_input2.current.focus()}
+      />
+
+      <TextInput
+        placeholder="Last Name"
+        placeholderTextColor="#808e9b"
+        style={styles.input}
+        value={lastName}
+        onChangeText={e => setlastName(e)}
+        autoFocus={true}
+        returnKeyType="next"
+        // onSubmitEditing={() => ref_input2.current.focus()}
+      />
+
+      <TextInput
         placeholder="Email Address"
         placeholderTextColor="#808e9b"
         style={styles.input}
         autoCorrect={true}
-        autoCapitalize={false}
+        autoCapitalize="none"
         autoCompleteType="email"
         keyboardType="email-address"
         textContentType="emailAddress"
         value={email}
         onChangeText={e => setEmail(e)}
+        returnKeyType="next"
+        blurOnSubmit={false}
+        // onSubmitEditing={() => ref_input3.current.focus()}
+        // ref={ref_input2}
       />
 
       <TextInput
@@ -65,6 +108,7 @@ const Register = () => {
         textContentType="password"
         value={password}
         onChangeText={e => setPassword(e)}
+        // ref={ref_input3}
       />
 
       {error ? <Text style={styles.error_txt}>{error}</Text> : null}

@@ -26,6 +26,7 @@ const Login = () => {
     // eslint-disable-next-line eqeqeq
     if (email == '') {
       Alert.alert('please enter valid email');
+      // eslint-disable-next-line eqeqeq
     } else if (password == '') {
       Alert.alert('please enter password');
     } else {
@@ -58,8 +59,9 @@ const Login = () => {
         placeholderTextColor="#808e9b"
         style={styles.input}
         autoCorrect={true}
-        autoCapitalize={false}
+        autoCapitalize="none"
         autoCompleteType="email"
+        returnKeyType="next"
         keyboardType="email-address"
         textContentType="emailAddress"
         value={email}
@@ -69,6 +71,7 @@ const Login = () => {
         placeholder="Password"
         placeholderTextColor="#808e9b"
         style={styles.input}
+        returnKeyType="done"
         secureTextEntry={true}
         textContentType="password"
         value={password}
