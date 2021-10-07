@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {useRef, useState} from 'react';
 import {
   StyleSheet,
@@ -38,9 +37,10 @@ const Register = () => {
       Alert.alert('please enter password');
     } else {
       try {
-        const response = await auth()
+        await auth()
           .createUserWithEmailAndPassword(email, password)
           .then(resp => {
+            console.log('response user in Register Screen', resp);
             firebase
               .firestore()
               .collection('users')
@@ -48,7 +48,6 @@ const Register = () => {
               .set({firstName: firstName, lastName: lastName});
           });
 
-        // console.log('response user in Register Screen', response);
         navigation.navigate('HomeScreen');
       } catch (err) {
         setError(err.message);

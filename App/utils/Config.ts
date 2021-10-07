@@ -17,5 +17,6 @@ export default {
     forgot_password: 'Forgot Password?',
     success_login: 'You have successfully Login!!',
     register: 'Register',
+    note_title: 'Note App',
   },
 };

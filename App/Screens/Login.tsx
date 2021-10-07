@@ -36,7 +36,7 @@ const Login = () => {
           password,
         );
         console.log('response of Login Screen', response);
-        navigation.navigate('HomeScreen');
+        navigation.navigate('NotesScreen');
         setEmail('');
         setPassword('');
         setError('');

@@ -18,6 +18,7 @@ import {AuthParamList} from '../Types/NavigationParams';
 import {startAddNotes, getAddedNotes, deleteNotes} from '../redux/actions';
 import {AppStates} from '../redux/reducer';
 import {useDispatch, useSelector} from 'react-redux';
+import Config from '../utils/Config';
 
 export interface Note {
   id: number;
@@ -63,7 +64,7 @@ const NotesScreen = () => {
           flexGrow: 1,
         }}>
         <View style={styles.tasksWrapper}>
-          <Text style={styles.sectionTitle}>Notes App</Text>
+          <Text style={styles.sectionTitle}>{Config.strings.note_title}</Text>
           <View style={styles.items}>
             {note.length > 0 &&
               note.map(item => {
