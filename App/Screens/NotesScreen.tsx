@@ -1,102 +1,116 @@
-/* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+// import {firebase} from '@react-native-firebase/auth';
+import React, {useEffect, useState} from 'react';
+import {firebase} from '@react-native-firebase/firestore';
 import {
+  KeyboardAvoidingView,
   StyleSheet,
   Text,
-  TextInput,
   View,
+  TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
+  Keyboard,
   ScrollView,
-  Button,
-  Alert,
+  Platform,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {AuthParamList} from '../Types/NavigationParams';
-import {startAddNotes, getAddedNotes, deleteNotes} from '../redux/actions';
-import {AppStates} from '../redux/reducer';
-import {useDispatch, useSelector} from 'react-redux';
 import Config from '../utils/Config';
-
-export interface Note {
+interface Note {
   id: number;
-  value: string;
+  Input: string;
 }
 
 const NotesScreen = () => {
-  type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
-  const navigation = useNavigation<NavigationProp>();
-  const note = useSelector((state: AppStates) => state.noteReducers);
-
   const [Input, setInput] = useState('');
+  const [InputItems, setInputItems] = useState([]);
 
-  const dispatch = useDispatch();
+  const handleAddTask = () => {
+    firebase.auth().currentUser;
 
-  const onChangetxt = (text: string) => {
-    setInput(text);
-  };
-
-  const onAddButtonPress = async () => {
-    if (Input.length < 0) {
-      Alert.alert('Please Enter Note');
-    } else {
-      await dispatch(startAddNotes(Input));
-
-      dispatch(getAddedNotes());
-    }
+    const addNote = {
+      id: new Date().getTime(),
+      Input,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    };
+    firebase.firestore().collection('AddNote').add(addNote);
     setInput('');
+    getAddedNotes();
   };
 
-  const onDeletePress = (id: number) => {
-    dispatch(deleteNotes(id));
+  const getAddedNotes = () => {
+    const db = firebase.firestore();
+    // const new_notes: {id: number; Input: string}[] = [];
+    // eslint-disable-next-line no-shadow
+    // const InputItems = [];
+    // eslint-disable-next-line no-shadow
+    const InputItems: Note[] = [];
+    var user = firebase.auth().currentUser;
+    console.log('user=====>', user);
+    const getData = db
+      .collection('AddNote')
+      .orderBy('id', 'desc')
+      .get()
+      .then(snapshot => {
+        snapshot.docs.forEach(doc => {
+          InputItems.push({
+            id: doc.data().id,
+            Input: doc.data().Input,
+          });
+          setInputItems(InputItems);
+        });
+      });
+    console.log('getData======', getData);
   };
 
-  const onClickItem = (item: any) => {
-    navigation.navigate('NoteDetailScreen', {note: item.value});
-  };
+  // useEffect(() => {
+  //   console.log('InputItems ====', InputItems);
+  // }, [InputItems]);
+  // const completeTask = (index: number) => {
+  //   let itemsCopy = [...InputItems];
+  //   itemsCopy.splice(index, 1);
+  //   setInputItems(itemsCopy);
+  // };
 
   return (
     <View style={styles.container}>
       <ScrollView
+        // eslint-disable-next-line react-native/no-inline-styles
         contentContainerStyle={{
           flexGrow: 1,
-        }}>
+        }}
+        keyboardShouldPersistTaps="handled">
         <View style={styles.tasksWrapper}>
-          <Text style={styles.sectionTitle}>{Config.strings.note_title}</Text>
+          <Text style={styles.sectionTitle}>{Config.strings.add_note}</Text>
           <View style={styles.items}>
-            {note.length > 0 &&
-              note.map(item => {
-                return (
-                  <TouchableOpacity onPress={() => onClickItem(item)}>
-                    <View style={styles.item}>
-                      <View style={styles.itemLeft}>
-                        <View style={styles.square} />
-
-                        <Text style={styles.itemText}>{item.value}</Text>
-                      </View>
-                      <Button
-                        title="X"
-                        color="crimson"
-                        onPress={() => onDeletePress(item.id)}
-                      />
+            {InputItems.map((item, index) => {
+              console.log('item in notesscreen==', item);
+              return (
+                <TouchableOpacity
+                  key={index}
+                  // onPress={() => completeTask(index)}
+                >
+                  <View style={styles.item}>
+                    <View style={styles.itemLeft}>
+                      <View style={styles.square} />
+                      <Text style={styles.itemText}>{item}</Text>
                     </View>
-                  </TouchableOpacity>
-                );
-              })}
+                    <View style={styles.circular} />
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
           </View>
         </View>
       </ScrollView>
+
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.writeTaskWrapper}>
         <TextInput
           style={styles.input}
-          placeholder={'Write a Note'}
-          onChangeText={onChangetxt}
+          placeholder={'Please Enter Note'}
+          value={Input}
+          onChangeText={text => setInput(text)}
         />
-        <TouchableOpacity onPress={onAddButtonPress}>
+        <TouchableOpacity onPress={() => handleAddTask()}>
           <View style={styles.addWrapper}>
             <Text style={styles.addText}>+</Text>
           </View>
@@ -106,23 +120,22 @@ const NotesScreen = () => {
   );
 };
 export default NotesScreen;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#E8EAED',
   },
   tasksWrapper: {
     paddingTop: 80,
     paddingHorizontal: 20,
   },
   sectionTitle: {
-    fontSize: 30,
+    fontSize: 24,
     fontWeight: 'bold',
-    color: 'black',
   },
   items: {
     marginTop: 30,
-    backgroundColor: 'white',
   },
   writeTaskWrapper: {
     position: 'absolute',
@@ -144,16 +157,17 @@ const styles = StyleSheet.create({
   addWrapper: {
     width: 60,
     height: 60,
-    backgroundColor: 'grey',
+    backgroundColor: '#FFF',
     borderRadius: 60,
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: '#C0C0C0',
-    borderWidth: 2,
+    borderWidth: 1,
   },
-  addText: {fontWeight: 'bold', fontSize: 30},
+  addText: {},
+
   item: {
-    backgroundColor: 'grey',
+    backgroundColor: '#FFF',
     padding: 15,
     borderRadius: 10,
     flexDirection: 'row',
@@ -169,19 +183,18 @@ const styles = StyleSheet.create({
   square: {
     width: 24,
     height: 24,
-    backgroundColor: 'blue',
+    backgroundColor: '#55BCF6',
     opacity: 0.4,
     borderRadius: 5,
     marginRight: 15,
   },
   itemText: {
     maxWidth: '80%',
-    fontWeight: 'bold',
   },
   circular: {
     width: 12,
     height: 12,
-    borderColor: 'red',
+    borderColor: '#55BCF6',
     borderWidth: 2,
     borderRadius: 5,
   },

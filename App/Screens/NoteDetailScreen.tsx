@@ -1,16 +1,21 @@
-import {RouteProp, useRoute} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Button} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Config from '../utils/Config';
-
+import auth from '@react-native-firebase/auth';
 import {AuthParamList} from '../Types/NavigationParams';
 
 const NoteDetailScreen = () => {
   type NavigationProp = StackNavigationProp<AuthParamList, 'NoteDetailScreen'>;
+  const navigation = useNavigation<NavigationProp>();
   const route = useRoute<RouteProp<AuthParamList, 'NoteDetailScreen'>>();
-
+  const handleLogout = async () => {
+    const response = await auth().signOut();
+    console.log('response of Logout ', response);
+    navigation.navigate('Login');
+  };
   return (
     <LinearGradient
       colors={['grey', 'white']}
@@ -28,6 +33,7 @@ const NoteDetailScreen = () => {
             <Text style={styles.view_two_txt}>{route.params.note}</Text>
           </View>
         </LinearGradient>
+        <Button title="LogOut" color="crimson" onPress={handleLogout} />
       </View>
     </LinearGradient>
   );

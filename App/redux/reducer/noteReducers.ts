@@ -1,23 +1,30 @@
 import {NotesActionTypes} from '../ActionConstants/index';
 
-interface Note {
-  id: number;
-  value: string;
-}
-const initialData: Note[] = [];
+const initialData = {
+  list: [],
+};
 const noteReducers = (state = initialData, action: NotesActionTypes) => {
   switch (action.type) {
     case 'ADD_NOTE':
-      return {...state, ...action.note};
+      const {id, data} = action.payload;
 
-    case 'GET_NOTE':
-      return [...action.note];
-
+      return {
+        ...state,
+        list: [
+          ...state.list,
+          {
+            id: id,
+            data: data,
+          },
+        ],
+      };
     case 'DELETE_NOTE':
-      const newlist = state.filter(({id}) => id !== action.id);
-      return {...state, ...newlist};
+      const newList = state.list.filter(elem => elem.id != action.id);
 
-    // eslint-disable-next-line no-fallthrough
+      return {
+        ...state,
+        list: newList,
+      };
     default:
       return state;
   }
