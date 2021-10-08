@@ -1,7 +1,5 @@
-/* eslint-disable curly */
-
-import React, {useState} from 'react';
-import {firebase} from '@react-native-firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import { firebase } from '@react-native-firebase/firestore';
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -14,9 +12,9 @@ import {
   Button,
 } from 'react-native';
 import Config from '../utils/Config';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {AuthParamList} from '../Types/NavigationParams';
-import {useNavigation} from '@react-navigation/core';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { AuthParamList } from '../Types/NavigationParams';
+import { useNavigation } from '@react-navigation/core';
 interface Note {
   id: number;
   Input: string;
@@ -25,32 +23,34 @@ interface Note {
 const NotesScreen = () => {
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
-  const [Input, setInput] = useState('');
-  
-  const [InputItems, setInputItems] = useState<any[]>([]);
+  const [input, setInput] = useState('');
 
-  const handleAddTask = () => {
-    firebase.auth().currentUser;
+  const [inputItems, setInputItems] = useState<any[]>([]);
 
+  const notesCollection = firebase.firestore().collection('AddNote')
+  const user = firebase.auth().currentUser;
+
+  const handleAddTask = async () => {
+    if (!user)
+      return;
     const addNote = {
       id: new Date().getTime(),
-      Input,
+      note: input,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      userId: user.uid,
     };
-    firebase.firestore().collection('AddNote').add(addNote);
+    await notesCollection.add(addNote);
     setInput('');
     getdbNotes();
   };
 
   const getdbNotes = () => {
-    const db = firebase.firestore();
-
-    // eslint-disable-next-line no-shadow
+    if (!user)
+      return
     const InputItems: Note[] = [];
-    var user = firebase.auth().currentUser;
-    console.log('user=====>', user);
-    db.collection('AddNote')
+    notesCollection
       .orderBy('id', 'desc')
+      .where('userId', '==', user.uid)
       .get()
       .then(snapshot => {
         snapshot.docs.forEach(doc => {
@@ -65,6 +65,10 @@ const NotesScreen = () => {
       });
   };
 
+  useEffect(() => {
+    getdbNotes();
+  }, [])
+
   const onDeletePress = (id: any) => {
     const db = firebase.firestore();
     db.collection('AddNote')
@@ -78,7 +82,7 @@ const NotesScreen = () => {
   };
 
   const onItemClick = (item: any) => {
-    navigation.navigate('NoteDetailScreen', {note: item.Input});
+    navigation.navigate('NoteDetailScreen', { note: item.Input });
   };
 
   return (
@@ -92,7 +96,7 @@ const NotesScreen = () => {
         <View style={styles.tasksWrapper}>
           <Text style={styles.sectionTitle}>{Config.strings.add_note}</Text>
           <View style={styles.items}>
-            {InputItems.map((item, index) => {
+            {inputItems.map((item, index) => {
               console.log('item in notesscreen==', item);
               return (
                 <TouchableOpacity key={index} onPress={() => onItemClick(item)}>
@@ -116,7 +120,7 @@ const NotesScreen = () => {
         <TextInput
           style={styles.input}
           placeholder={'Please Enter Note'}
-          value={Input}
+          value={input}
           onChangeText={text => setInput(text)}
         />
         <TouchableOpacity onPress={() => handleAddTask()}>
