@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { firebase } from '@react-native-firebase/firestore';
+import React, {useEffect, useState} from 'react';
+import {firebase} from '@react-native-firebase/firestore';
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -12,12 +12,12 @@ import {
   Button,
 } from 'react-native';
 import Config from '../utils/Config';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { AuthParamList } from '../Types/NavigationParams';
-import { useNavigation } from '@react-navigation/core';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {AuthParamList} from '../Types/NavigationParams';
+import {useNavigation} from '@react-navigation/core';
 interface Note {
   id: number;
-  Input: string;
+  note: string;
 }
 
 const NotesScreen = () => {
@@ -27,12 +27,12 @@ const NotesScreen = () => {
 
   const [inputItems, setInputItems] = useState<any[]>([]);
 
-  const notesCollection = firebase.firestore().collection('AddNote')
+  const notesCollection = firebase.firestore().collection('AddNote');
   const user = firebase.auth().currentUser;
+  console.log('user ====', user);
 
   const handleAddTask = async () => {
-    if (!user)
-      return;
+    if (!user) return;
     const addNote = {
       id: new Date().getTime(),
       note: input,
@@ -44,30 +44,31 @@ const NotesScreen = () => {
     getdbNotes();
   };
 
-  const getdbNotes = () => {
-    if (!user)
-      return
-    const InputItems: Note[] = [];
-    notesCollection
-      .orderBy('id', 'desc')
+  const getdbNotes = async () => {
+    if (!user) return;
+    const inputItems: Note[] = [];
+    await notesCollection
+      .orderBy('userId', 'desc')
       .where('userId', '==', user.uid)
       .get()
       .then(snapshot => {
+        console.log('snapshot======', snapshot);
         snapshot.docs.forEach(doc => {
           console.log('doc in getData++++', doc);
-          if (doc.data().userID === user?.uid)
-            InputItems.push({
+          if (doc.data().userId === user?.uid)
+            inputItems.push({
               id: doc.data().id,
-              Input: doc.data().Input,
+              note: doc.data().note,
             });
-          setInputItems(InputItems);
+          setInputItems(inputItems);
+          console.log('inputItems========', inputItems);
         });
       });
   };
 
   useEffect(() => {
     getdbNotes();
-  }, [])
+  }, []);
 
   const onDeletePress = (id: any) => {
     const db = firebase.firestore();
@@ -82,7 +83,7 @@ const NotesScreen = () => {
   };
 
   const onItemClick = (item: any) => {
-    navigation.navigate('NoteDetailScreen', { note: item.Input });
+    navigation.navigate('NoteDetailScreen', {note: item.input});
   };
 
   return (
@@ -103,7 +104,7 @@ const NotesScreen = () => {
                   <View style={styles.item}>
                     <View style={styles.itemLeft}>
                       <View style={styles.square} />
-                      <Text style={styles.itemText}>{item.Input}</Text>
+                      <Text style={styles.itemText}>{item.note}</Text>
                     </View>
                     <Button title="X" color="crimson" onPress={onDeletePress} />
                   </View>
