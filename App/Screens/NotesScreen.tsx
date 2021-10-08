@@ -1,5 +1,6 @@
-// import {firebase} from '@react-native-firebase/auth';
-import React, {useEffect, useState} from 'react';
+/* eslint-disable curly */
+
+import React, {useState} from 'react';
 import {firebase} from '@react-native-firebase/firestore';
 import {
   KeyboardAvoidingView,
@@ -8,20 +9,24 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Keyboard,
   ScrollView,
   Platform,
-  FlatList,
+  Button,
 } from 'react-native';
 import Config from '../utils/Config';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {AuthParamList} from '../Types/NavigationParams';
+import {useNavigation} from '@react-navigation/core';
 interface Note {
   id: number;
   Input: string;
 }
 
 const NotesScreen = () => {
+  type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
+  const navigation = useNavigation<NavigationProp>();
   const [Input, setInput] = useState('');
-  // const [InputItems, setInputItems] = useState([]);
+  
   const [InputItems, setInputItems] = useState<any[]>([]);
 
   const handleAddTask = () => {
@@ -34,54 +39,47 @@ const NotesScreen = () => {
     };
     firebase.firestore().collection('AddNote').add(addNote);
     setInput('');
-    getAddedNotes();
+    getdbNotes();
   };
 
-  const getAddedNotes = () => {
+  const getdbNotes = () => {
     const db = firebase.firestore();
-    // const new_notes: {id: number; Input: string}[] = [];
-    // eslint-disable-next-line no-shadow
-    // const InputItems = [];
+
     // eslint-disable-next-line no-shadow
     const InputItems: Note[] = [];
     var user = firebase.auth().currentUser;
     console.log('user=====>', user);
-    const getData = db
-      .collection('AddNote')
+    db.collection('AddNote')
       .orderBy('id', 'desc')
       .get()
       .then(snapshot => {
         snapshot.docs.forEach(doc => {
-          InputItems.push({
-            id: doc.data().id,
-            Input: doc.data().Input,
-          });
+          console.log('doc in getData++++', doc);
+          if (doc.data().userID === user?.uid)
+            InputItems.push({
+              id: doc.data().id,
+              Input: doc.data().Input,
+            });
           setInputItems(InputItems);
         });
       });
-    console.log('getData======', getData);
   };
 
-  const renderItem = (item: any) => {
-    console.log('renderItem', item);
+  const onDeletePress = (id: any) => {
+    const db = firebase.firestore();
+    db.collection('AddNote')
+      .where('id', '==', id)
+      .get()
+      .then(querySnapshot => {
+        const documentId = querySnapshot.docs.map(doc => doc.id);
+        let res = db.collection('AddNote').doc(documentId.toString()).delete();
+        console.log('res+++++', res);
+      });
   };
-  <TouchableOpacity>
-    <View style={styles.item}>
-      <View style={styles.itemLeft}>
-        <View style={styles.square} />
-        <Text style={styles.itemText}>helloooo</Text>
-      </View>
-      <View style={styles.circular} />
-    </View>
-  </TouchableOpacity>;
-  // useEffect(() => {
-  //   console.log('InputItems ====', InputItems);
-  // }, [InputItems]);
-  // const completeTask = (index: number) => {
-  //   let itemsCopy = [...InputItems];
-  //   itemsCopy.splice(index, 1);
-  //   setInputItems(itemsCopy);
-  // };
+
+  const onItemClick = (item: any) => {
+    navigation.navigate('NoteDetailScreen', {note: item.Input});
+  };
 
   return (
     <View style={styles.container}>
@@ -94,24 +92,16 @@ const NotesScreen = () => {
         <View style={styles.tasksWrapper}>
           <Text style={styles.sectionTitle}>{Config.strings.add_note}</Text>
           <View style={styles.items}>
-            {/* <FlatList
-              data={InputItems}
-              renderItem={renderItem}
-              keyExtractor={item => item.id}
-            /> */}
             {InputItems.map((item, index) => {
               console.log('item in notesscreen==', item);
               return (
-                <TouchableOpacity
-                  key={index}
-                  // onPress={() => completeTask(index)}
-                >
+                <TouchableOpacity key={index} onPress={() => onItemClick(item)}>
                   <View style={styles.item}>
                     <View style={styles.itemLeft}>
                       <View style={styles.square} />
                       <Text style={styles.itemText}>{item.Input}</Text>
                     </View>
-                    <View style={styles.circular} />
+                    <Button title="X" color="crimson" onPress={onDeletePress} />
                   </View>
                 </TouchableOpacity>
               );
@@ -186,7 +176,7 @@ const styles = StyleSheet.create({
   addText: {},
 
   item: {
-    backgroundColor: '#FFF',
+    backgroundColor: 'pink',
     padding: 15,
     borderRadius: 10,
     flexDirection: 'row',
