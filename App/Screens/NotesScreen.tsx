@@ -29,7 +29,6 @@ const NotesScreen = () => {
 
   const notesCollection = firebase.firestore().collection('AddNote');
   const user = firebase.auth().currentUser;
-  console.log('user ====', user);
 
   const handleAddTask = async () => {
     if (!user) return;
@@ -44,24 +43,22 @@ const NotesScreen = () => {
     getdbNotes();
   };
 
-  const getdbNotes = async () => {
+  const getdbNotes = () => {
     if (!user) return;
     const inputItems: Note[] = [];
-    await notesCollection
+    notesCollection
       .orderBy('userId', 'desc')
       .where('userId', '==', user.uid)
       .get()
       .then(snapshot => {
-        console.log('snapshot======', snapshot);
         snapshot.docs.forEach(doc => {
           console.log('doc in getData++++', doc);
-          if (doc.data().userId === user?.uid)
+          if (doc.data().userId === user.uid)
             inputItems.push({
               id: doc.data().id,
               note: doc.data().note,
             });
           setInputItems(inputItems);
-          console.log('inputItems========', inputItems);
         });
       });
   };
@@ -83,7 +80,7 @@ const NotesScreen = () => {
   };
 
   const onItemClick = (item: any) => {
-    navigation.navigate('NoteDetailScreen', {note: item.input});
+    navigation.navigate('NoteDetailScreen', {note: item.note});
   };
 
   return (

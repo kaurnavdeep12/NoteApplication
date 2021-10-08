@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, {useRef, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,12 +8,12 @@ import {
   Alert,
 } from 'react-native';
 
-import { StackNavigationProp } from '@react-navigation/stack';
-import { AuthParamList } from '../Types/NavigationParams';
-import { useNavigation } from '@react-navigation/core';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {AuthParamList} from '../Types/NavigationParams';
+import {useNavigation} from '@react-navigation/core';
 import auth from '@react-native-firebase/auth';
 import Config from '../utils/Config';
-import { firebase } from '@react-native-firebase/firestore';
+import {firebase} from '@react-native-firebase/firestore';
 
 // import {firebase} from '@react-native-firebase/firestore';
 
@@ -40,19 +40,16 @@ const Register = () => {
         await auth()
           .createUserWithEmailAndPassword(email, password)
           .then(resp => {
-            firebase
-              .firestore()
-              .collection('users')
-              .add({
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                userId: resp.user.uid,
-              });
+            firebase.firestore().collection('users').add({
+              firstName: firstName,
+              lastName: lastName,
+              email: email,
+              userId: resp.user.uid,
+            });
           });
 
         navigation.navigate('HomeScreen');
-      } catch (err) {
+      } catch (err: any) {
         setError(err.message);
       }
     }
@@ -71,7 +68,7 @@ const Register = () => {
         onChangeText={e => setfirstName(e)}
         autoFocus={true}
         returnKeyType="next"
-      // onSubmitEditing={() => ref_input2.current.focus()}
+        // onSubmitEditing={() => ref_input2.current.focus()}
       />
 
       <TextInput
@@ -82,7 +79,7 @@ const Register = () => {
         onChangeText={e => setlastName(e)}
         autoFocus={true}
         returnKeyType="next"
-      // onSubmitEditing={() => ref_input2.current.focus()}
+        // onSubmitEditing={() => ref_input2.current.focus()}
       />
 
       <TextInput
@@ -98,8 +95,8 @@ const Register = () => {
         onChangeText={e => setEmail(e)}
         returnKeyType="next"
         blurOnSubmit={false}
-      // onSubmitEditing={() => ref_input3.current.focus()}
-      // ref={ref_input2}
+        // onSubmitEditing={() => ref_input3.current.focus()}
+        // ref={ref_input2}
       />
 
       <TextInput
@@ -110,7 +107,7 @@ const Register = () => {
         textContentType="password"
         value={password}
         onChangeText={e => setPassword(e)}
-      // ref={ref_input3}
+        // ref={ref_input3}
       />
 
       {error ? <Text style={styles.error_txt}>{error}</Text> : null}
