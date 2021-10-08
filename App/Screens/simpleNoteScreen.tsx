@@ -94,12 +94,12 @@ const NotesScreen = () => {
         <View style={styles.tasksWrapper}>
           <Text style={styles.sectionTitle}>{Config.strings.add_note}</Text>
           <View style={styles.items}>
-            {/* <FlatList
+            <FlatList
               data={InputItems}
               renderItem={renderItem}
               keyExtractor={item => item.id}
-            /> */}
-            {InputItems.map((item, index) => {
+            />
+            {/* {Object.keys(InputItems).map((item, index) => {
               console.log('item in notesscreen==', item);
               return (
                 <TouchableOpacity
@@ -109,13 +109,13 @@ const NotesScreen = () => {
                   <View style={styles.item}>
                     <View style={styles.itemLeft}>
                       <View style={styles.square} />
-                      <Text style={styles.itemText}>{item.Input}</Text>
+                      <Text style={styles.itemText}>{item}</Text>
                     </View>
                     <View style={styles.circular} />
                   </View>
                 </TouchableOpacity>
               );
-            })}
+            })} */}
           </View>
         </View>
       </ScrollView>
