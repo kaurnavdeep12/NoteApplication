@@ -29,13 +29,13 @@ const NotesScreen = () => {
   const navigation = useNavigation<NavigationProp>();
 
   const [input, setInput] = useState<string>('');
-  const [list, setList] = useState<Array<any>>([]);
+  const [inputItems, setInputItems] = useState<Array<any>>([]);
   const notesCollection = firebase.firestore().collection('AddNote');
   const user = firebase.auth().currentUser;
-  // console.log('user ======', user);
+  console.log('user ======', user);
 
   // handle Add button
-  const AddNote = async () => {
+  const handleAddbtn = async () => {
     if (!user) {
       return;
     }
@@ -48,24 +48,47 @@ const NotesScreen = () => {
     await notesCollection.add(addNote);
 
     setInput('');
+    getdbNotes();
   };
-  useEffect(() => {
-    getList();
-  }, []);
-
-  const getList = () => {
+  // get Notes from the Firebase
+  const getdbNotes = async () => {
+    if (!user) {
+      return;
+    }
     const Items: Note[] = [];
-    notesCollection
+    await notesCollection
       .orderBy('userId', 'asc')
+      .where('userId', '==', user.uid)
       .get()
       .then(snapshot => {
         snapshot.docs.forEach(doc => {
-          Items.push({
-            id: doc.data().id,
-            note: doc.data().note,
-          });
-          setList(Items);
+          if (doc.data().userId === user.uid)
+            Items.push({
+              id: doc.data().id,
+              note: doc.data().note,
+            });
+          setInputItems(Items);
         });
+      });
+  };
+
+  const check = () => {
+    console.log('check function======', inputItems);
+  };
+
+  useEffect(() => {
+    check();
+    getdbNotes();
+  }, []);
+
+  const onDeletePress = (id: any) => {
+    console.log('id in delete item', id);
+    notesCollection
+      .where('userId', '==', id)
+      .get()
+      .then(querySnapshot => {
+        const documentId = querySnapshot.docs.map(doc => doc.id);
+        notesCollection.doc(documentId.toString()).delete();
       });
   };
 
@@ -85,7 +108,7 @@ const NotesScreen = () => {
         <View style={styles.tasksWrapper}>
           <Text style={styles.sectionTitle}>{Config.strings.add_note}</Text>
           <View style={styles.items}>
-            {list.map((item, index) => {
+            {inputItems.map((item, index) => {
               console.log('item in notesscreen==', item);
               return (
                 <TouchableOpacity key={index} onPress={() => onItemClick(item)}>
@@ -94,11 +117,13 @@ const NotesScreen = () => {
                       <View style={styles.square} />
                       <Text style={styles.itemText}>{item.note}</Text>
                     </View>
-                    {/* <Button
+                    <Button
                       title="X"
                       color="crimson"
-                      onPress={() => {onDeletePress(item.id);}}
-                    /> */}
+                      onPress={() => {
+                        onDeletePress(item.id);
+                      }}
+                    />
                   </View>
                 </TouchableOpacity>
               );
@@ -116,7 +141,7 @@ const NotesScreen = () => {
           value={input}
           onChangeText={text => setInput(text)}
         />
-        <TouchableOpacity onPress={() => AddNote()}>
+        <TouchableOpacity onPress={() => handleAddbtn()}>
           <View style={styles.addWrapper}>
             <Text style={styles.addText}>+</Text>
           </View>

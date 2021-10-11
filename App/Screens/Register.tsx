@@ -28,10 +28,14 @@ const Register = () => {
 
   // handle Signup
   const handleRegister = async () => {
-    if (email === '') {
-      Alert.alert('please enter valid email');
-    } else if (password === '') {
-      Alert.alert('please enter password');
+    if (firstName.trim() === '') {
+      Alert.alert('please enter your firsName');
+    } else if (lastName.trim() === '') {
+      Alert.alert('please enter your lastName');
+    } else if (email.trim() === '') {
+      Alert.alert('please enter your email');
+    } else if (password.trim() === '') {
+      Alert.alert('please enter your password');
     } else {
       try {
         await auth()
