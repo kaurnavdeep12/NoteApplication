@@ -20,16 +20,13 @@ import {firebase} from '@react-native-firebase/firestore';
 const Register = () => {
   const [firstName, setfirstName] = useState('');
   const [lastName, setlastName] = useState('');
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  // const ref_input2 = useRef();
-  // const ref_input3 = useRef();
-
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
 
+  // handle Signup
   const handleRegister = async () => {
     if (email === '') {
       Alert.alert('please enter valid email');
@@ -48,7 +45,7 @@ const Register = () => {
             });
           });
 
-        navigation.navigate('HomeScreen');
+        navigation.navigate('NotesScreen');
       } catch (err: any) {
         setError(err.message);
       }
@@ -67,8 +64,6 @@ const Register = () => {
         value={firstName}
         onChangeText={e => setfirstName(e)}
         autoFocus={true}
-        returnKeyType="next"
-        // onSubmitEditing={() => ref_input2.current.focus()}
       />
 
       <TextInput
@@ -78,8 +73,6 @@ const Register = () => {
         value={lastName}
         onChangeText={e => setlastName(e)}
         autoFocus={true}
-        returnKeyType="next"
-        // onSubmitEditing={() => ref_input2.current.focus()}
       />
 
       <TextInput
@@ -95,8 +88,6 @@ const Register = () => {
         onChangeText={e => setEmail(e)}
         returnKeyType="next"
         blurOnSubmit={false}
-        // onSubmitEditing={() => ref_input3.current.focus()}
-        // ref={ref_input2}
       />
 
       <TextInput
@@ -107,7 +98,6 @@ const Register = () => {
         textContentType="password"
         value={password}
         onChangeText={e => setPassword(e)}
-        // ref={ref_input3}
       />
 
       {error ? <Text style={styles.error_txt}>{error}</Text> : null}
@@ -122,6 +112,7 @@ const Register = () => {
 };
 
 export default Register;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
