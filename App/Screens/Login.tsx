@@ -1,5 +1,4 @@
-/* eslint-disable react-native/no-inline-styles */
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,9 +7,9 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { AuthParamList } from '../Types/NavigationParams';
-import { useNavigation } from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {AuthParamList} from '../Types/NavigationParams';
+import {useNavigation} from '@react-navigation/native';
 import Config from '../utils/Config';
 import auth from '@react-native-firebase/auth';
 
@@ -18,10 +17,10 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
 
+  // handle Login
   const handleLogin = async () => {
     if (email == '') {
       Alert.alert('please enter valid email');
@@ -88,7 +87,7 @@ const Login = () => {
       <View style={styles.signUpTextView}>
         <Text style={styles.signUpText}>{Config.strings.dont_account}</Text>
         <TouchableOpacity onPress={goRegister}>
-          <Text style={[styles.signUpText, { color: '#B53471' }]}>
+          <Text style={[styles.signUpText, {color: '#B53471'}]}>
             {' Register'}
           </Text>
         </TouchableOpacity>

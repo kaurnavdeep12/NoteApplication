@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,15 +7,12 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
 import {useNavigation} from '@react-navigation/core';
 import auth from '@react-native-firebase/auth';
 import Config from '../utils/Config';
 import {firebase} from '@react-native-firebase/firestore';
-
-// import {firebase} from '@react-native-firebase/firestore';
 
 const Register = () => {
   const [firstName, setfirstName] = useState('');
@@ -48,7 +45,6 @@ const Register = () => {
               userId: resp.user.uid,
             });
           });
-
         navigation.navigate('NotesScreen');
       } catch (err: any) {
         setError(err.message);
@@ -64,19 +60,21 @@ const Register = () => {
       <TextInput
         placeholder="First Name"
         placeholderTextColor="#808e9b"
+        autoCapitalize="none"
+        autoCompleteType="email"
         style={styles.input}
         value={firstName}
         onChangeText={e => setfirstName(e)}
-        autoFocus={true}
       />
 
       <TextInput
         placeholder="Last Name"
         placeholderTextColor="#808e9b"
+        autoCapitalize="none"
+        autoCompleteType="email"
         style={styles.input}
         value={lastName}
         onChangeText={e => setlastName(e)}
-        autoFocus={true}
       />
 
       <TextInput
@@ -90,8 +88,6 @@ const Register = () => {
         textContentType="emailAddress"
         value={email}
         onChangeText={e => setEmail(e)}
-        returnKeyType="next"
-        blurOnSubmit={false}
       />
 
       <TextInput

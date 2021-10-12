@@ -1,8 +1,6 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable curly */
-/* eslint-disable no-shadow */
 import React, {useEffect, useState} from 'react';
 import {firebase} from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -12,11 +10,16 @@ import {
   TouchableOpacity,
   ScrollView,
   Platform,
+  Button,
+  ActivityIndicator,
+  Image,
 } from 'react-native';
 import Config from '../utils/Config';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
 import {useNavigation} from '@react-navigation/core';
+import {useIsFocused} from '@react-navigation/native';
+import {images} from '../utils';
 
 interface Note {
   id: number;
@@ -24,18 +27,19 @@ interface Note {
 }
 
 const NotesScreen = () => {
-  type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
-  const navigation = useNavigation<NavigationProp>();
-
+  const isFocused = useIsFocused();
+  const [isloading, setisLoading] = useState(true);
   const [input, setInput] = useState<any>('');
   const [list, setList] = useState<Array<any>>([]);
   const notesCollection = firebase.firestore().collection('AddNote');
   const db = firebase.firestore();
+  // For Navigation
+  type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
+  const navigation = useNavigation<NavigationProp>();
+  // For get Current User
   const user = firebase.auth().currentUser;
-  console.log('user ======', user);
-
-  // handle Add button
-  const AddNote = () => {
+  // Store/Add  Note In FireStore Database
+  const AddNoteFirestore = () => {
     if (!user) {
       return;
     }
@@ -47,14 +51,18 @@ const NotesScreen = () => {
     };
 
     notesCollection.add(addNote);
-
     setInput('');
     getList();
   };
-  useEffect(() => {
-    getList();
-  }, []);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setisLoading(false);
+    }, 3000);
+    getList();
+  }, [isFocused]);
+
+  //get Note List from Firestore when user render on screen
   const getList = () => {
     if (!user) {
       return;
@@ -62,14 +70,10 @@ const NotesScreen = () => {
     const Items: Note[] = [];
     db.collection('AddNote')
       .orderBy('userId', 'desc')
-
-      // .where('userId', '!=', user.uid)
-
       .get()
       .then(snapshot => {
         snapshot.docs.forEach(doc => {
-          console.log('doc =====+++++', doc.data());
-          if (doc.data().userId === user.uid)
+          if (doc.data().userId == user.uid)
             Items.push({
               id: doc.data().id,
               note: doc.data().note,
@@ -79,43 +83,69 @@ const NotesScreen = () => {
       });
   };
 
-  // navigate to next screen on the note Click
+  // navigate to next screen on the noteItem Click
   const onItemClick = (item: any) => {
     navigation.navigate('NoteDetailScreen', {note: item.note});
   };
 
+  // NoteItem Delete when user will press on Delete Icon
+  const onDeletePress = (id: number) => {
+    const del_Item = notesCollection.where('id', '==', id);
+    del_Item.get().then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        doc.ref.delete();
+      });
+      getList();
+    });
+  };
+
+  // User Logout from the App when User will Press the Logout Icon from top of the Screen
+  const handleLogout = async () => {
+    await auth().signOut();
+    navigation.navigate('Login');
+  };
+
   return (
     <View style={styles.container}>
-      <ScrollView
-        // eslint-disable-next-line react-native/no-inline-styles
-        contentContainerStyle={{
-          flexGrow: 1,
-        }}
-        keyboardShouldPersistTaps="handled">
-        <View style={styles.tasksWrapper}>
-          <Text style={styles.sectionTitle}>{Config.strings.add_note}</Text>
-          <View style={styles.items}>
-            {list.map((item, index) => {
-              console.log('item in notesscreen==', item);
-              return (
-                <TouchableOpacity key={index} onPress={() => onItemClick(item)}>
-                  <View style={styles.item}>
-                    <View style={styles.itemLeft}>
-                      <View style={styles.square} />
-                      <Text style={styles.itemText}>{item.note}</Text>
+      {isloading ? (
+        <ActivityIndicator size="large" color="red" />
+      ) : (
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+          }}
+          keyboardShouldPersistTaps="handled">
+          <TouchableOpacity onPress={handleLogout}>
+            <Image source={images.logout} style={styles.img_logout} />
+          </TouchableOpacity>
+          <View style={styles.tasksWrapper}>
+            <Text style={styles.sectionTitle}>{Config.strings.add_note}</Text>
+            <View style={styles.items}>
+              {list.map((item, index) => {
+                return (
+                  <TouchableOpacity
+                    key={index}
+                    onPress={() => onItemClick(item)}>
+                    <View style={styles.item}>
+                      <View style={styles.itemLeft}>
+                        <View style={styles.square} />
+                        <Text style={styles.itemText}>{item.note}</Text>
+                      </View>
+                      <Button
+                        title="X"
+                        color="crimson"
+                        onPress={() => {
+                          onDeletePress(item.id);
+                        }}
+                      />
                     </View>
-                    {/* <Button
-                      title="X"
-                      color="crimson"
-                      onPress={() => {onDeletePress(item.id);}}
-                    /> */}
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      )}
 
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -126,7 +156,7 @@ const NotesScreen = () => {
           value={input}
           onChangeText={text => setInput(text)}
         />
-        <TouchableOpacity onPress={() => AddNote()}>
+        <TouchableOpacity onPress={() => AddNoteFirestore()}>
           <View style={styles.addWrapper}>
             <Text style={styles.addText}>+</Text>
           </View>
@@ -141,7 +171,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#E8EAED',
+    justifyContent: 'center',
   },
+  img_logout: {height: 40, width: 50, alignSelf: 'flex-end'},
   tasksWrapper: {
     paddingTop: 80,
     paddingHorizontal: 20,
