@@ -12,7 +12,6 @@ import {
   TouchableOpacity,
   ScrollView,
   Platform,
-  Button,
 } from 'react-native';
 import Config from '../utils/Config';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -31,8 +30,9 @@ const NotesScreen = () => {
   const [input, setInput] = useState<any>('');
   const [list, setList] = useState<Array<any>>([]);
   const notesCollection = firebase.firestore().collection('AddNote');
+  const db = firebase.firestore();
   const user = firebase.auth().currentUser;
-  // console.log('user ======', user);
+  console.log('user ======', user);
 
   // handle Add button
   const AddNote = () => {
@@ -45,6 +45,7 @@ const NotesScreen = () => {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       userId: user.uid,
     };
+
     notesCollection.add(addNote);
 
     setInput('');
@@ -59,19 +60,20 @@ const NotesScreen = () => {
       return;
     }
     const Items: Note[] = [];
-    notesCollection
+    db.collection('AddNote')
       .orderBy('userId', 'desc')
-      .where('userId', '==', user.uid)
+
+      // .where('userId', '!=', user.uid)
+
       .get()
       .then(snapshot => {
         snapshot.docs.forEach(doc => {
+          console.log('doc =====+++++', doc.data());
           if (doc.data().userId === user.uid)
             Items.push({
               id: doc.data().id,
               note: doc.data().note,
             });
-
-          // setList(Items);
         });
         setList(Items);
       });
