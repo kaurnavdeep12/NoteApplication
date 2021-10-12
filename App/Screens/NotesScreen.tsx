@@ -28,14 +28,14 @@ const NotesScreen = () => {
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
 
-  const [input, setInput] = useState<string>('');
+  const [input, setInput] = useState<any>('');
   const [list, setList] = useState<Array<any>>([]);
   const notesCollection = firebase.firestore().collection('AddNote');
   const user = firebase.auth().currentUser;
   // console.log('user ======', user);
 
   // handle Add button
-  const AddNote = async () => {
+  const AddNote = () => {
     if (!user) {
       return;
     }
@@ -45,27 +45,35 @@ const NotesScreen = () => {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       userId: user.uid,
     };
-    await notesCollection.add(addNote);
+    notesCollection.add(addNote);
 
     setInput('');
+    getList();
   };
   useEffect(() => {
     getList();
   }, []);
 
   const getList = () => {
+    if (!user) {
+      return;
+    }
     const Items: Note[] = [];
     notesCollection
-      .orderBy('userId', 'asc')
+      .orderBy('userId', 'desc')
+      .where('userId', '==', user.uid)
       .get()
       .then(snapshot => {
         snapshot.docs.forEach(doc => {
-          Items.push({
-            id: doc.data().id,
-            note: doc.data().note,
-          });
-          setList(Items);
+          if (doc.data().userId === user.uid)
+            Items.push({
+              id: doc.data().id,
+              note: doc.data().note,
+            });
+
+          // setList(Items);
         });
+        setList(Items);
       });
   };
 
