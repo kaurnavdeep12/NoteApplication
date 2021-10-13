@@ -61,6 +61,8 @@ const styles = StyleSheet.create({
   view_one: {backgroundColor: '#fff', height: 35},
   view_one_txt: {
     fontSize: 25,
+    fontWeight: 'bold',
+    fontFamily: Config.fonts.SECONDARY_BOLD,
     backgroundColor: 'black',
     textAlign: 'center',
     color: 'white',
@@ -73,6 +75,7 @@ const styles = StyleSheet.create({
   view_two_txt: {
     color: 'purple',
     fontWeight: 'bold',
+    fontFamily: Config.fonts.SECONDARY_BOLD,
     textAlign: 'center',
     alignSelf: 'center',
     paddingTop: 10,

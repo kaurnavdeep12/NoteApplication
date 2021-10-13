@@ -179,8 +179,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   sectionTitle: {
-    fontSize: 24,
+    fontSize: 25,
     fontWeight: 'bold',
+    fontFamily: Config.fonts.SECONDARY_BOLD,
   },
   items: {
     marginTop: 30,
@@ -199,7 +200,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     borderRadius: 60,
     borderColor: '#C0C0C0',
-    borderWidth: 1,
+    borderWidth: 3,
     width: 250,
   },
   addWrapper: {
@@ -210,9 +211,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: '#C0C0C0',
-    borderWidth: 1,
+    borderWidth: 3,
   },
-  addText: {},
+  addText: {fontSize: 20},
 
   item: {
     backgroundColor: 'pink',
@@ -222,6 +223,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 20,
+    borderWidth: 2,
   },
   itemLeft: {
     flexDirection: 'row',
@@ -238,6 +240,8 @@ const styles = StyleSheet.create({
   },
   itemText: {
     maxWidth: '80%',
+    fontWeight: 'bold',
+    fontFamily: Config.fonts.SECONDARY_BOLD,
   },
   circular: {
     width: 12,

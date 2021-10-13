@@ -107,7 +107,8 @@ const styles = StyleSheet.create({
 
   welcomeText: {
     fontSize: 30,
-    fontWeight: '900',
+    fontWeight: 'bold',
+    fontFamily: Config.fonts.SECONDARY_BOLD,
     color: '#fff',
     alignSelf: 'center',
   },
@@ -115,6 +116,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 28,
     fontWeight: 'bold',
+    fontFamily: Config.fonts.SECONDARY_BOLD,
     marginTop: 20,
     marginBottom: 10,
   },
@@ -132,7 +134,8 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     color: '#B33771',
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: 'bold',
+    fontFamily: Config.fonts.SECONDARY_BOLD,
     marginTop: 10,
   },
   loginButton: {
@@ -143,7 +146,8 @@ const styles = StyleSheet.create({
   },
   loginButtonText: {
     fontSize: 20,
-    fontWeight: '500',
+    fontWeight: 'bold',
+    fontFamily: Config.fonts.SECONDARY_BOLD,
     color: '#fafafa',
     alignSelf: 'center',
   },
@@ -168,7 +172,8 @@ const styles = StyleSheet.create({
   signUpText: {
     color: '#808e9b',
     fontSize: 20,
-    fontWeight: '500',
+    fontWeight: 'bold',
+    fontFamily: Config.fonts.SECONDARY_BOLD,
   },
   error_txt: {
     color: 'red',

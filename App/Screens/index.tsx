@@ -6,4 +6,11 @@ import {
   Register,
   Congratulations,
 } from './NotesScreen';
-export {NotesScreen, Splash, NoteDetailScreen, Register, Congratulations};
+export {
+  NotesScreen,
+  Splash,
+  NoteDetailScreen,
+  Register,
+  Congratulations,
+  Login,
+};
