@@ -22,9 +22,9 @@ const Login = () => {
 
   // handle Login
   const handleLogin = async () => {
-    if (email == '') {
+    if (email === '') {
       Alert.alert('please enter valid email');
-    } else if (password == '') {
+    } else if (password === '') {
       Alert.alert('please enter password');
     } else {
       try {
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   welcomeText: {
     fontSize: 30,
     fontWeight: 'bold',
-    fontFamily: Config.fonts.SECONDARY_BOLD,
+    fontFamily: Config.fonts.NOTOSERIF,
     color: '#fff',
     alignSelf: 'center',
   },
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 28,
     fontWeight: 'bold',
-    fontFamily: Config.fonts.SECONDARY_BOLD,
+    fontFamily: Config.fonts.NOTOSERIF,
     marginTop: 20,
     marginBottom: 10,
   },
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     color: '#B33771',
     fontSize: 18,
     fontWeight: 'bold',
-    fontFamily: Config.fonts.SECONDARY_BOLD,
+    fontFamily: Config.fonts.NOTOSERIF,
     marginTop: 10,
   },
   loginButton: {
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   loginButtonText: {
     fontSize: 20,
     fontWeight: 'bold',
-    fontFamily: Config.fonts.SECONDARY_BOLD,
+    fontFamily: Config.fonts.NOTOSERIF,
     color: '#fafafa',
     alignSelf: 'center',
   },
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     color: '#808e9b',
     fontSize: 20,
     fontWeight: 'bold',
-    fontFamily: Config.fonts.SECONDARY_BOLD,
+    fontFamily: Config.fonts.NOTOSERIF,
   },
   error_txt: {
     color: 'red',

@@ -5,6 +5,7 @@ import {
   Login,
   Register,
   Congratulations,
+  SvgImage,
 } from './NotesScreen';
 export {
   NotesScreen,
@@ -13,4 +14,5 @@ export {
   Register,
   Congratulations,
   Login,
+  SvgImage,
 };

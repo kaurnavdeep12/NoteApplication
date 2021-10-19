@@ -1,7 +1,7 @@
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
-import {StyleSheet, Text, View, Button} from 'react-native';
+import {StyleSheet, Text, View, Button, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Config from '../utils/Config';
 import {AuthParamList} from '../Types/NavigationParams';
@@ -16,15 +16,21 @@ const NoteDetailScreen = () => {
     navigation.goBack();
   };
 
+  const nextscr = () => {
+    navigation.navigate('SvgImage');
+  };
+
   return (
     <LinearGradient
       colors={['grey', 'white']}
       style={styles.container}
       start={{x: 0, y: 0}}
       end={{x: 1, y: 1}}>
-      <View style={styles.view_one}>
-        <Text style={styles.view_one_txt}>{Config.strings.scr_heading}</Text>
-      </View>
+      <TouchableOpacity onPress={nextscr}>
+        <View style={styles.view_one}>
+          <Text style={styles.view_one_txt}>{Config.strings.scr_heading}</Text>
+        </View>
+      </TouchableOpacity>
       <View style={styles.container1}>
         <LinearGradient
           colors={['black', '#fff']}
@@ -62,7 +68,7 @@ const styles = StyleSheet.create({
   view_one_txt: {
     fontSize: 25,
     fontWeight: 'bold',
-    fontFamily: Config.fonts.SECONDARY_BOLD,
+    fontFamily: Config.fonts.NOTOSERIF,
     backgroundColor: 'black',
     textAlign: 'center',
     color: 'white',
@@ -75,7 +81,7 @@ const styles = StyleSheet.create({
   view_two_txt: {
     color: 'purple',
     fontWeight: 'bold',
-    fontFamily: Config.fonts.SECONDARY_BOLD,
+    fontFamily: Config.fonts.NOTOSERIF,
     textAlign: 'center',
     alignSelf: 'center',
     paddingTop: 10,

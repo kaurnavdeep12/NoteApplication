@@ -8,6 +8,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Login from '../Screens/Login';
 import Register from '../Screens/Register';
 import Splash from '../Screens/Splash';
+import SvgImage from '../Screens/SvgImage';
 
 // add stack navigator
 export default function AppNavigator() {
@@ -20,6 +21,7 @@ export default function AppNavigator() {
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="NotesScreen" component={NotesScreen} />
       <Stack.Screen name="NoteDetailScreen" component={NoteDetailScreen} />
+      <Stack.Screen name="SvgImage" component={SvgImage} />
     </Stack.Navigator>
   );
 }

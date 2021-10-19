@@ -73,11 +73,12 @@ const NotesScreen = () => {
       .get()
       .then(snapshot => {
         snapshot.docs.forEach(doc => {
-          if (doc.data().userId == user.uid)
+          if (doc.data().userId === user.uid) {
             Items.push({
               id: doc.data().id,
               note: doc.data().note,
             });
+          }
         });
         setList(Items);
       });
@@ -111,9 +112,7 @@ const NotesScreen = () => {
         <ActivityIndicator size="large" color="red" />
       ) : (
         <ScrollView
-          contentContainerStyle={{
-            flexGrow: 1,
-          }}
+          contentContainerStyle={styles.scroll}
           keyboardShouldPersistTaps="handled">
           <TouchableOpacity onPress={handleLogout}>
             <Image source={images.logout} style={styles.img_logout} />
@@ -181,7 +180,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 25,
     fontWeight: 'bold',
-    fontFamily: Config.fonts.SECONDARY_BOLD,
+    fontFamily: Config.fonts.NOTOSERIF,
   },
   items: {
     marginTop: 30,
@@ -241,7 +240,7 @@ const styles = StyleSheet.create({
   itemText: {
     maxWidth: '80%',
     fontWeight: 'bold',
-    fontFamily: Config.fonts.SECONDARY_BOLD,
+    fontFamily: Config.fonts.NOTOSERIF,
   },
   circular: {
     width: 12,
@@ -249,5 +248,8 @@ const styles = StyleSheet.create({
     borderColor: '#55BCF6',
     borderWidth: 2,
     borderRadius: 5,
+  },
+  scroll: {
+    flexGrow: 1,
   },
 });

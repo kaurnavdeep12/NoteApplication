@@ -20,15 +20,7 @@ export default {
     note_title: 'Note App',
   },
   fonts: {
-    ROBOTO_BLACK: 'Roboto-Black',
+    NOTOSERIF: 'NotoSerif-Bold',
     ROBOTO_LIGHT: 'Roboto-Light',
-    ROBOTO_BOLD: 'Roboto-Bold',
-    Oswald: 'Oswald-VariableFont_wght',
-    PRIMARY_BOLD: 'NunitoSans-Bold',
-    PRIMARY_REGULAR: 'NunitoSans-Regular',
-    PRIMARY_SEMIBOLD: 'NunitoSans-SemiBold',
-    PRIMARY_ITALIC: 'NunitoSans-Italic',
-    PRIMARY_LIGHT: 'NunitoSans-Light',
-    SECONDARY_BOLD: 'MontSerrat-Bold',
   },
 };
