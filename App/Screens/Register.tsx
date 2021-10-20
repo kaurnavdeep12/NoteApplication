@@ -45,6 +45,7 @@ const Register = () => {
               userId: resp.user.uid,
             });
           });
+
         navigation.navigate('NotesScreen');
       } catch (err: any) {
         setError(err.message);

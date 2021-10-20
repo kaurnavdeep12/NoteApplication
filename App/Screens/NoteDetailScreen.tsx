@@ -1,7 +1,14 @@
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
-import {StyleSheet, Text, View, Button, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Config from '../utils/Config';
 import {AuthParamList} from '../Types/NavigationParams';
@@ -13,7 +20,7 @@ const NoteDetailScreen = () => {
   const route = useRoute<RouteProp<AuthParamList, 'NoteDetailScreen'>>();
 
   const handleback = () => {
-    navigation.goBack();
+    navigation.navigate('NotesScreen');
   };
 
   const nextscr = () => {
@@ -39,7 +46,11 @@ const NoteDetailScreen = () => {
             <Text style={styles.view_two_txt}>{route.params.note}</Text>
           </View>
         </LinearGradient>
-        <Button title="Back" color="crimson" onPress={handleback} />
+        <Pressable style={styles.button}>
+          <Text style={{color: 'pink', fontSize: 20, fontWeight: 'bold'}}>
+            hello
+          </Text>
+        </Pressable>
       </View>
     </LinearGradient>
   );
@@ -49,6 +60,18 @@ export default NoteDetailScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: 'black',
+    margin: 20,
+    height: 50,
+    width: 150,
   },
   container1: {
     flex: 1,

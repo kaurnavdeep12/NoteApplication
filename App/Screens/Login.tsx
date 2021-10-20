@@ -33,7 +33,11 @@ const Login = () => {
           password,
         );
         console.log('response of Login Screen', response);
-        navigation.navigate('NotesScreen');
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'NotesScreen'}],
+        });
+
         setEmail('');
         setPassword('');
         setError('');
@@ -44,7 +48,10 @@ const Login = () => {
   };
 
   const goRegister = () => {
-    navigation.navigate('Register');
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'Register'}],
+    });
   };
 
   return (

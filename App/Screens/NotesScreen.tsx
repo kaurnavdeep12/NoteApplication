@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import {firebase} from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -13,6 +14,7 @@ import {
   Button,
   ActivityIndicator,
   Image,
+  Alert,
 } from 'react-native';
 import Config from '../utils/Config';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -33,12 +35,12 @@ const NotesScreen = () => {
   const [list, setList] = useState<Array<any>>([]);
   const notesCollection = firebase.firestore().collection('AddNote');
   const db = firebase.firestore();
-  // For Navigation
+
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
-  // For get Current User
+
   const user = firebase.auth().currentUser;
-  // Store/Add  Note In FireStore Database
+
   const AddNoteFirestore = () => {
     if (!user) {
       return;
@@ -62,7 +64,6 @@ const NotesScreen = () => {
     getList();
   }, [isFocused]);
 
-  //get Note List from Firestore when user render on screen
   const getList = () => {
     if (!user) {
       return;
@@ -84,12 +85,10 @@ const NotesScreen = () => {
       });
   };
 
-  // navigate to next screen on the noteItem Click
   const onItemClick = (item: any) => {
     navigation.navigate('NoteDetailScreen', {note: item.note});
   };
 
-  // NoteItem Delete when user will press on Delete Icon
   const onDeletePress = (id: number) => {
     const del_Item = notesCollection.where('id', '==', id);
     del_Item.get().then(function (querySnapshot) {
@@ -100,10 +99,26 @@ const NotesScreen = () => {
     });
   };
 
-  // User Logout from the App when User will Press the Logout Icon from top of the Screen
   const handleLogout = async () => {
     await auth().signOut();
     navigation.navigate('Login');
+  };
+
+  const pressLogout = async () => {
+    Alert.alert(
+      'Logout',
+      'Do you really want to Logout?',
+      [
+        {text: 'Cancel', style: 'cancel'},
+        {
+          text: 'OK',
+          onPress: () => {
+            handleLogout();
+          },
+        },
+      ],
+      {cancelable: false},
+    );
   };
 
   return (
@@ -114,7 +129,7 @@ const NotesScreen = () => {
         <ScrollView
           contentContainerStyle={styles.scroll}
           keyboardShouldPersistTaps="handled">
-          <TouchableOpacity onPress={handleLogout}>
+          <TouchableOpacity onPress={pressLogout}>
             <Image source={images.logout} style={styles.img_logout} />
           </TouchableOpacity>
           <View style={styles.tasksWrapper}>
@@ -169,13 +184,15 @@ export default NotesScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E8EAED',
+    // backgroundColor: '#E8EAED',
     justifyContent: 'center',
+    backgroundColor: 'white',
   },
   img_logout: {height: 40, width: 50, alignSelf: 'flex-end'},
   tasksWrapper: {
-    paddingTop: 80,
+    paddingTop: 20,
     paddingHorizontal: 20,
+    backgroundColor: 'grey',
   },
   sectionTitle: {
     fontSize: 25,
@@ -215,7 +232,7 @@ const styles = StyleSheet.create({
   addText: {fontSize: 20},
 
   item: {
-    backgroundColor: 'pink',
+    backgroundColor: 'white',
     padding: 15,
     borderRadius: 10,
     flexDirection: 'row',
