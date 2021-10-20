@@ -23,7 +23,6 @@ const Register = () => {
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
 
-  // handle Signup
   const handleRegister = async () => {
     if (firstName.trim() === '') {
       Alert.alert('please enter your firsName');
@@ -45,8 +44,12 @@ const Register = () => {
               userId: resp.user.uid,
             });
           });
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'NotesScreen'}],
+        });
 
-        navigation.navigate('NotesScreen');
+        // navigation.navigate('NotesScreen');
       } catch (err: any) {
         setError(err.message);
       }

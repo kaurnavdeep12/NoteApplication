@@ -106,7 +106,7 @@ const NotesScreen = () => {
 
   const pressLogout = async () => {
     Alert.alert(
-      'Logout',
+      'NoteApp',
       'Do you really want to Logout?',
       [
         {text: 'Cancel', style: 'cancel'},
@@ -184,7 +184,7 @@ export default NotesScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#E8EAED',
+
     justifyContent: 'center',
     backgroundColor: 'white',
   },

@@ -18,6 +18,7 @@ export default {
     success_login: 'You have successfully Login!!',
     register: 'Register',
     note_title: 'Note App',
+    back: 'Back',
   },
   fonts: {
     NOTOSERIF: 'NotoSerif-Bold',

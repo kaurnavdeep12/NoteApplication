@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
   TouchableOpacity,
   Pressable,
 } from 'react-native';
@@ -14,7 +13,6 @@ import Config from '../utils/Config';
 import {AuthParamList} from '../Types/NavigationParams';
 
 const NoteDetailScreen = () => {
-  // For Navigation
   type NavigationProp = StackNavigationProp<AuthParamList, 'NoteDetailScreen'>;
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<RouteProp<AuthParamList, 'NoteDetailScreen'>>();
@@ -46,10 +44,8 @@ const NoteDetailScreen = () => {
             <Text style={styles.view_two_txt}>{route.params.note}</Text>
           </View>
         </LinearGradient>
-        <Pressable style={styles.button}>
-          <Text style={{color: 'pink', fontSize: 20, fontWeight: 'bold'}}>
-            hello
-          </Text>
+        <Pressable onPress={handleback} style={styles.button}>
+          <Text style={styles.back_txt}>{Config.strings.back}</Text>
         </Pressable>
       </View>
     </LinearGradient>
@@ -121,6 +117,11 @@ const styles = StyleSheet.create({
   gradient_goback_txt: {
     textAlign: 'center',
     paddingTop: 15,
+    fontWeight: 'bold',
+  },
+  back_txt: {
+    color: 'pink',
+    fontSize: 20,
     fontWeight: 'bold',
   },
 });
