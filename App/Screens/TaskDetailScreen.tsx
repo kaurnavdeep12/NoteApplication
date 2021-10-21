@@ -1,13 +1,30 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, StyleSheet, View, Text} from 'react-native';
+// import DragonSvg from './App/assets/dragon.svg';
+// import {SvgUri} from 'react-native-svg';
 import Plus from '../assets/svg/plus.svg';
+import {TextComponent, EditTextComponent} from '../components';
+import {FloatingAction} from 'react-native-floating-action';
 
 const TaskDetailScreen = () => {
+  const actions = [
+    {
+      text: 'Accessibility',
+      icon: require('../assets/notepad.png'),
+      name: 'Add Notes',
+      position: 2,
+    },
+  ];
   return (
     <SafeAreaView>
       <View style={styles.body}>
-        <Plus width={120} height={100} />
-        <Text>Welcome</Text>
+        <Text>Floating Action example</Text>
+        <FloatingAction
+          actions={actions}
+          onPressItem={name => {
+            console.log(`selected button: ${name}`);
+          }}
+        />
       </View>
     </SafeAreaView>
   );
