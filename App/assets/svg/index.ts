@@ -1,1 +1,1 @@
-export {default as plus} from './plus.svg';
+export {default as Plus} from './plus.svg';

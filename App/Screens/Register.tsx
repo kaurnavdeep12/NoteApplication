@@ -48,8 +48,6 @@ const Register = () => {
           index: 0,
           routes: [{name: 'NotesScreen'}],
         });
-
-        // navigation.navigate('NotesScreen');
       } catch (err: any) {
         setError(err.message);
       }

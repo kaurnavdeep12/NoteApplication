@@ -5,5 +5,5 @@ export type AuthParamList = {
   Task: {text: string};
   Login: undefined;
   Register: undefined;
-  SvgImage: undefined;
+  TaskDetailScreen: undefined;
 };

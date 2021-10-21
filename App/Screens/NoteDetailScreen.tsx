@@ -22,7 +22,7 @@ const NoteDetailScreen = () => {
   };
 
   const nextscr = () => {
-    navigation.navigate('SvgImage');
+    navigation.navigate('TaskDetailScreen');
   };
 
   return (

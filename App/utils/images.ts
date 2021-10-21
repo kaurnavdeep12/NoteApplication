@@ -5,4 +5,5 @@ export const images = {
   logout: require('../assets/logout.png'),
   vector: require('../assets/imager.svg'),
   back_icon: require('../assets/svg/back-arrow.svg'),
+  Loogot: require('../assets/Log.png'),
 };

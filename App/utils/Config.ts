@@ -1,3 +1,8 @@
+import {RFValue} from 'react-native-responsive-fontsize';
+export function fontScale(size: number) {
+  return RFValue(size);
+}
+
 export default {
   strings: {
     heading_text: 'Note App',
@@ -23,5 +28,8 @@ export default {
   fonts: {
     NOTOSERIF: 'NotoSerif-Bold',
     ROBOTO_LIGHT: 'Roboto-Light',
+  },
+  colors: {
+    textColor: '#102624',
   },
 };

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import {firebase} from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';

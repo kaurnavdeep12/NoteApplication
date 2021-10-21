@@ -20,7 +20,6 @@ const Login = () => {
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
 
-  // handle Login
   const handleLogin = async () => {
     if (email === '') {
       Alert.alert('please enter valid email');
@@ -86,7 +85,7 @@ const Login = () => {
         <Text style={styles.fpText}>{Config.strings.forgot_password}</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.loginButton}>
-        <TouchableOpacity onPress={() => handleLogin()}>
+        <TouchableOpacity onPress={handleLogin}>
           <Text style={styles.loginButtonText}>{Config.strings.login}</Text>
         </TouchableOpacity>
       </TouchableOpacity>

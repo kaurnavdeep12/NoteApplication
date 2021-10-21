@@ -1,23 +1,18 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
-// import DragonSvg from './App/assets/dragon.svg';
-import {SvgUri} from 'react-native-svg';
+import Plus from '../assets/svg/plus.svg';
 
-const SvgImage = () => {
+const TaskDetailScreen = () => {
   return (
     <SafeAreaView>
       <View style={styles.body}>
-        <SvgUri
-          width="100%"
-          height="100%"
-          uri="http://thenewcode.com/assets/images/thumbnails/homer-simpson.svg"
-        />
+        <Plus width={120} height={100} />
       </View>
     </SafeAreaView>
   );
 };
 
-export default SvgImage;
+export default TaskDetailScreen;
 const styles = StyleSheet.create({
   body: {
     height: '100%',
