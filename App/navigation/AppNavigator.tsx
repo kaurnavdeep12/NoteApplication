@@ -19,7 +19,20 @@ export default function AppNavigator() {
       <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
-      <Stack.Screen name="NotesScreen" component={NotesScreen} />
+      <Stack.Screen
+        name="NotesScreen"
+        component={NotesScreen}
+        options={{
+          title: 'Note App',
+          headerStyle: {
+            backgroundColor: '#f4511e',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      />
       <Stack.Screen name="NoteDetailScreen" component={NoteDetailScreen} />
       <Stack.Screen name="TaskDetailScreen" component={TaskDetailScreen} />
     </Stack.Navigator>
