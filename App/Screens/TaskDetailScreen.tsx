@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import Plus from '../assets/svg/plus.svg';
 
 const TaskDetailScreen = () => {
@@ -7,6 +7,7 @@ const TaskDetailScreen = () => {
     <SafeAreaView>
       <View style={styles.body}>
         <Plus width={120} height={100} />
+        <Text>Welcome</Text>
       </View>
     </SafeAreaView>
   );
