@@ -24,6 +24,7 @@ export default {
     register: 'Register',
     note_title: 'Note App',
     back: 'Back',
+    next: 'Next',
   },
   fonts: {
     NOTOSERIF: 'NotoSerif-Bold',

@@ -18,7 +18,7 @@ const TaskDetailScreen = () => {
   return (
     <SafeAreaView>
       <View style={styles.body}>
-        <Text>Floating Action example</Text>
+        <Text>Floating Action</Text>
         <FloatingAction
           actions={actions}
           onPressItem={name => {

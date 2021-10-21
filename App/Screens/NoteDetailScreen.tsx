@@ -47,6 +47,9 @@ const NoteDetailScreen = () => {
         <Pressable onPress={handleback} style={styles.button}>
           <Text style={styles.back_txt}>{Config.strings.back}</Text>
         </Pressable>
+        <Pressable onPress={nextscr} style={styles.button1}>
+          <Text style={styles.next_txt}>{Config.strings.next}</Text>
+        </Pressable>
       </View>
     </LinearGradient>
   );
@@ -121,6 +124,24 @@ const styles = StyleSheet.create({
   },
   back_txt: {
     color: 'pink',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  button1: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#ADD8E6',
+    margin: 20,
+    height: 50,
+    width: 150,
+    bottom: 30,
+  },
+  next_txt: {
+    color: 'black',
     fontSize: 20,
     fontWeight: 'bold',
   },

@@ -12,7 +12,7 @@ import {
   Platform,
   Button,
   ActivityIndicator,
-  Image,
+ 
   Alert,
 } from 'react-native';
 import Config from '../utils/Config';
@@ -20,7 +20,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
 import {useNavigation} from '@react-navigation/core';
 import {useIsFocused} from '@react-navigation/native';
-import {images} from '../utils';
+
 import {Header} from 'react-native-elements';
 
 interface Note {
@@ -123,30 +123,29 @@ const NotesScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Header
-        leftComponent={{
-          icon: 'menu',
-          color: '#fff',
-        }}
-        centerComponent={{
-          text: 'Note App',
-          style: {color: '#fff', fontSize: 18},
-        }}
-        rightComponent={{
-          icon: 'logout',
-          color: '#fff',
-          onPress: () => pressLogout(),
-        }}
-      />
       {isloading ? (
         <ActivityIndicator size="large" color="red" />
       ) : (
         <ScrollView
           contentContainerStyle={styles.scroll}
           keyboardShouldPersistTaps="handled">
-          {/* <TouchableOpacity onPress={pressLogout}>
-            <Image source={images.logout} style={styles.img_logout} />
-          </TouchableOpacity> */}
+          <Header
+            leftComponent={{
+              icon: 'menu',
+              color: '#fff',
+              onPress: () => Alert.alert('Right icon Clicked'),
+            }}
+            centerComponent={{
+              text: 'Note App',
+              style: {color: '#fff', fontSize: 18},
+            }}
+            rightComponent={{
+              icon: 'logout',
+              color: '#fff',
+              onPress: () => pressLogout(),
+            }}
+          />
+
           <View style={styles.tasksWrapper}>
             <View style={styles.items}>
               {list.map((item, index) => {
