@@ -12,7 +12,6 @@ import {
   Platform,
   Button,
   ActivityIndicator,
- 
   Alert,
 } from 'react-native';
 import Config from '../utils/Config';

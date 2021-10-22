@@ -57,7 +57,7 @@ const Register = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.container]}>
+    <SafeAreaView style={styles.container}>
       <KeyboardAwareScrollView style={{flex: 1}}>
         <View>
           <Text style={styles.welcomeText}>{Config.strings.welcome}</Text>
