@@ -12,14 +12,13 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {images} from '../utils/images';
-// import DragonSvg from './App/assets/dragon.svg';
-// import {SvgUri} from 'react-native-svg';
+import Config from '../utils/Config';
 
 const TaskDetailScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView style={styles.container}>
-        <View style={{backgroundColor: '#fff', paddingTop: 100}}>
+        <View style={styles.main}>
           <TextInput
             style={styles.txtInput}
             placeholder={'Enter your text here...'}
@@ -27,41 +26,16 @@ const TaskDetailScreen = () => {
             textAlignVertical={'top'}
           />
           <View>
-            <LinearGradient
-              style={{
-                height: 70,
-                width: 250,
-                marginLeft: 22,
-                marginTop: 15,
-                borderRadius: 10,
-              }}
-              colors={['#ADD8E6', '#728FCE']}>
-              <TouchableOpacity>
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    padding: 15,
-                    color: 'white',
-                    fontSize: 25,
-                    fontWeight: 'bold',
-                  }}>
-                  Add
-                </Text>
-              </TouchableOpacity>
-            </LinearGradient>
+            <TouchableOpacity>
+              <LinearGradient
+                style={styles.addbtn}
+                colors={['#ADD8E6', '#728FCE']}>
+                <Text style={styles.addtxt}>{Config.strings.add}</Text>
+              </LinearGradient>
+            </TouchableOpacity>
 
             <TouchableOpacity>
-              <Image
-                style={{
-                  height: 68,
-                  width: 70,
-                  alignItems: 'flex-end',
-                  right: 0,
-                  position: 'absolute',
-                  bottom: 0,
-                }}
-                source={images.add_icon}
-              />
+              <Image style={styles.sideImage_Icon} source={images.add_icon} />
             </TouchableOpacity>
           </View>
         </View>
@@ -74,19 +48,43 @@ export default TaskDetailScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // paddingTop: 50,
-    // paddingHorizontal: 20,
     backgroundColor: 'white',
   },
   txtInput: {
     height: 200,
-    width: 320,
+    width: 370,
     backgroundColor: 'white',
     borderRadius: 10,
     paddingHorizontal: 10,
     marginLeft: 20,
     borderWidth: 2,
     borderColor: '#728FCE',
-    // paddingTop: 80,
+    fontSize: 30,
+  },
+  main: {
+    backgroundColor: 'white',
+    paddingTop: 100,
+  },
+  addbtn: {
+    height: 70,
+    width: 300,
+    marginLeft: 22,
+    marginTop: 15,
+    borderRadius: 10,
+  },
+  addtxt: {
+    textAlign: 'center',
+    padding: 15,
+    color: 'white',
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
+  sideImage_Icon: {
+    height: 68,
+    width: 70,
+    alignItems: 'flex-end',
+    right: 5,
+    position: 'absolute',
+    bottom: 0,
   },
 });

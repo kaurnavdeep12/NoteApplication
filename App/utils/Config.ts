@@ -25,6 +25,7 @@ export default {
     note_title: 'Note App',
     back: 'Back',
     next: 'Next',
+    add: 'Add',
   },
   fonts: {
     NOTOSERIF: 'NotoSerif-Bold',
