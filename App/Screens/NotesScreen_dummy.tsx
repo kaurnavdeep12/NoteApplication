@@ -1,54 +1,102 @@
 import React, {useEffect, useState} from 'react';
+import {firebase} from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 import {
-  ActivityIndicator,
-  Alert,
-  Button,
-  ScrollView,
+  KeyboardAvoidingView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  Platform,
+  Button,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
-
-import auth from '@react-native-firebase/auth';
 import Config from '../utils/Config';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
 import {useNavigation} from '@react-navigation/core';
-import {FloatingAction} from 'react-native-floating-action';
+import {useIsFocused} from '@react-navigation/native';
+
 import {Header} from 'react-native-elements';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
+interface Note {
+  id: number;
+  note: string;
+}
 
 const NotesScreen = () => {
+  const isFocused = useIsFocused();
+  const [isloading, setisLoading] = useState(true);
+  const [input, setInput] = useState<any>('');
+  const [list, setList] = useState<Array<any>>([]);
+  const notesCollection = firebase.firestore().collection('AddNote');
+  const db = firebase.firestore();
+
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
-  const [isloading, setisLoading] = useState(true);
-  const [list, setList] = useState<Array<any>>([]);
-  // const Input = AsyncStorage.getItem('Input');
-  // console.log('get Data +++', Input);
 
-  const getData_async = () => {
-    try {
-      // eslint-disable-next-line no-shadow
-      const Input = AsyncStorage.getItem('Input');
-      console.log('get Data +++', Input);
-    } catch (e) {
-      Alert.alert('Failed to fetch the data from storage');
+  const user = firebase.auth().currentUser;
+
+  const AddNoteFirestore = () => {
+    if (!user) {
+      return;
     }
+    const addNote = {
+      id: new Date().getTime(),
+      note: input,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      userId: user.uid,
+    };
+
+    notesCollection.add(addNote);
+    setInput('');
+    getList();
   };
 
   useEffect(() => {
-    getData_async();
-  }, []);
+    setTimeout(() => {
+      setisLoading(false);
+    }, 3000);
+    getList();
+  }, [isFocused]);
 
-  const actions = [
-    {
-      text: 'Add Notes',
-      icon: require('../assets/notepad.png'),
-      name: 'bt_accessibility',
-      position: 2,
-    },
-  ];
+  const getList = () => {
+    if (!user) {
+      return;
+    }
+    const Items: Note[] = [];
+    db.collection('AddNote')
+      .orderBy('userId', 'desc')
+      .get()
+      .then(snapshot => {
+        snapshot.docs.forEach(doc => {
+          if (doc.data().userId === user.uid) {
+            Items.push({
+              id: doc.data().id,
+              note: doc.data().note,
+            });
+          }
+        });
+        setList(Items);
+      });
+  };
+
+  const onItemClick = (item: any) => {
+    navigation.navigate('NoteDetailScreen', {note: item.note});
+  };
+
+  const onDeletePress = (id: number) => {
+    const del_Item = notesCollection.where('id', '==', id);
+    del_Item.get().then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        doc.ref.delete();
+      });
+      getList();
+    });
+  };
 
   const handleLogout = async () => {
     await auth().signOut();
@@ -72,59 +120,49 @@ const NotesScreen = () => {
     );
   };
 
-  const onclickbtn = () => {
-    // Alert.alert('aaaa');
-    navigation.navigate('TaskDetailScreen');
-  };
-
   return (
     <View style={styles.container}>
-      <Header
-        leftComponent={{
-          icon: 'menu',
-          color: '#fff',
-          onPress: () => Alert.alert('Right icon Clicked'),
-        }}
-        centerComponent={{
-          text: 'NoteApplication',
-          style: {color: '#fff', fontSize: 24},
-        }}
-        rightComponent={{
-          icon: 'logout',
-          color: '#fff',
-          onPress: () => pressLogout(),
-        }}
-      />
-      <Text>Floating Action example</Text>
-      <FloatingAction actions={actions} onPressItem={onclickbtn} />
-
       {isloading ? (
         <ActivityIndicator size="large" color="red" />
       ) : (
         <ScrollView
           contentContainerStyle={styles.scroll}
           keyboardShouldPersistTaps="handled">
+          <Header
+            leftComponent={{
+              icon: 'menu',
+              color: '#fff',
+              onPress: () => Alert.alert('Right icon Clicked'),
+            }}
+            centerComponent={{
+              text: 'Note App',
+              style: {color: '#fff', fontSize: 18},
+            }}
+            rightComponent={{
+              icon: 'logout',
+              color: '#fff',
+              onPress: () => pressLogout(),
+            }}
+          />
+
           <View style={styles.tasksWrapper}>
             <View style={styles.items}>
               {list.map((item, index) => {
                 return (
                   <TouchableOpacity
                     key={index}
-                    // onPress={() => onItemClick(item)}
-                  >
+                    onPress={() => onItemClick(item)}>
                     <View style={styles.item}>
                       <View style={styles.itemLeft}>
                         <View style={styles.square} />
-                        <Text style={styles.itemText}>
-                          hellllllllloooooooooooooooo
-                        </Text>
+                        <Text style={styles.itemText}>{item.note}</Text>
                       </View>
                       <Button
                         title="X"
                         color="crimson"
-                        // onPress={() => {
-                        //   onDeletePress(item.id);
-                        // }}
+                        onPress={() => {
+                          onDeletePress(item.id);
+                        }}
                       />
                     </View>
                   </TouchableOpacity>
@@ -134,6 +172,22 @@ const NotesScreen = () => {
           </View>
         </ScrollView>
       )}
+
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.writeTaskWrapper}>
+        <TextInput
+          style={styles.input}
+          placeholder={'Please Enter Note'}
+          value={input}
+          onChangeText={text => setInput(text)}
+        />
+        <TouchableOpacity onPress={() => AddNoteFirestore()}>
+          <View style={styles.addWrapper}>
+            <Text style={styles.addText}>+</Text>
+          </View>
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -143,7 +197,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
 
-    // justifyContent: 'center',
+    justifyContent: 'center',
     backgroundColor: 'white',
   },
   img_logout: {height: 40, width: 50, alignSelf: 'flex-end'},
@@ -167,7 +221,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: 'red',
   },
   input: {
     paddingVertical: 15,

@@ -17,7 +17,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
+  type NavigationProp = StackNavigationProp<AuthParamList, 'TaskDetailScreen'>;
   const navigation = useNavigation<NavigationProp>();
 
   const handleLogin = async () => {
@@ -32,10 +32,11 @@ const Login = () => {
           password,
         );
         console.log('response of Login Screen', response);
-        navigation.reset({
-          index: 0,
-          routes: [{name: 'NotesScreen'}],
-        });
+        // navigation.reset({
+        //   index: 0,
+        //   routes: [{name: 'TaskDetailscreen'}],
+        // });
+        navigation.navigate('TaskDetailScreen');
 
         setEmail('');
         setPassword('');
