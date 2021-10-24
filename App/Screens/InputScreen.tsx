@@ -89,40 +89,33 @@ const TaskDetailScreen = () => {
     }
   };
   return (
-    <SafeAreaView style={styles.container}>
-      {/* <View style={styles.container}> */}
-      <TextInput
-        style={styles.txtInput}
-        placeholder={'Enter your text here...'}
-        multiline={true}
-        textAlignVertical={'top'}
-        value={input}
-        onChangeText={text => setInput(text)}
-      />
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.main}>
+          <TextInput
+            style={styles.txtInput}
+            placeholder={'Enter your text here...'}
+            multiline={true}
+            textAlignVertical={'top'}
+            value={input}
+            onChangeText={text => setInput(text)}
+          />
+          <View>
+            <TouchableOpacity onPress={AddNoteFirestore}>
+              <LinearGradient
+                style={styles.addbtn}
+                colors={['#ADD8E6', '#728FCE']}>
+                <Text style={styles.addtxt}>{Config.strings.add}</Text>
+              </LinearGradient>
+            </TouchableOpacity>
 
-      <View
-        style={{
-          //   backgroundColor: 'gray',
-          width: 340,
-          height: 100,
-          margin: 20,
-          padding: 20,
-          marginHorizontal: 10,
-          //   flexDirection: 'row',
-          marginTop: 15,
-          justifyContent: 'center',
-        }}>
-        <LinearGradient style={styles.addbtn} colors={['#ADD8E6', '#728FCE']}>
-          <Text style={styles.addtxt}>{Config.strings.add}</Text>
-        </LinearGradient>
-        {/* <Image style={styles.sideImage_Icon} source={images.add_icon} /> */}
-      </View>
-      {/* <LinearGradient style={styles.addbtn} colors={['#ADD8E6', '#728FCE']}>
-        <Text style={styles.addtxt}>{Config.strings.add}</Text>
-      </LinearGradient>
-      <Image style={styles.sideImage_Icon} source={images.add_icon} /> */}
-      {/* </View> */}
-    </SafeAreaView>
+            <TouchableOpacity>
+              <Image style={styles.sideImage_Icon} source={images.add_icon} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -130,22 +123,19 @@ export default TaskDetailScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    textAlign: 'center',
-    // backgroundColor: 'gray',
+    backgroundColor: 'white',
+    width: '100%',
   },
   txtInput: {
     height: 200,
-    // width: '100%',
+    width: '100%',
     backgroundColor: 'white',
     borderRadius: 10,
     paddingHorizontal: 10,
-    // marginLeft: 20,
-    margin: 10,
-    marginTop: 50,
+    marginLeft: 20,
     borderWidth: 2,
     borderColor: '#728FCE',
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 30,
   },
   main: {
     backgroundColor: 'white',
@@ -154,13 +144,9 @@ const styles = StyleSheet.create({
   },
   addbtn: {
     height: 70,
-    width: '100%',
-    marginHorizontal: 15,
-    right: 20,
-    alignItems: 'center',
-
-    // marginLeft: 0,
-    // marginTop: 15,
+    width: 300,
+    marginLeft: 22,
+    marginTop: 15,
     borderRadius: 10,
   },
   addtxt: {
@@ -173,10 +159,9 @@ const styles = StyleSheet.create({
   sideImage_Icon: {
     height: 68,
     width: 70,
-    left: 22,
-    // alignItems: 'flex-end',
-    // right: 5,
-    // position: 'absolute',
-    // bottom: 0,
+    alignItems: 'flex-end',
+    right: 5,
+    position: 'absolute',
+    bottom: 0,
   },
 });

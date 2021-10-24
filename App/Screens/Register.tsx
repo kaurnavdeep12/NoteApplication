@@ -6,9 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
-  SafeAreaView,
+  KeyboardAvoidingView,
 } from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
 import {useNavigation} from '@react-navigation/core';
@@ -57,67 +56,64 @@ const Register = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <KeyboardAwareScrollView style={{flex: 1}}>
-        <View>
-          <Text style={styles.welcomeText}>{Config.strings.welcome}</Text>
-          <Text style={styles.loginText}>{Config.strings.register}</Text>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <View>
+        <Text style={styles.welcomeText}>{Config.strings.welcome}</Text>
+        <Text style={styles.loginText}>{Config.strings.register}</Text>
 
-          <TextInput
-            placeholder="First Name"
-            placeholderTextColor="#808e9b"
-            autoCapitalize="none"
-            autoCompleteType="email"
-            style={styles.input}
-            value={firstName}
-            onChangeText={e => setfirstName(e)}
-          />
+        <TextInput
+          placeholder="First Name"
+          placeholderTextColor="#808e9b"
+          autoCapitalize="none"
+          autoCompleteType="email"
+          style={styles.input}
+          value={firstName}
+          onChangeText={e => setfirstName(e)}
+        />
 
-          <TextInput
-            placeholder="Last Name"
-            placeholderTextColor="#808e9b"
-            autoCapitalize="none"
-            autoCompleteType="email"
-            style={styles.input}
-            value={lastName}
-            onChangeText={e => setlastName(e)}
-          />
+        <TextInput
+          placeholder="Last Name"
+          placeholderTextColor="#808e9b"
+          autoCapitalize="none"
+          autoCompleteType="email"
+          style={styles.input}
+          value={lastName}
+          onChangeText={e => setlastName(e)}
+        />
 
-          <TextInput
-            placeholder="Email Address"
-            placeholderTextColor="#808e9b"
-            style={styles.input}
-            autoCorrect={true}
-            autoCapitalize="none"
-            autoCompleteType="email"
-            keyboardType="email-address"
-            textContentType="emailAddress"
-            value={email}
-            onChangeText={e => setEmail(e)}
-          />
+        <TextInput
+          placeholder="Email Address"
+          placeholderTextColor="#808e9b"
+          style={styles.input}
+          autoCorrect={true}
+          autoCapitalize="none"
+          autoCompleteType="email"
+          keyboardType="email-address"
+          textContentType="emailAddress"
+          value={email}
+          onChangeText={e => setEmail(e)}
+        />
 
-          <TextInput
-            placeholder="Password"
-            placeholderTextColor="#808e9b"
-            style={styles.input}
-            secureTextEntry={true}
-            textContentType="password"
-            value={password}
-            onChangeText={e => setPassword(e)}
-          />
+        <TextInput
+          placeholder="Password"
+          placeholderTextColor="#808e9b"
+          style={styles.input}
+          secureTextEntry={true}
+          textContentType="password"
+          value={password}
+          onChangeText={e => setPassword(e)}
+        />
 
-          {error ? <Text style={styles.error_txt}>{error}</Text> : null}
-          <TouchableOpacity>
-            <Text style={styles.fpText}>{Config.strings.forgot_password}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleRegister} style={styles.loginButton}>
-            <Text style={styles.loginButtonText}>
-              {Config.strings.register}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAwareScrollView>
-    </SafeAreaView>
+        {error ? <Text style={styles.error_txt}>{error}</Text> : null}
+        <TouchableOpacity>
+          <Text style={styles.fpText}>{Config.strings.forgot_password}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleRegister} style={styles.loginButton}>
+          <Text style={styles.loginButtonText}>{Config.strings.register}</Text>
+        </TouchableOpacity>
+      </View>
+    </KeyboardAvoidingView>
+    // </SafeAreaView>
   );
 };
 
