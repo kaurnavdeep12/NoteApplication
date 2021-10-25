@@ -1,5 +1,3 @@
-// import {Note} from '../actions';
-
 //Notes Action Types
 export const ADD_NOTE = 'ADD_NOTE';
 export const GET_NOTE = 'GET_NOTE';
@@ -11,7 +9,6 @@ interface Note {
 }
 export interface AddNotesAction {
   type: typeof ADD_NOTE;
-  // payload: {id: number; data: string};
   note: Note;
 }
 

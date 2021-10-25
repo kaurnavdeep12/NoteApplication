@@ -1,39 +1,42 @@
 import React, {useEffect, useState} from 'react';
+import {firebase} from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
+import {getIcons} from '../assets/icons';
 import {
-  ActivityIndicator,
-  Alert,
-  Button,
   KeyboardAvoidingView,
-  ScrollView,
   StyleSheet,
   Text,
-  TextInput,
-  Platform,
-  TouchableOpacity,
   View,
+  TouchableOpacity,
+  ScrollView,
+  Platform,
+  Button,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
-
-import auth from '@react-native-firebase/auth';
 import Config from '../utils/Config';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
 import {useNavigation} from '@react-navigation/core';
-import {FloatingAction} from 'react-native-floating-action';
-import {Header} from 'react-native-elements';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {startAddNotes, getNotesFirestore, deleteNotes} from '../redux/actions';
-import {useDispatch, useSelector} from 'react-redux';
 import {useIsFocused} from '@react-navigation/native';
+import {getNotesFirestore, deleteNotes} from '../redux/actions';
+import {useDispatch, useSelector} from 'react-redux';
+
+import {Header} from 'react-native-elements';
 import {AppStates} from '../redux/reducer';
 
 const NotesScreen = () => {
-  type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
-  const navigation = useNavigation<NavigationProp>();
-  const [isloading, setisLoading] = useState(true);
   const isFocused = useIsFocused();
+  const [isloading, setisLoading] = useState(true);
+
   const dispatch = useDispatch();
   const note = useSelector((state: AppStates) => state.noteReducers);
-  console.log('note ===== in notesScreen', note);
+
+  type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
+  const navigation = useNavigation<NavigationProp>();
+
+  firebase.auth().currentUser;
+
   useEffect(() => {
     setTimeout(() => {
       setisLoading(false);
@@ -41,20 +44,18 @@ const NotesScreen = () => {
     dispatch(getNotesFirestore());
   }, [isFocused]);
 
+  const onItemClick = (item: any) => {
+    navigation.navigate('NoteDetailScreen', {note: item.value});
+  };
+
+  const ClickAddbtn = () => {
+    navigation.navigate('TaskDetailScreen');
+  };
+
   const onDeletePress = (id: number) => {
     dispatch(deleteNotes(id));
     dispatch(getNotesFirestore());
   };
-
-  const actions = [
-    {
-      text: 'Add Notes',
-      icon: require('../assets/notepad.png'),
-      name: 'bt_accessibility',
-      position: 2,
-    },
-  ];
-
   const handleLogout = async () => {
     await auth().signOut();
     navigation.navigate('Login');
@@ -77,47 +78,39 @@ const NotesScreen = () => {
     );
   };
 
-  const onclickbtn = () => {
-    // Alert.alert('aaaa');
-    navigation.navigate('TaskDetailScreen');
-  };
-
   return (
     <View style={styles.container}>
-      <Header
-        leftComponent={{
-          icon: 'menu',
-          color: '#fff',
-          onPress: () => Alert.alert('Right icon Clicked'),
-        }}
-        centerComponent={{
-          text: 'NoteApplication',
-          style: {color: '#fff', fontSize: 24},
-        }}
-        rightComponent={{
-          icon: 'logout',
-          color: '#fff',
-          onPress: () => pressLogout(),
-        }}
-      />
-      {/* <Text>Floating Action example</Text>
-      <FloatingAction actions={actions} onPressItem={onclickbtn} /> */}
-
       {isloading ? (
         <ActivityIndicator size="large" color="red" />
       ) : (
         <ScrollView
           contentContainerStyle={styles.scroll}
           keyboardShouldPersistTaps="handled">
+          <Header
+            leftComponent={{
+              icon: 'menu',
+              color: '#fff',
+              onPress: () => Alert.alert('Right icon Clicked'),
+            }}
+            centerComponent={{
+              text: 'NoteApplication',
+              style: {color: '#fff', fontSize: 22},
+            }}
+            rightComponent={{
+              icon: 'logout',
+              color: '#fff',
+              onPress: () => pressLogout(),
+            }}
+          />
+
           <View style={styles.tasksWrapper}>
             <View style={styles.items}>
-              {note.length &&
+              {note.length > 0 &&
                 note.map((item, index) => {
                   return (
                     <TouchableOpacity
                       key={index}
-                      // onPress={() => onItemClick(item)}
-                    >
+                      onPress={() => onItemClick(item)}>
                       <View style={styles.item}>
                         <View style={styles.itemLeft}>
                           <View style={styles.square} />
@@ -138,14 +131,12 @@ const NotesScreen = () => {
           </View>
         </ScrollView>
       )}
+
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.writeTaskWrapper}>
-        {/* <TextInput style={styles.input} placeholder={'Please Enter Note'} /> */}
-        <TouchableOpacity onPress={onclickbtn}>
-          <View style={styles.addWrapper}>
-            <Text style={styles.addText}>+</Text>
-          </View>
+        <TouchableOpacity onPress={ClickAddbtn}>
+          <View style={styles.addWrapper}>{getIcons('PLUS_ICON', 80)}</View>
         </TouchableOpacity>
       </KeyboardAvoidingView>
     </View>
@@ -157,7 +148,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
 
-    // justifyContent: 'center',
+    justifyContent: 'center',
     backgroundColor: 'white',
   },
   img_logout: {height: 40, width: 50, alignSelf: 'flex-end'},
@@ -176,14 +167,11 @@ const styles = StyleSheet.create({
   },
   writeTaskWrapper: {
     position: 'absolute',
-    bottom: 0,
-    width: 250,
-    marginLeft: 50,
+    bottom: 60,
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#55BCF6',
-    borderRadius: 20,
   },
   input: {
     paddingVertical: 15,
@@ -195,16 +183,15 @@ const styles = StyleSheet.create({
     width: 250,
   },
   addWrapper: {
-    width: 60,
-    height: 60,
-    backgroundColor: '#FFF',
-    borderRadius: 60,
+    width: 100,
+    height: 80,
+    backgroundColor: 'white',
+    borderRadius: 80,
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: '#C0C0C0',
-    borderWidth: 3,
   },
-  addText: {fontSize: 20},
+  addText: {fontSize: 40},
 
   item: {
     backgroundColor: 'white',

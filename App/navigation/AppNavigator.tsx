@@ -33,7 +33,20 @@ export default function AppNavigator() {
           },
         }}
       />
-      <Stack.Screen name="NoteDetailScreen" component={NoteDetailScreen} />
+      <Stack.Screen
+        name="NoteDetailScreen"
+        component={NoteDetailScreen}
+        options={{
+          title: 'Note App',
+          headerStyle: {
+            backgroundColor: '#f4511e',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      />
       <Stack.Screen name="TaskDetailScreen" component={TaskDetailScreen} />
     </Stack.Navigator>
   );

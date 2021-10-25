@@ -33,10 +33,7 @@ const Login = () => {
           password,
         );
         console.log('response of Login Screen', response);
-        // navigation.reset({
-        //   index: 0,
-        //   routes: [{name: 'TaskDetailscreen'}],
-        // });
+
         navigation.navigate('NotesScreen');
 
         setEmail('');

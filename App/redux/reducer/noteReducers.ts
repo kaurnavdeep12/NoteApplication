@@ -7,7 +7,7 @@ interface Note {
 
 const initialData: Note[] = [];
 const noteReducers = (state = initialData, action: NotesActionTypes) => {
-  console.log('state ========>', state);
+  // console.log('state ========>', state);
   switch (action.type) {
     case 'ADD_NOTE':
       return {...state, ...action.note};

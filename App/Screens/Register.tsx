@@ -113,7 +113,6 @@ const Register = () => {
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
-    // </SafeAreaView>
   );
 };
 

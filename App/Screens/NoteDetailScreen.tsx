@@ -1,16 +1,11 @@
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Pressable,
-} from 'react-native';
+import {StyleSheet, Text, View, Pressable, Alert} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Config from '../utils/Config';
 import {AuthParamList} from '../Types/NavigationParams';
+import {Header} from 'react-native-elements';
 
 const NoteDetailScreen = () => {
   type NavigationProp = StackNavigationProp<AuthParamList, 'NoteDetailScreen'>;
@@ -21,21 +16,24 @@ const NoteDetailScreen = () => {
     navigation.navigate('NotesScreen');
   };
 
-  const nextscr = () => {
-    navigation.navigate('TaskDetailScreen');
-  };
-
   return (
     <LinearGradient
       colors={['grey', 'white']}
       style={styles.container}
       start={{x: 0, y: 0}}
       end={{x: 1, y: 1}}>
-      <TouchableOpacity onPress={nextscr}>
-        <View style={styles.view_one}>
-          <Text style={styles.view_one_txt}>{Config.strings.scr_heading}</Text>
-        </View>
-      </TouchableOpacity>
+      <Header
+        leftComponent={{
+          icon: '',
+          color: '#fff',
+          onPress: () => Alert.alert('Right icon Clicked'),
+        }}
+        centerComponent={{
+          text: 'NoteApplication',
+          style: {color: '#fff', fontSize: 22},
+        }}
+      />
+
       <View style={styles.container1}>
         <LinearGradient
           colors={['black', '#fff']}
@@ -46,9 +44,6 @@ const NoteDetailScreen = () => {
         </LinearGradient>
         <Pressable onPress={handleback} style={styles.button}>
           <Text style={styles.back_txt}>{Config.strings.back}</Text>
-        </Pressable>
-        <Pressable onPress={nextscr} style={styles.button1}>
-          <Text style={styles.next_txt}>{Config.strings.next}</Text>
         </Pressable>
       </View>
     </LinearGradient>
