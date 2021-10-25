@@ -19,14 +19,16 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
 import {useNavigation} from '@react-navigation/core';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {startAddNotes, getNotesFirestore} from '../redux/actions';
+import {useDispatch, useSelector} from 'react-redux';
+import navigation from '../navigation';
 
 const TaskDetailScreen = () => {
   const [input, setInput] = useState<any>('');
   const [list, setList] = useState<Array<any>>([]);
   const user = firebase.auth().currentUser;
   console.log('user in TaskDetailScreen', user);
-  const notesCollection = firebase.firestore().collection('AddNote');
-  const db = firebase.firestore();
+  const dispatch = useDispatch();
 
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
@@ -36,58 +38,17 @@ const TaskDetailScreen = () => {
     note: string;
   }
 
-  const AddNoteFirestore = () => {
-    if (input === '') {
-      Alert.alert('Please Enter Some Text');
+  const AddNoteFirestore = async () => {
+    if (input.length < 0) {
+      Alert.alert('Please Enter Some text');
     } else {
-      if (!user) {
-        return;
-      }
-      const addNote = {
-        id: new Date().getTime(),
-        note: input,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        userId: user.uid,
-      };
-
-      notesCollection.add(addNote);
-      console.log('notes added');
-      setInput('');
-      getList();
+      await dispatch(startAddNotes(input));
+      dispatch(getNotesFirestore());
       navigation.goBack();
     }
+    setInput('');
   };
 
-  const getList = () => {
-    console.log('get called');
-    if (!user) {
-      return;
-    }
-    const Items: Note[] = [];
-    db.collection('AddNote')
-      .orderBy('userId', 'desc')
-      .get()
-      .then(snapshot => {
-        snapshot.docs.forEach(doc => {
-          if (doc.data().userId === user.uid) {
-            Items.push({
-              id: doc.data().id,
-              note: doc.data().note,
-            });
-          }
-        });
-        setList(Items);
-        check_list();
-      });
-  };
-
-  const check_list = async () => {
-    try {
-      await AsyncStorage.setItem('Input', JSON.stringify(input));
-    } catch (e) {
-      Alert.alert('Failed to save the data to the storage');
-    }
-  };
   return (
     <SafeAreaView style={styles.container}>
       {/* <View style={styles.container}> */}
@@ -112,9 +73,11 @@ const TaskDetailScreen = () => {
           marginTop: 15,
           justifyContent: 'center',
         }}>
-        <LinearGradient style={styles.addbtn} colors={['#ADD8E6', '#728FCE']}>
-          <Text style={styles.addtxt}>{Config.strings.add}</Text>
-        </LinearGradient>
+        <TouchableOpacity onPress={AddNoteFirestore}>
+          <LinearGradient style={styles.addbtn} colors={['#ADD8E6', '#728FCE']}>
+            <Text style={styles.addtxt}>{Config.strings.add}</Text>
+          </LinearGradient>
+        </TouchableOpacity>
         {/* <Image style={styles.sideImage_Icon} source={images.add_icon} /> */}
       </View>
       {/* <LinearGradient style={styles.addbtn} colors={['#ADD8E6', '#728FCE']}>

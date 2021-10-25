@@ -37,7 +37,7 @@ const Login = () => {
         //   index: 0,
         //   routes: [{name: 'TaskDetailscreen'}],
         // });
-        navigation.navigate('TaskDetailScreen');
+        navigation.navigate('NotesScreen');
 
         setEmail('');
         setPassword('');

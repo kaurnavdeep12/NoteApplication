@@ -3,9 +3,12 @@ import {
   ActivityIndicator,
   Alert,
   Button,
+  KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
+  Platform,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -18,28 +21,30 @@ import {useNavigation} from '@react-navigation/core';
 import {FloatingAction} from 'react-native-floating-action';
 import {Header} from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {startAddNotes, getNotesFirestore, deleteNotes} from '../redux/actions';
+import {useDispatch, useSelector} from 'react-redux';
+import {useIsFocused} from '@react-navigation/native';
+import {AppStates} from '../redux/reducer';
 
 const NotesScreen = () => {
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
   const [isloading, setisLoading] = useState(true);
-  const [list, setList] = useState<Array<any>>([]);
-  // const Input = AsyncStorage.getItem('Input');
-  // console.log('get Data +++', Input);
-
-  const getData_async = () => {
-    try {
-      // eslint-disable-next-line no-shadow
-      const Input = AsyncStorage.getItem('Input');
-      console.log('get Data +++', Input);
-    } catch (e) {
-      Alert.alert('Failed to fetch the data from storage');
-    }
-  };
-
+  const isFocused = useIsFocused();
+  const dispatch = useDispatch();
+  const note = useSelector((state: AppStates) => state.noteReducers);
+  console.log('note ===== in notesScreen', note);
   useEffect(() => {
-    getData_async();
-  }, []);
+    setTimeout(() => {
+      setisLoading(false);
+    }, 3000);
+    dispatch(getNotesFirestore());
+  }, [isFocused]);
+
+  const onDeletePress = (id: number) => {
+    dispatch(deleteNotes(id));
+    dispatch(getNotesFirestore());
+  };
 
   const actions = [
     {
@@ -95,8 +100,8 @@ const NotesScreen = () => {
           onPress: () => pressLogout(),
         }}
       />
-      <Text>Floating Action example</Text>
-      <FloatingAction actions={actions} onPressItem={onclickbtn} />
+      {/* <Text>Floating Action example</Text>
+      <FloatingAction actions={actions} onPressItem={onclickbtn} /> */}
 
       {isloading ? (
         <ActivityIndicator size="large" color="red" />
@@ -106,34 +111,43 @@ const NotesScreen = () => {
           keyboardShouldPersistTaps="handled">
           <View style={styles.tasksWrapper}>
             <View style={styles.items}>
-              {list.map((item, index) => {
-                return (
-                  <TouchableOpacity
-                    key={index}
-                    // onPress={() => onItemClick(item)}
-                  >
-                    <View style={styles.item}>
-                      <View style={styles.itemLeft}>
-                        <View style={styles.square} />
-                        <Text style={styles.itemText}>
-                          hellllllllloooooooooooooooo
-                        </Text>
+              {note.length &&
+                note.map((item, index) => {
+                  return (
+                    <TouchableOpacity
+                      key={index}
+                      // onPress={() => onItemClick(item)}
+                    >
+                      <View style={styles.item}>
+                        <View style={styles.itemLeft}>
+                          <View style={styles.square} />
+                          <Text style={styles.itemText}>{item.value}</Text>
+                        </View>
+                        <Button
+                          title="X"
+                          color="crimson"
+                          onPress={() => {
+                            onDeletePress(item.id);
+                          }}
+                        />
                       </View>
-                      <Button
-                        title="X"
-                        color="crimson"
-                        // onPress={() => {
-                        //   onDeletePress(item.id);
-                        // }}
-                      />
-                    </View>
-                  </TouchableOpacity>
-                );
-              })}
+                    </TouchableOpacity>
+                  );
+                })}
             </View>
           </View>
         </ScrollView>
       )}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.writeTaskWrapper}>
+        {/* <TextInput style={styles.input} placeholder={'Please Enter Note'} /> */}
+        <TouchableOpacity onPress={onclickbtn}>
+          <View style={styles.addWrapper}>
+            <Text style={styles.addText}>+</Text>
+          </View>
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -162,12 +176,14 @@ const styles = StyleSheet.create({
   },
   writeTaskWrapper: {
     position: 'absolute',
-    bottom: 60,
-    width: '100%',
+    bottom: 0,
+    width: 250,
+    marginLeft: 50,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: 'red',
+    backgroundColor: '#55BCF6',
+    borderRadius: 20,
   },
   input: {
     paddingVertical: 15,

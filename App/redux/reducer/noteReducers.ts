@@ -1,30 +1,22 @@
 import {NotesActionTypes} from '../ActionConstants/index';
 
-const initialData = {
-  list: [],
-};
+interface Note {
+  id: number;
+  value: string;
+}
+
+const initialData: Note[] = [];
 const noteReducers = (state = initialData, action: NotesActionTypes) => {
+  console.log('state ========>', state);
   switch (action.type) {
     case 'ADD_NOTE':
-      const {id, data} = action.payload;
+      return {...state, ...action.note};
 
-      return {
-        ...state,
-        list: [
-          ...state.list,
-          {
-            id: id,
-            data: data,
-          },
-        ],
-      };
+    case 'GET_NOTE':
+      return [...action.note];
     case 'DELETE_NOTE':
-      const newList = state.list.filter(elem => elem.id != action.id);
-
-      return {
-        ...state,
-        list: newList,
-      };
+      const newlist = state.filter(({id}) => id !== action.id);
+      return {...state, ...newlist};
     default:
       return state;
   }
