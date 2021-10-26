@@ -18,9 +18,8 @@ import {useDispatch} from 'react-redux';
 import {Header} from 'react-native-elements';
 
 const TaskDetailScreen = () => {
-  const [input, setInput] = useState<any>('');
-
   const dispatch = useDispatch();
+  const [input, setInput] = useState<any>('');
 
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();

@@ -28,14 +28,8 @@ const Login = () => {
       Alert.alert('please enter password');
     } else {
       try {
-        const response = await auth().signInWithEmailAndPassword(
-          email,
-          password,
-        );
-        console.log('response of Login Screen', response);
-
+        await auth().signInWithEmailAndPassword(email, password);
         navigation.navigate('NotesScreen');
-
         setEmail('');
         setPassword('');
         setError('');
@@ -67,8 +61,9 @@ const Login = () => {
         keyboardType="email-address"
         textContentType="emailAddress"
         value={email}
-        onChangeText={e => setEmail(e)}
+        onChangeText={(e: any) => setEmail(e)}
       />
+
       <TextInput
         placeholder="Password"
         placeholderTextColor="#808e9b"
@@ -79,6 +74,7 @@ const Login = () => {
         value={password}
         onChangeText={e => setPassword(e)}
       />
+
       {error ? <Text style={styles.error_txt}>{error}</Text> : null}
       <TouchableOpacity>
         <Text style={styles.fpText}>{Config.strings.forgot_password}</Text>
@@ -88,7 +84,6 @@ const Login = () => {
           <Text style={styles.loginButtonText}>{Config.strings.login}</Text>
         </TouchableOpacity>
       </TouchableOpacity>
-
       <View style={styles.signUpTextView}>
         <Text style={styles.signUpText}>{Config.strings.dont_account}</Text>
         <TouchableOpacity onPress={goRegister}>
@@ -109,7 +104,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: 'black',
   },
-
   welcomeText: {
     fontSize: 30,
     fontWeight: 'bold',
@@ -126,10 +120,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   input: {
-    width: '100%',
-    height: 50,
     backgroundColor: '#333',
-    borderRadius: 6,
     marginTop: 10,
     paddingHorizontal: 10,
     fontSize: 16,

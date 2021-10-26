@@ -8,7 +8,7 @@ export const EditTextComponent = (props: any) => {
       style={[
         {
           width: '100%',
-          backgroundColor: '#f8f8f8',
+          backgroundColor: '£333',
           borderRadius: 10,
           marginVertical: 7.5,
         },

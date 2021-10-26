@@ -3,14 +3,11 @@ import {firebase} from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import {getIcons} from '../assets/icons';
 import {
-  KeyboardAvoidingView,
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   ScrollView,
-  Platform,
-  Button,
   ActivityIndicator,
   Alert,
 } from 'react-native';
@@ -21,21 +18,31 @@ import {useNavigation} from '@react-navigation/core';
 import {useIsFocused} from '@react-navigation/native';
 import {getNotesFirestore, deleteNotes} from '../redux/actions';
 import {useDispatch, useSelector} from 'react-redux';
+import {FloatingAction} from 'react-native-floating-action';
 
 import {Header} from 'react-native-elements';
 import {AppStates} from '../redux/reducer';
 
 const NotesScreen = () => {
+  firebase.auth().currentUser;
   const isFocused = useIsFocused();
+  const dispatch = useDispatch();
   const [isloading, setisLoading] = useState(true);
 
-  const dispatch = useDispatch();
-  const note = useSelector((state: AppStates) => state.noteReducers);
-
+  // for Navigation
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
+  // fetch data from store
+  const note = useSelector((state: AppStates) => state.noteReducers);
 
-  firebase.auth().currentUser;
+  const actions = [
+    {
+      text: 'Add notes',
+      icon: require('../assets/notepad.png'),
+      name: 'Add Notes',
+      position: 2,
+    },
+  ];
 
   useEffect(() => {
     setTimeout(() => {
@@ -56,6 +63,7 @@ const NotesScreen = () => {
     dispatch(deleteNotes(id));
     dispatch(getNotesFirestore());
   };
+
   const handleLogout = async () => {
     await auth().signOut();
     navigation.navigate('Login');
@@ -116,13 +124,12 @@ const NotesScreen = () => {
                           <View style={styles.square} />
                           <Text style={styles.itemText}>{item.value}</Text>
                         </View>
-                        <Button
-                          title="X"
-                          color="crimson"
+                        <TouchableOpacity
                           onPress={() => {
                             onDeletePress(item.id);
-                          }}
-                        />
+                          }}>
+                          {getIcons('DELETE_ICON', 40)}
+                        </TouchableOpacity>
                       </View>
                     </TouchableOpacity>
                   );
@@ -132,13 +139,7 @@ const NotesScreen = () => {
         </ScrollView>
       )}
 
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.writeTaskWrapper}>
-        <TouchableOpacity onPress={ClickAddbtn}>
-          <View style={styles.addWrapper}>{getIcons('PLUS_ICON', 80)}</View>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
+      <FloatingAction actions={actions} onPressItem={ClickAddbtn} />
     </View>
   );
 };
@@ -149,13 +150,11 @@ const styles = StyleSheet.create({
     flex: 1,
 
     justifyContent: 'center',
-    backgroundColor: 'white',
   },
   img_logout: {height: 40, width: 50, alignSelf: 'flex-end'},
   tasksWrapper: {
     paddingTop: 10,
     paddingHorizontal: 20,
-    backgroundColor: '#fff',
   },
   sectionTitle: {
     fontSize: 25,
@@ -168,10 +167,12 @@ const styles = StyleSheet.create({
   writeTaskWrapper: {
     position: 'absolute',
     bottom: 60,
-    width: '100%',
+
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center',
+    alignItems: 'stretch',
+
+    right: 0,
   },
   input: {
     paddingVertical: 15,
@@ -183,12 +184,11 @@ const styles = StyleSheet.create({
     width: 250,
   },
   addWrapper: {
-    width: 100,
-    height: 80,
     backgroundColor: 'white',
+    alignItems: 'stretch',
     borderRadius: 80,
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: 'column',
+
     borderColor: '#C0C0C0',
   },
   addText: {fontSize: 40},

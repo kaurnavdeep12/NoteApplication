@@ -6,6 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Config from '../utils/Config';
 import {AuthParamList} from '../Types/NavigationParams';
 import {Header} from 'react-native-elements';
+import {getIcons} from '../assets/icons';
 
 const NoteDetailScreen = () => {
   type NavigationProp = StackNavigationProp<AuthParamList, 'NoteDetailScreen'>;
@@ -33,17 +34,17 @@ const NoteDetailScreen = () => {
           style: {color: '#fff', fontSize: 22},
         }}
       />
-
       <View style={styles.container1}>
         <LinearGradient
-          colors={['black', '#fff']}
+          colors={['white', '#fff']}
           style={styles.linearGradient}>
           <View style={styles.view_two}>
             <Text style={styles.view_two_txt}>{route.params.note}</Text>
           </View>
         </LinearGradient>
-        <Pressable onPress={handleback} style={styles.button}>
-          <Text style={styles.back_txt}>{Config.strings.back}</Text>
+
+        <Pressable onPress={handleback} style={styles.back_icon}>
+          {getIcons('BACK_ICON', 80)}
         </Pressable>
       </View>
     </LinearGradient>
@@ -55,6 +56,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  back_icon: {
+    margin: 10,
+  },
   button: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -62,7 +66,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: 'black',
+    backgroundColor: 'white',
     margin: 20,
     height: 50,
     width: 150,
@@ -102,6 +106,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignSelf: 'center',
     paddingTop: 10,
+    fontSize: 18,
   },
   gradient_goback: {
     marginBottom: 100,
