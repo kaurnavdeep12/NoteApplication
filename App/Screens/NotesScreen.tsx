@@ -13,12 +13,10 @@ import {
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {addNote, deleteNote, editNote} from '../redux/actions';
-import Config from '../utils/Config';
-import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
-// import Task from '../components/Task';
+
 const NotesScreen = () => {
   const dispatch = useDispatch();
   const list = useSelector(state => state.NoteReducers.list);
@@ -26,27 +24,21 @@ const NotesScreen = () => {
   type NavigationProp = StackNavigationProp<AuthParamList, 'NotesScreen'>;
   const navigation = useNavigation<NavigationProp>();
 
-  //edit button toggle
   const [toggleEditbtn, settoggleEditbtn] = useState(true);
 
-  // States
   const [Input, setInput] = useState('');
   const [error, showError] = useState(false);
   const [isEditItem, setisEditItem] = useState(0);
 
-  // Set Input field
   const onChangeNotes = (text: string) => {
     setInput(text);
-    // showError(false);
   };
 
-  // On the press of button add notes
   const onAddButtonPress = () => {
     console.log('aaaaa+++');
     dispatch(addNote(Input)), setInput('');
   };
 
-  // On the Edit Button Press
   const handleEditButton = (id: number) => {
     dispatch(editNote(id));
     settoggleEditbtn(false);
@@ -54,13 +46,11 @@ const NotesScreen = () => {
     setisEditItem(id);
   };
 
-  //On the Delete Button Press
   const handleDeleteButton = (id: number) => {
     dispatch(deleteNote(id));
   };
 
   const handleDetail = (item: any) => {
-    // navigation.navigate('NoteDetailScreen', {note: item.data});
     navigation.navigate('Login');
   };
 
@@ -87,7 +77,6 @@ const NotesScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* Added this scroll view to enable scrolling when list gets longer than the page */}
       <ScrollView
         contentContainerStyle={{
           flexGrow: 1,
@@ -103,20 +92,10 @@ const NotesScreen = () => {
               keyExtractor={item => item.id.toString()}
               renderItem={renderItems}
             />
-            {/* This is where the tasks will go! */}
-            {/* {list.map((item: string, index: number) => {
-              return (
-                <TouchableOpacity key={index}>
-                  <Task text={item} />
-                </TouchableOpacity>
-              );
-            })} */}
           </View>
         </View>
       </ScrollView>
 
-      {/* Write a task */}
-      {/* Uses a keyboard avoiding view which ensures the keyboard does not cover the items on screen */}
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.writeTaskWrapper}>
@@ -145,16 +124,14 @@ const styles = StyleSheet.create({
   tasksWrapper: {
     paddingTop: 80,
     paddingHorizontal: 20,
-    // backgroundColor: 'grey',
   },
   sectionTitle: {
     fontSize: 30,
-    fontWeight: 'bold',
-    // backgroundColor: 'yellow',
+
+    fontFamily: 'Inter-Bold',
   },
   items: {
     marginTop: 30,
-    // backgroundColor: 'pink',
   },
   writeTaskWrapper: {
     position: 'absolute',
@@ -163,7 +140,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    // backgroundColor: 'orange',
   },
   input: {
     paddingVertical: 15,
@@ -198,7 +174,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     flexWrap: 'wrap',
-    // backgroundColor: 'pink',
   },
   square: {
     width: 24,

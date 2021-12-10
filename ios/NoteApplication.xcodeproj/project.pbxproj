@@ -14,6 +14,7 @@
 		6172F2D35A4C3AA820D92908 /* libPods-NoteApplication.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6423831EA8574132BED9D8CC /* libPods-NoteApplication.a */; };
 		7EF68E3733C33B6898317E18 /* libPods-NoteApplication-NoteApplicationTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABFE59519B596E51CEFDCCC0 /* libPods-NoteApplication-NoteApplicationTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		D8F780F878FD46F58EB3BD72 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8549F2A5C61A40AEA2586E65 /* Inter-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,9 +38,11 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = NoteApplication/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = NoteApplication/main.m; sourceTree = "<group>"; };
 		1D0AE47A65C8663E3B452821 /* Pods-NoteApplication-NoteApplicationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NoteApplication-NoteApplicationTests.release.xcconfig"; path = "Target Support Files/Pods-NoteApplication-NoteApplicationTests/Pods-NoteApplication-NoteApplicationTests.release.xcconfig"; sourceTree = "<group>"; };
+		2EE0ABB027630FCF00FEAC57 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Inter-Bold.ttf"; path = "fonts/Inter-Bold.ttf"; sourceTree = "<group>"; };
 		6423831EA8574132BED9D8CC /* libPods-NoteApplication.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NoteApplication.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C97AB639B58BBB4B15BBE30 /* Pods-NoteApplication-NoteApplicationTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NoteApplication-NoteApplicationTests.debug.xcconfig"; path = "Target Support Files/Pods-NoteApplication-NoteApplicationTests/Pods-NoteApplication-NoteApplicationTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = NoteApplication/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8549F2A5C61A40AEA2586E65 /* Inter-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Bold.ttf"; path = "../App/assets/fonts/Inter-Bold.ttf"; sourceTree = "<group>"; };
 		ABFE59519B596E51CEFDCCC0 /* libPods-NoteApplication-NoteApplicationTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NoteApplication-NoteApplicationTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0A881CF5CF3F2B244570E2A /* Pods-NoteApplication.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NoteApplication.debug.xcconfig"; path = "Target Support Files/Pods-NoteApplication/Pods-NoteApplication.debug.xcconfig"; sourceTree = "<group>"; };
 		D00AAFFCFCFDA5787532823F /* Pods-NoteApplication.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NoteApplication.release.xcconfig"; path = "Target Support Files/Pods-NoteApplication/Pods-NoteApplication.release.xcconfig"; sourceTree = "<group>"; };
@@ -116,12 +119,14 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				2EE0ABB027630FCF00FEAC57 /* Inter-Bold.ttf */,
 				13B07FAE1A68108700A75B9A /* NoteApplication */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* NoteApplicationTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				E233CBF5F47BEE60B243DCF8 /* Pods */,
+				99700669E7E2443181762270 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -137,6 +142,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		99700669E7E2443181762270 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8549F2A5C61A40AEA2586E65 /* Inter-Bold.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		E233CBF5F47BEE60B243DCF8 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -145,7 +158,6 @@
 				6C97AB639B58BBB4B15BBE30 /* Pods-NoteApplication-NoteApplicationTests.debug.xcconfig */,
 				1D0AE47A65C8663E3B452821 /* Pods-NoteApplication-NoteApplicationTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -245,6 +257,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				D8F780F878FD46F58EB3BD72 /* Inter-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

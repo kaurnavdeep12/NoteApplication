@@ -1,17 +1,12 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
-  StatusBar,
-  Keyboard,
-  TouchableWithoutFeedback,
   TouchableOpacity,
 } from 'react-native';
-import {LinearGradient} from 'react-native-linear-gradient';
-import {Icon, SocialIcon} from 'react-native-elements';
-import {addNote} from '../redux/actions';
+import {Icon} from 'react-native-elements';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthParamList} from '../Types/NavigationParams';
 import {useNavigation} from '@react-navigation/core';

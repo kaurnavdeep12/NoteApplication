@@ -5,7 +5,6 @@ import {StyleSheet, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import Config from '../utils/Config';
-
 import {AuthParamList} from '../Types/NavigationParams';
 
 const NoteDetailScreen = () => {
