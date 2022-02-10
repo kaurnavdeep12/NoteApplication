@@ -3,11 +3,16 @@ import {FlatList, StyleSheet, Text, View, Image} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../store';
 import {User, fetchUsers} from '../reducer/userListSlice';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {useNavigation} from '@react-navigation/core';
+import {AuthParamList} from '../Types/NavigationParams';
 
 const UserList: FunctionComponent = () => {
   const dispatch = useDispatch();
   const screenState = useSelector((state: RootState) => state.userList);
-
+  type NavigationProp = StackNavigationProp<AuthParamList, 'UserList'>;
+  const navigation = useNavigation<NavigationProp>();
   const handleOnEndReached = () => {
     if (!screenState.loading) {
       dispatch(fetchUsers({page: screenState.nextPage}));
@@ -18,10 +23,19 @@ const UserList: FunctionComponent = () => {
     dispatch(fetchUsers({page: 1}));
   }, []);
 
+  function OnImagePress() {
+    navigation.navigate('DetailScreen')
+  }
+
   const UserListItem: FunctionComponent<{user: User}> = ({user}) => {
     return (
       <View style={style.container}>
-        <Image style={style.thumbnail} source={{uri: user.picture.thumbnail}} />
+        <TouchableOpacity onPress={OnImagePress}>
+          <Image
+            style={style.thumbnail}
+            source={{uri: user.picture.thumbnail}}
+          />
+        </TouchableOpacity>
         <Text style={style.nameText}>{user.name.first}</Text>
       </View>
     );
