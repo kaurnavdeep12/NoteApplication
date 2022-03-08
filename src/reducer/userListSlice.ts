@@ -28,6 +28,7 @@ export const fetchUsers = createAsyncThunk<{users: User[]}, {page: number}>(
   'fetchUsers',
   async ({page}) => {
     const response = await apiClient.fetchUsers(page, 10);
+    console.log('response=====>', response);
     if (response.kind === 'success') {
       return {
         users: response.body ?? [],
