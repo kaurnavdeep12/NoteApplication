@@ -15,7 +15,11 @@ const DetailScreen = () => {
   };
 
   const OnbottomsheetPress = () => {
-    navigation.navigate('ReanimatedBottomsheet');
+    navigation.navigate('SignupScreen');
+  };
+
+  const OnshadowPress = () => {
+    navigation.navigate('ShadowCardScreen');
   };
 
   return (
@@ -25,6 +29,9 @@ const DetailScreen = () => {
       </TouchableOpacity>
       <TouchableOpacity onPress={OnbottomsheetPress} style={styles.contain1}>
         <Text style={styles.text}>Reanimated BottomSheet</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={OnshadowPress} style={styles.contain1}>
+        <Text style={styles.text}>Shadow Cards</Text>
       </TouchableOpacity>
       <RatePopupComp visible={isModalOpen} toggleModal={setisModalOpen} />
     </View>
