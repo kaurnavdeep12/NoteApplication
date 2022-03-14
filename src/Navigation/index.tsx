@@ -7,6 +7,7 @@ import DetailScreen from '../screens/DetailScreen';
 import {Provider} from 'react-redux';
 import store from '../store';
 import ReanimatedBottomsheet from '../screens/ReanimatedBottomsheet';
+import FlashMessage from '../screens/FlashMessage';
 export default function App() {
   const Stack = createStackNavigator<AuthParamList>();
   return (
@@ -18,6 +19,9 @@ export default function App() {
           <Stack.Screen
             name="ReanimatedBottomsheet"
             component={ReanimatedBottomsheet}></Stack.Screen>
+          <Stack.Screen
+            name="FlashMessage"
+            component={FlashMessage}></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

@@ -2,6 +2,7 @@ import {useNavigation} from '@react-navigation/core';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+
 import RatePopupComp from '../components/RatePopupComp';
 import {AuthParamList} from '../Types/NavigationParams';
 
@@ -18,6 +19,10 @@ const DetailScreen = () => {
     navigation.navigate('ReanimatedBottomsheet');
   };
 
+  const Onflashmessage = () => {
+    navigation.navigate('FlashMessage');
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={OnRatePress} style={styles.contain}>
@@ -25,6 +30,9 @@ const DetailScreen = () => {
       </TouchableOpacity>
       <TouchableOpacity onPress={OnbottomsheetPress} style={styles.contain1}>
         <Text style={styles.text}>Reanimated BottomSheet</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={Onflashmessage} style={styles.contain1}>
+        <Text style={styles.text}>Flash Message</Text>
       </TouchableOpacity>
       <RatePopupComp visible={isModalOpen} toggleModal={setisModalOpen} />
     </View>
