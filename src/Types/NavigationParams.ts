@@ -9,4 +9,5 @@ export type AuthParamList = {
   SplashScreen: undefined;
   SignInscreen:undefined;
   HomeScreen:undefined;
+  ChatScreen:undefined
 };
