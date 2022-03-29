@@ -14,7 +14,7 @@ import ShadowCardScreen from '../screens/ShadowCardScreen';
 import SplashScreen from '../screens/SplashScreen';
 import SignInScreen from '../screens/SignInScreen';
 import HomeScreen from '../screens/HomeScreen';
-import ChatScreen from '../screens/ChatScreen';
+import MapScreen from '../screens/MapScreen';
 
 export default function App() {
   const Stack = createStackNavigator<AuthParamList>();
@@ -26,6 +26,7 @@ export default function App() {
           <Stack.Screen name="SignupScreen" component={SignupScreen} />
           <Stack.Screen name="SignInscreen" component={SignInScreen} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
+          <Stack.Screen name="MapScreen" component={MapScreen} />
           {/* <Stack.Screen name="UserList" component={UserList} />
           <Stack.Screen name="DetailScreen" component={DetailScreen} />
           <Stack.Screen
@@ -37,7 +38,6 @@ export default function App() {
             component={EditProfileScreen}
           />
           <Stack.Screen name="ShadowCardScreen" component={ShadowCardScreen} />
-          <Stack.Screen name="ChatScreen" component={ChatScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

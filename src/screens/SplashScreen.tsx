@@ -58,11 +58,9 @@ const SplashScreen = () => {
               <MaterialIcons name="navigate-next" color="#fff" size={20} />
             </LinearGradient>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('ChatScreen')}>
-            <LinearGradient
-              colors={['#FFA07A', '#FF6347']}
-              style={styles.chat}>
-              <Text style={styles.textSign}>Chat Started</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('MapScreen')}>
+            <LinearGradient colors={['#FFA07A', '#FF6347']} style={styles.chat}>
+              <Text style={styles.textSign}>Map Started</Text>
               <MaterialIcons name="navigate-next" color="#fff" size={20} />
             </LinearGradient>
           </TouchableOpacity>
@@ -129,7 +127,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 50,
     flexDirection: 'row',
-    marginLeft:20
+    marginLeft: 20,
   },
   textSign: {
     color: 'white',
