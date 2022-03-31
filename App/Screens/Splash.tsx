@@ -18,7 +18,7 @@ const Splash = () => {
       if (user) {
         navigation.navigate('NotesScreen');
       } else {
-        navigation.navigate('Login');
+        navigation.navigate('VideoCallingScreen');
       }
 
       SplashScreen.hide();

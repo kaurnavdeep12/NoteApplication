@@ -10,6 +10,8 @@ import Register from '../Screens/Register';
 import Splash from '../Screens/Splash';
 import SvgImage from '../Screens/TaskDetailScreen';
 import TaskDetailScreen from '../Screens/TaskDetailScreen';
+import ScanImageScreen from '../Screens/ScanImageScreen';
+import VideoCallingScreen from '../Screens/VideoCallingScreen';
 
 export default function AppNavigator() {
   const Stack = createStackNavigator<AuthParamList>();
@@ -48,6 +50,8 @@ export default function AppNavigator() {
         }}
       />
       <Stack.Screen name="TaskDetailScreen" component={TaskDetailScreen} />
+      <Stack.Screen name="ScanImageScreen" component={ScanImageScreen} />
+      <Stack.Screen name="VideoCallingScreen" component={VideoCallingScreen} />
     </Stack.Navigator>
   );
 }

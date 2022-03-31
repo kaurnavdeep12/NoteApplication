@@ -6,6 +6,7 @@ import {
   Register,
   Congratulations,
   TaskDetailScreen,
+  ScanImageScreen,
 } from './NotesScreen';
 export {
   NotesScreen,
@@ -15,4 +16,5 @@ export {
   Congratulations,
   Login,
   TaskDetailScreen,
+  ScanImageScreen,
 };

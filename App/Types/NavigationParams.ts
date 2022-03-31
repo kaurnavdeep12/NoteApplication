@@ -6,4 +6,6 @@ export type AuthParamList = {
   Login: undefined;
   Register: undefined;
   TaskDetailScreen: undefined;
+  ScanImageScreen: undefined;
+  VideoCallingScreen: undefined;
 };

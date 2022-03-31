@@ -35,6 +35,10 @@ const TaskDetailScreen = () => {
     setInput('');
   };
 
+  function onImage() {
+    navigation.navigate('ScanImageScreen');
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Header
@@ -65,6 +69,9 @@ const TaskDetailScreen = () => {
           </LinearGradient>
         </TouchableOpacity>
       </View>
+      <TouchableOpacity onPress={onImage}>
+        <Text style={{alignSelf: 'center'}}>Image Crop Picker</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
