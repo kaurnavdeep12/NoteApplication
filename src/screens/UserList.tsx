@@ -14,7 +14,7 @@ const UserList: FunctionComponent = () => {
   console.log('screenState=======>', screenState);
   type NavigationProp = StackNavigationProp<AuthParamList, 'UserList'>;
   const navigation = useNavigation<NavigationProp>();
-  
+
   const handleOnEndReached = () => {
     if (!screenState.loading) {
       dispatch(fetchUsers({page: screenState.nextPage}));
@@ -26,7 +26,7 @@ const UserList: FunctionComponent = () => {
   }, []);
 
   function OnImagePress() {
-    navigation.navigate('DetailScreen');
+    navigation.navigate('VideoScreen');
   }
 
   const UserListItem: FunctionComponent<{user: User}> = ({user}) => {

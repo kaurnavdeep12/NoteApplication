@@ -3,4 +3,5 @@ export type AuthParamList = {
   DetailScreen: undefined;
   ReanimatedBottomsheet: undefined;
   FlashMessage: undefined;
+  VideoScreen:undefined;
 };
