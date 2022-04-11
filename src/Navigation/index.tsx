@@ -2,28 +2,37 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {AuthParamList} from '../Types/NavigationParams';
 import {createStackNavigator} from '@react-navigation/stack';
-import UserList from '../screens/UserList';
-import DetailScreen from '../screens/DetailScreen';
-import {Provider} from 'react-redux';
-import store from '../store';
-import ReanimatedBottomsheet from '../screens/ReanimatedBottomsheet';
-import FlashMessage from '../screens/FlashMessage';
+import VideoScreen from '../components/VideoScreen';
+import AuthScreen from '../components/AuthScreen';
+import {init} from '../services/authService';
+
 export default function App() {
   const Stack = createStackNavigator<AuthParamList>();
+  init();
+
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{headerShown: false}}>
-          <Stack.Screen name="UserList" component={UserList} />
-          <Stack.Screen name="DetailScreen" component={DetailScreen} />
-          <Stack.Screen
-            name="ReanimatedBottomsheet"
-            component={ReanimatedBottomsheet}></Stack.Screen>
-          <Stack.Screen
-            name="FlashMessage"
-            component={FlashMessage}></Stack.Screen>
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen name="AuthScreen" component={AuthScreen} />
+        <Stack.Screen name="VideoScreen" component={VideoScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
+
+// const StackNavigator = createStackNavigator(
+//   {
+//     AuthScreen: {
+//       screen: AuthScreen,
+//     },
+//     VideoScreen:{
+//       screen: VideoScreen
+//     }
+//   },
+//   {
+//     initialRouteName: 'AuthScreen',
+//     headerMode: 'none',
+//   },
+// );
+
+// export default createAppContainer(StackNavigator);

@@ -1,6 +1,5 @@
 export type AuthParamList = {
-  UserList: undefined;
-  DetailScreen: undefined;
-  ReanimatedBottomsheet: undefined;
-  FlashMessage: undefined;
+  AuthScreen: undefined;
+  // VideoScreen: undefined;
+  VideoScreen:{opponentsIds:any};
 };
