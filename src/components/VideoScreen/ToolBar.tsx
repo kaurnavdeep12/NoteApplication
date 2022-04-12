@@ -1,34 +1,52 @@
 import React, {useState} from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import {mediaDevices, switchCamera} from '../../services/CallService';
+import {
+  mediaDevices,
+  setAudioMuteState,
+  showToast,
+  startCall,
+  stopCall,
+  switchCamera,
+} from '../../services/CallService';
 interface Props {
   isActiveCall: boolean;
   setisActiveCall: (state: any, callback?: () => void) => void;
   isActiveSelect: boolean;
   resetState: () => void;
   localStream: any;
+  selectedUsersIds: any[];
+  closeSelect: () => void;
+  initRemoteStreams: (opponentsIds: any) => void;
+  SetLocalStream: (stream: any) => void;
 }
 const ToolBar = ({
   isActiveCall,
-  setisActiveCall,
   isActiveSelect,
   resetState,
   localStream,
+  selectedUsersIds,
+  closeSelect,
+  initRemoteStreams,
+  SetLocalStream,
 }: Props) => {
-  const isAudioMuted = false;
+  // const isAudioMuted = false;
   const isCallInProgress = isActiveCall || !isActiveSelect;
   const isAvailableToSwitch = isActiveCall && mediaDevices.length > 1;
   const [isFrontCamera, setisFrontCamera] = useState<boolean>(true);
+  const [isAudioMuted, setisAudioMuted] = useState(false);
   const type = isFrontCamera ? 'camera-rear' : 'camera-front';
   // for muteUnmuteAudio
-  function muteUnmuteAudio() {}
+  function muteUnmuteAudio() {
+    const mute = setisAudioMuted(!isAudioMuted);
+    setAudioMuteState(mute);
+    return {isAudioMuted: mute};
+  }
 
   function renderMuteButton() {
     const type = isAudioMuted ? 'mic-off' : 'mic';
@@ -41,16 +59,24 @@ const ToolBar = ({
     );
   }
 
-  function stopCall() {
-    // CallService.stopCall();
+  function StopCall() {
+    stopCall();
     resetState();
   }
 
-  function startCall() {}
+  function StartCall() {
+    if (selectedUsersIds.length === 0) {
+      showToast('Select at less one user to start Videocall');
+    } else {
+      closeSelect();
+      initRemoteStreams(selectedUsersIds);
+      startCall(selectedUsersIds).then(SetLocalStream);
+    }
+  }
 
   function renderCallStartStopButton(isCallInProgress: any) {
     const style = isCallInProgress ? styles.buttonCallEnd : styles.buttonCall;
-    const onPress = isCallInProgress ? stopCall : startCall;
+    const onPress = isCallInProgress ? StopCall : StartCall;
     const type = isCallInProgress ? 'call-end' : 'call';
 
     return (

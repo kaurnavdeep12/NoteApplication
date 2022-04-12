@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/core';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React, {PureComponent, useState} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -8,12 +8,9 @@ import {
   StatusBar,
   Image,
   Text,
-  ActivityIndicator,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import {users} from '../../config';
-import {AuthService} from '../../services';
 import {AuthParamList} from '../../Types/NavigationParams';
 import {login_user} from '../../services/authService';
 
@@ -23,44 +20,6 @@ const AuthScreen = () => {
   type NavigationProp = StackNavigationProp<AuthParamList, 'AuthScreen'>;
   const navigation = useNavigation<NavigationProp>();
 
-  // function login() {
-  //   setisLogging(true);
-  //   navigation.navigate('VideoScreen');
-  // }
-  // const login = (currentUser: any) => {
-  //   const onSuccessLogin = () => {
-  //     console.log('enter in success login')
-  //     type NavigationProp = StackNavigationProp<AuthParamList, 'AuthScreen'>;
-  //     const navigation = useNavigation<NavigationProp>();
-  //     const opponentsIds = users
-  //       .filter(opponent => opponent.id !== currentUser.id)
-  //       .map(opponent => opponent.id);
-  //       console.log('navigate=====>')
-
-  //     navigation.navigate('VideoScreen', {opponentsIds});
-  //   };
-
-  //   const _onFailLogin = (error = {}) => {
-  //     Alert.alert('Login Failed')
-  //     Alert.alert(`Error.\n\n${JSON.stringify(error)}`);
-  //   };
-  //   setisLogging(true);
-  //   console.log('currentUser======>', currentUser);
-  //   login_user(currentUser)
-  //     .then(onSuccessLogin)
-  //     .catch(_onFailLogin)
-  //     .then(() => setisLogging(false));
-  // };
-
-  const onSuccessLogin = (currentUser: any) => {
-    // type NavigationProp = StackNavigationProp<AuthParamList, 'AuthScreen'>;
-    // const navigation = useNavigation<NavigationProp>();
-    const opponentsIds = users
-      .filter(opponent => opponent.id !== currentUser.id)
-      .map(opponent => opponent.id);
-    navigation.navigate('VideoScreen', {opponentsIds});
-  };
-
   const login = (currentUser: any) => {
     setisLogging(true);
     login_user(currentUser)
@@ -68,17 +27,13 @@ const AuthScreen = () => {
         const opponentsIds = users
           .filter(opponent => opponent.id !== currentUser.id)
           .map(opponent => opponent.id);
-        console.log('opponentsIds in Authscreen=======>', opponentsIds);
+
         navigation.navigate('VideoScreen', {opponentsIds});
       })
       .catch(function (e) {
         console.log('caught an error', e);
       })
       .then(() => setisLogging(false));
-    // onSuccessLogin(currentUser);
-    // .then(onSuccessLogin(currentUser))
-    // .catch(_onFailLogin)
-    // .then(() => setisLogging(false));
   };
   return (
     <View style={[styles.container, styles.f1]}>

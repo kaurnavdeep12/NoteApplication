@@ -25,6 +25,7 @@
     "native-base": "^3.2.0",
     "react": "17.0.2",
     "react-native": "^0.65.1",
+    "react-native-awesome-alerts": "^1.5.2",
     "react-native-bottomsheet-reanimated": "^0.2.0",
     "react-native-connectycube": "^3.18.0",
     "react-native-elements": "^3.4.2",

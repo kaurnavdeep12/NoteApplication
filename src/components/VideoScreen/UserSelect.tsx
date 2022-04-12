@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import {users} from '../../config';
 import {getUserById} from '../../services/CallService';
 
 interface Props {
@@ -22,7 +21,7 @@ const UserSelect = ({
       {opponentsIds.map((id: any) => {
         const user = getUserById(id, 'name');
         const selected = selectedUsersIds.some((userId: any) => id === userId);
-        
+
         const type = selected
           ? 'radio-button-checked'
           : 'radio-button-unchecked';
