@@ -10,7 +10,7 @@ const incomingCall = new Sound(require('../../assets/sounds/calling.mp3'));
 const outgoingCall = new Sound(require('../../assets/sounds/dialing.mp3'));
 const endCall = new Sound(require('../../assets/sounds/end_call.mp3'));
 let _session: any = null;
-export let mediaDevices = [];
+export let mediaDevice = [];
 export const showToast = (text: any) => {
   const commonToast = Platform.OS === 'android' ? ToastAndroid : Toast;
   // commonToast.showWithGravity(text, Toast.LONG, Toast.TOP);
@@ -29,9 +29,10 @@ export const getUserById = (userId: any, key: any) => {
 };
 
 // Set Media Devices
-export const setMediaDevices = () => {
+const setMediaDevices = () => {
   return ConnectyCube.videochat.getMediaDevices().then((mediaDevices: any) => {
-    mediaDevices = mediaDevices;
+    console.log('mediaDevices>>>>>>>>>>', mediaDevices);
+    mediaDevice = mediaDevices;
   });
 };
 
@@ -51,15 +52,20 @@ export const acceptCall = (session: any) => {
 export const startCall = (ids: any) => {
   const options = {};
   const type = ConnectyCube.videochat.CallType.VIDEO; // AUDIO is also possible
+  console.log('type in start call=====>', type);
 
   _session = ConnectyCube.videochat.createNewSession(ids, type, options);
+  console.log('session in callservice========>', _session);
   setMediaDevices();
   playSound('outgoing');
 
-  return _session.getUserMedia(MEDIA_OPTIONS).then((stream: any) => {
-    _session.call({});
-    return stream;
-  });
+  return _session
+    .getUserMedia({audio: true, video: {facingMode: 'user'}})
+    .then((stream: any) => {
+      console.log('stream in callservice======>', stream);
+      _session.call({});
+      return stream;
+    });
 };
 
 // For stopCall
@@ -70,7 +76,7 @@ export const stopCall = () => {
     _session.stop({});
     ConnectyCube.videochat.clearSession(_session.ID);
     _session = null;
-    mediaDevices = [];
+    mediaDevice = [];
   }
 };
 

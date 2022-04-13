@@ -16,3 +16,8 @@ export const login_user = (user: any) => {
       .catch(reject);
   });
 };
+
+export const logout = () => {
+  ConnectyCube.chat.disconnect();
+  ConnectyCube.destroySession();
+};

@@ -26,6 +26,7 @@ import {AuthService} from '../../services';
 import {logout} from '../../services/authService';
 const VideoScreen = () => {
   type NavigationProp = StackNavigationProp<AuthParamList, 'AuthScreen'>;
+  const navigation = useNavigation<NavigationProp>();
   const opponentsIds = useRoute<RouteProp<AuthParamList, 'VideoScreen'>>();
   let _session: any = null;
   const opponentsId = opponentsIds.params.opponentsIds;
@@ -38,13 +39,10 @@ const VideoScreen = () => {
   const localStreamItem = localStream
     ? [{userId: 'localStream', stream: localStream}]
     : [];
-  console.log('localStreamItem======>', localStreamItem);
   const initiatorName = isIncomingCall
     ? getUserById(_session.initiatorID, 'name')
     : '';
   const streams = [...remoteStreams, ...localStreamItem];
-  console.log('streams in clonning=======>', streams);
-  // console.log('remoteStreams=========>', remoteStreams);
 
   // define functions
   setSpeakerphoneOn(remoteStreams.length > 0);
@@ -55,17 +53,14 @@ const VideoScreen = () => {
     setisActiveSelect(!isActiveSelect);
   };
   const initRemoteStreams = (opponentsIds: any) => {
-    console.log('opponentsIds>>>>>>>>>', opponentsIds);
     const emptyStreams = opponentsIds.map((userId: any) => ({
       userId,
       stream: null,
     }));
-    console.log('emptyStream======>', emptyStreams);
 
     setremoteStreams(emptyStreams);
   };
   const SetLocalStream = (stream: any) => {
-    console.log('stream>>>>>>>>>>>>', stream);
     setlocalStream(stream);
   };
   //  update selectedUserIds state for fill radio buttons
@@ -80,6 +75,11 @@ const VideoScreen = () => {
   const hideInomingCallModal = () => {
     _session = null;
     setisIncomingCall(false);
+  };
+
+  const showInomingCallModal = (session: any) => {
+    _session = session;
+    setisIncomingCall(!isIncomingCall);
   };
 
   const _onPressReject = () => {
@@ -101,6 +101,111 @@ const VideoScreen = () => {
     });
   };
 
+  // useEffect(() => {
+  //   _setUpListeners();
+  // });
+
+  // componentWillUnmount
+  useEffect(() => {
+    stopCall();
+    logout();
+  }, []);
+
+  // ComponentDidUpdate
+  // useEffect(() => {
+  //   if (remoteStreams.length === 1 && remoteStreams.length === 0) {
+  //     stopCall();
+  //     resetState();
+  //   }
+  // });
+
+  // Listeners
+  const _onCallListener = (session: any, extension: any) => {
+    processOnCallListener(session)
+      .then(() => showInomingCallModal(session))
+      .catch(hideInomingCallModal);
+  };
+
+  const _onAcceptCallListener = (session: any, userId: any, extension: any) => {
+    processOnAcceptCallListener(session, userId, extension)
+      .then(setOnCall)
+      .catch(hideInomingCallModal);
+  };
+
+  const _onRejectCallListener = (session: any, userId: any, extension: any) => {
+    processOnRejectCallListener(session, userId, extension)
+      .then(() => removeRemoteStream(userId))
+      .catch(hideInomingCallModal);
+  };
+
+  const _onStopCallListener = (
+    session: {initiatorID: any},
+    userId: any,
+    extension: any,
+  ) => {
+    const isStoppedByInitiator = session.initiatorID === userId;
+
+    processOnStopCallListener(userId, isStoppedByInitiator)
+      .then(() => {
+        if (isStoppedByInitiator) {
+          resetState();
+        } else {
+          removeRemoteStream(userId);
+        }
+      })
+      .catch(hideInomingCallModal);
+  };
+
+  const _onUserNotAnswerListener = (session: any, userId: any) => {
+    processOnUserNotAnswerListener(userId)
+      .then(() => removeRemoteStream(userId))
+      .catch(hideInomingCallModal);
+  };
+
+  const _onRemoteStreamListener = (session: any, userId: any, stream: any) => {
+    processOnRemoteStreamListener()
+      .then(() => {
+        updateRemoteStream(userId, stream);
+        setOnCall();
+      })
+      .catch(hideInomingCallModal);
+  };
+
+  const setOnCall = () => {
+    setisActiveCall(!isActiveCall);
+  };
+
+  const updateRemoteStream = (userId: any, stream: any) => {
+    setremoteStreams(({remoteStreams}: any) => {
+      const updatedRemoteStreams = remoteStreams.map(
+        (item: {userId: any; stream: any}) => {
+          if (item.userId === userId) {
+            return {userId, stream};
+          }
+
+          return {userId: item.userId, stream: item.stream};
+        },
+      );
+
+      return {remoteStreams: updatedRemoteStreams};
+    });
+  };
+
+  const removeRemoteStream = (userId: any) => {
+    const stream_value = remoteStreams.filter(
+      (item: {userId: any}) => item.userId != userId,
+    );
+    setremoteStreams(stream_value);
+  };
+  //  Call Listeners
+  const _setUpListeners = () => {
+    ConnectyCube.videochat.onCallListener = _onCallListener;
+    ConnectyCube.videochat.onAcceptCallListener = _onAcceptCallListener;
+    ConnectyCube.videochat.onRejectCallListener = _onRejectCallListener;
+    ConnectyCube.videochat.onStopCallListener = _onStopCallListener;
+    ConnectyCube.videochat.onUserNotAnswerListener = _onUserNotAnswerListener;
+    ConnectyCube.videochat.onRemoteStreamListener = _onRemoteStreamListener;
+  };
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'black'}}>
       <StatusBar backgroundColor="black" barStyle="light-content" />

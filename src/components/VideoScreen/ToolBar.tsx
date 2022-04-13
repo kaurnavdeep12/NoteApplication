@@ -1,13 +1,8 @@
 import React, {useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  SafeAreaView,
-} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, SafeAreaView} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {
-  mediaDevices,
+  mediaDevice,
   setAudioMuteState,
   showToast,
   startCall,
@@ -35,12 +30,15 @@ const ToolBar = ({
   initRemoteStreams,
   SetLocalStream,
 }: Props) => {
+  // console.log('setlocalstream======>', SetLocalStream);
+  // console.log('localStream========>', localStream);
   // const isAudioMuted = false;
   const isCallInProgress = isActiveCall || !isActiveSelect;
-  const isAvailableToSwitch = isActiveCall && mediaDevices.length > 1;
+  const isAvailableToSwitch = isActiveCall && mediaDevice.length > 1;
   const [isFrontCamera, setisFrontCamera] = useState<boolean>(true);
   const [isAudioMuted, setisAudioMuted] = useState(false);
   const type = isFrontCamera ? 'camera-rear' : 'camera-front';
+
   // for muteUnmuteAudio
   function muteUnmuteAudio() {
     const mute = setisAudioMuted(!isAudioMuted);
@@ -65,6 +63,7 @@ const ToolBar = ({
   }
 
   function StartCall() {
+    console.log('enter in startcall==');
     if (selectedUsersIds.length === 0) {
       showToast('Select at less one user to start Videocall');
     } else {
@@ -75,6 +74,7 @@ const ToolBar = ({
   }
 
   function renderCallStartStopButton(isCallInProgress: any) {
+    console.log('isCallInProgress=======>', isCallInProgress);
     const style = isCallInProgress ? styles.buttonCallEnd : styles.buttonCall;
     const onPress = isCallInProgress ? StopCall : StartCall;
     const type = isCallInProgress ? 'call-end' : 'call';

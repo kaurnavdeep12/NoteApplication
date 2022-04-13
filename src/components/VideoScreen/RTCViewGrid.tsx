@@ -5,7 +5,11 @@ import {getUserById} from '../../services/CallService';
 import CallingLoader from './CallingLoader';
 
 export default ({streams}: any) => {
+  console.log('streams in RTC++++++++++', streams);
+  console.log('enter in RTCView=====>');
   const RTCViewRendered = ({userId, stream}: any) => {
+    // console.log('userId========>', userId);
+    // console.log('stream========', stream);
     if (stream) {
       return (
         <RTCView
