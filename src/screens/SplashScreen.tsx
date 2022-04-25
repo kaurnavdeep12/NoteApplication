@@ -50,18 +50,19 @@ const SplashScreen = () => {
         </Text>
         <Text style={styles.text}>Sign in with account</Text>
         <View style={styles.button}>
-          <TouchableOpacity onPress={() => navigation.navigate('SignupScreen')}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('AnimatedFlatlist')}>
             <LinearGradient
               colors={['#53868B', '#EE3B3B']}
               style={styles.signIn}>
-              <Text style={styles.textSign}>Get Started</Text>
+              <Text style={styles.textSign}>Animated Flatlist</Text>
               <MaterialIcons name="navigate-next" color="#fff" size={20} />
             </LinearGradient>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.navigate('AppIntroScreen')}>
+            onPress={() => navigation.navigate('AnimationScreen')}>
             <LinearGradient colors={['#53868B', '#EE3B3B']} style={styles.chat}>
-              <Text style={styles.textSign}>Map Started</Text>
+              <Text style={styles.textSign}>Animation Carousel</Text>
               <MaterialIcons name="navigate-next" color="#fff" size={20} />
             </LinearGradient>
           </TouchableOpacity>
@@ -109,8 +110,7 @@ const styles = StyleSheet.create({
   },
   button: {
     flexDirection: 'row',
-
-    //   alignItems: 'flex-end',
+    marginRight: 30,
     marginTop: 30,
   },
   signIn: {
@@ -120,18 +120,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 50,
     flexDirection: 'row',
+    marginRight: 10,
   },
   chat: {
-    width: 150,
+    width: 170,
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 50,
     flexDirection: 'row',
-    marginLeft: 20,
+    marginRight: 20,
   },
   textSign: {
     color: 'white',
     fontWeight: 'bold',
+    marginLeft: 10,
   },
 });
