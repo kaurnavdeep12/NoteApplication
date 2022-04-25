@@ -21,12 +21,12 @@ const SplashScreen = () => {
   const navigation = useNavigation<NavigationProp>();
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="#FF6347" barStyle="light-content" />
+      <StatusBar backgroundColor="#00688B" barStyle="light-content" />
       <View style={styles.header}>
         <Animatable.Image
           animation="bounceIn"
           // duraton="1500"
-          source={require('../assets/logo.png')}
+          source={require('../assets/animation.png')}
           style={styles.logo}
           resizeMode="stretch"
         />
@@ -46,13 +46,13 @@ const SplashScreen = () => {
               color: colors.text,
             },
           ]}>
-          Find best food in your locality!
+          Animations
         </Text>
         <Text style={styles.text}>Sign in with account</Text>
         <View style={styles.button}>
           <TouchableOpacity onPress={() => navigation.navigate('SignupScreen')}>
             <LinearGradient
-              colors={['#FFA07A', '#FF6347']}
+              colors={['#53868B', '#EE3B3B']}
               style={styles.signIn}>
               <Text style={styles.textSign}>Get Started</Text>
               <MaterialIcons name="navigate-next" color="#fff" size={20} />
@@ -60,7 +60,7 @@ const SplashScreen = () => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.navigate('AppIntroScreen')}>
-            <LinearGradient colors={['#FFA07A', '#FF6347']} style={styles.chat}>
+            <LinearGradient colors={['#53868B', '#EE3B3B']} style={styles.chat}>
               <Text style={styles.textSign}>Map Started</Text>
               <MaterialIcons name="navigate-next" color="#fff" size={20} />
             </LinearGradient>
@@ -79,7 +79,7 @@ const height_logo = height * 0.28;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FF6347',
+    backgroundColor: '#00688B',
   },
   header: {
     flex: 2,
