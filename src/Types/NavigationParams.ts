@@ -11,4 +11,5 @@ export type AuthParamList = {
   HomeScreen: undefined;
   ChatScreen: undefined;
   MapScreen: undefined;
+  AppIntroScreen:undefined;
 };

@@ -58,7 +58,8 @@ const SplashScreen = () => {
               <MaterialIcons name="navigate-next" color="#fff" size={20} />
             </LinearGradient>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('MapScreen')}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('AppIntroScreen')}>
             <LinearGradient colors={['#FFA07A', '#FF6347']} style={styles.chat}>
               <Text style={styles.textSign}>Map Started</Text>
               <MaterialIcons name="navigate-next" color="#fff" size={20} />

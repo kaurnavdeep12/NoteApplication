@@ -15,6 +15,7 @@ import SplashScreen from '../screens/SplashScreen';
 import SignInScreen from '../screens/SignInScreen';
 import HomeScreen from '../screens/HomeScreen';
 import MapScreen from '../screens/MapScreen';
+import AppIntroScreen from '../screens/AppIntroscreen';
 
 export default function App() {
   const Stack = createStackNavigator<AuthParamList>();
@@ -27,6 +28,7 @@ export default function App() {
           <Stack.Screen name="SignInscreen" component={SignInScreen} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="MapScreen" component={MapScreen} />
+          <Stack.Screen name="AppIntroScreen" component={AppIntroScreen} />
           {/* <Stack.Screen name="UserList" component={UserList} />
           <Stack.Screen name="DetailScreen" component={DetailScreen} />
           <Stack.Screen
