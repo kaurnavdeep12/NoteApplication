@@ -10,6 +10,7 @@ import SignInScreen from '../screens/SignInScreen';
 import AnimationScreen from '../screens/AnimationScreen';
 import AnimatedCarousel from '../screens/AnimatedCarousel';
 import AnimatedFlatlist from '../screens/AnimatedFlatlist';
+import AccordianScreen from '../screens/AccordianScreen';
 
 export default function App() {
   const Stack = createStackNavigator<AuthParamList>();
@@ -23,6 +24,7 @@ export default function App() {
           <Stack.Screen name="AnimationScreen" component={AnimationScreen} />
           <Stack.Screen name="AnimatedCarousel" component={AnimatedCarousel} />
           <Stack.Screen name="AnimatedFlatlist" component={AnimatedFlatlist} />
+          <Stack.Screen name="AccordianScreen" component={AccordianScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

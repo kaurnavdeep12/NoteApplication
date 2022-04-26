@@ -5,4 +5,5 @@ export type AuthParamList = {
   AnimationScreen: undefined;
   AnimatedCarousel: undefined;
   AnimatedFlatlist: undefined;
+  AccordianScreen: undefined;
 };

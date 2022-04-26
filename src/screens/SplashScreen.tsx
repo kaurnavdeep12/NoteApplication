@@ -51,7 +51,7 @@ const SplashScreen = () => {
         <Text style={styles.text}>Sign in with account</Text>
         <View style={styles.button}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('AnimatedFlatlist')}>
+            onPress={() => navigation.navigate('AccordianScreen')}>
             <LinearGradient
               colors={['#53868B', '#EE3B3B']}
               style={styles.signIn}>
