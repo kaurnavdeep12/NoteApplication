@@ -7,10 +7,7 @@ import store from '../store';
 import SignupScreen from '../screens/SignupScreen';
 import SplashScreen from '../screens/SplashScreen';
 import SignInScreen from '../screens/SignInScreen';
-import AnimationScreen from '../screens/AnimationScreen';
-import AnimatedCarousel from '../screens/AnimatedCarousel';
-import AnimatedFlatlist from '../screens/AnimatedFlatlist';
-import AccordianScreen from '../screens/AccordianScreen';
+import HomeScreen from '../screens/HomeScreen';
 
 export default function App() {
   const Stack = createStackNavigator<AuthParamList>();
@@ -21,10 +18,7 @@ export default function App() {
           <Stack.Screen name="SplashScreen" component={SplashScreen} />
           <Stack.Screen name="SignupScreen" component={SignupScreen} />
           <Stack.Screen name="SignInscreen" component={SignInScreen} />
-          <Stack.Screen name="AnimationScreen" component={AnimationScreen} />
-          <Stack.Screen name="AnimatedCarousel" component={AnimatedCarousel} />
-          <Stack.Screen name="AnimatedFlatlist" component={AnimatedFlatlist} />
-          <Stack.Screen name="AccordianScreen" component={AccordianScreen} />
+          <Stack.Screen name="HomeScreen" component={HomeScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

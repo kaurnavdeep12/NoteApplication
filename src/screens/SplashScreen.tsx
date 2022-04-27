@@ -50,8 +50,7 @@ const SplashScreen = () => {
         </Text>
         <Text style={styles.text}>Sign in with account</Text>
         <View style={styles.button}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('AccordianScreen')}>
+          <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
             <LinearGradient
               colors={['#53868B', '#EE3B3B']}
               style={styles.signIn}>
@@ -59,8 +58,7 @@ const SplashScreen = () => {
               <MaterialIcons name="navigate-next" color="#fff" size={20} />
             </LinearGradient>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('AnimationScreen')}>
+          <TouchableOpacity onPress={() => navigation.navigate('SignupScreen')}>
             <LinearGradient colors={['#53868B', '#EE3B3B']} style={styles.chat}>
               <Text style={styles.textSign}>Animation Carousel</Text>
               <MaterialIcons name="navigate-next" color="#fff" size={20} />
