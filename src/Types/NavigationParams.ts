@@ -6,4 +6,5 @@ export type AuthParamList = {
   AnimatedCarousel: undefined;
   AnimatedFlatlist: undefined;
   AccordianScreen: undefined;
+  CollapsibleScreen:undefined;
 };
